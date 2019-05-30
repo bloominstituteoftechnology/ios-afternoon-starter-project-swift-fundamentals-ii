@@ -1,6 +1,6 @@
 import UIKit
 
-//added for inital commit
+
 //: ## 1. Create custom types to represent an Airport Departures display
 //: ![Airport Departures](matthew-smith-5934-unsplash.jpg)
 //: Look at data from [Departures at JFK Airport in NYC](https://www.airport-jfk.com/departures.php) for reference.
@@ -16,9 +16,40 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
+enum FlightStatus {
+    case enRoute
+    case sheduled
+    case canceled
+    case delayed
+    case landed
+}
 
+struct Airport {
+    var name: String
+    var city: String
+    var alsoKnownAs: String?
+    var abbriviation: String
+}
 
+struct Flight {
+    var airline: String
+    var flightNumber: String
+    var departureTime: Date?
+    var terminal: String?
+    var status: FlightStatus
+    var destination: Airport
+}
 
+class DepartureBoard {
+    var board: [Flight]
+    var currentCity: Airport
+    
+    init(currentCity: Airport) {
+        self.currentCity = currentCity
+        board = []
+    }
+    
+}
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -29,9 +60,15 @@ import UIKit
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
+let jfk = Airport(name: "John F. Kennedy International Airport", city: "Queens, NY", alsoKnownAs: "JFK", abbriviation: "JFK")
 
+let flightOne = Flight(airline: "Southwest", flightNumber: "P2034", departureTime: Date(), terminal: nil, status: .enRoute, destination: Airport(name: "Dallas Love Field", city: "Dallas, TX", alsoKnownAs: "Love", abbriviation: "DAL"))
+let flightTwo = Flight(airline: "American Airlines", flightNumber: "F2234", departureTime: Date(), terminal: "F34", status: .landed, destination: Airport(name: "Juneau International Airport", city: "Juneau, AK", alsoKnownAs: nil, abbriviation: "JNU"))
+let flightThree = Flight(airline: "American Airlines", flightNumber: "AA353", departureTime: nil, terminal: "D38", status: .canceled, destination: Airport(name: "Licenciado Gustavo Díaz Ordaz International Airport", city: "Puerto Vallarta, Jal., Mexico", alsoKnownAs: nil, abbriviation: "PVR"))
 
+let jfkDepartureBoard = DepartureBoard(currentCity: jfk)
 
+jfkDepartureBoard.board.append(contentsOf: [flightOne, flightTwo, flightThree])
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:

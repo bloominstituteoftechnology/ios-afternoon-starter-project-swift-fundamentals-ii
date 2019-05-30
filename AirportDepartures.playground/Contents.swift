@@ -27,7 +27,6 @@ enum FlightStatus {
 struct Airport {
     var name: String
     var city: String
-    var alsoKnownAs: String?
     var abbriviation: String
 }
 
@@ -60,11 +59,11 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-let jfk = Airport(name: "John F. Kennedy International Airport", city: "Queens, NY", alsoKnownAs: "JFK", abbriviation: "JFK")
+let jfk = Airport(name: "John F. Kennedy International Airport", city: "Queens, NY", abbriviation: "JFK")
 
-let flightOne = Flight(airline: "Southwest", flightNumber: "P2034", departureTime: Date(), terminal: nil, status: .enRoute, destination: Airport(name: "Dallas Love Field", city: "Dallas, TX", alsoKnownAs: "Love", abbriviation: "DAL"))
-let flightTwo = Flight(airline: "American Airlines", flightNumber: "F2234", departureTime: Date(), terminal: "F34", status: .landed, destination: Airport(name: "Juneau International Airport", city: "Juneau, AK", alsoKnownAs: nil, abbriviation: "JNU"))
-let flightThree = Flight(airline: "American Airlines", flightNumber: "AA353", departureTime: nil, terminal: "D38", status: .canceled, destination: Airport(name: "Licenciado Gustavo Díaz Ordaz International Airport", city: "Puerto Vallarta, Jal., Mexico", alsoKnownAs: nil, abbriviation: "PVR"))
+let flightOne = Flight(airline: "Southwest", flightNumber: "P2034", departureTime: Date(), terminal: nil, status: .enRoute, destination: Airport(name: "Dallas Love Field", city: "Dallas, TX", abbriviation: "DAL"))
+let flightTwo = Flight(airline: "American Airlines", flightNumber: "F2234", departureTime: Date(), terminal: "F34", status: .landed, destination: Airport(name: "Juneau International Airport", city: "Juneau, AK", abbriviation: "JNU"))
+let flightThree = Flight(airline: "American Airlines", flightNumber: "AA353", departureTime: nil, terminal: "D38", status: .canceled, destination: Airport(name: "Licenciado Gustavo Díaz Ordaz International Airport", city: "Puerto Vallarta, Jal., Mexico", abbriviation: "PVR"))
 
 let jfkDepartureBoard = DepartureBoard(currentCity: jfk)
 
@@ -77,9 +76,21 @@ jfkDepartureBoard.board.append(contentsOf: [flightOne, flightTwo, flightThree])
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
+func printDepartures(departureBoard: DepartureBoard) {
+    for flight in departureBoard.board {
+        
+            if flight.departureTime == nil {
+                print("Airline: \(flight.airline) Destiniation: \(flight.destination.city) Departure Time: N/A Terminal: \(flight.terminal) STATUS: CANCELLED.")
+            }else if flight.terminal == nil {
+                print("Airline: \(flight.airline) Destiniation: \(flight.destination.city) Departure Time: \(flight.departureTime) Terminal: TBD STATUS: \(flight.status)")
+            }else {
+            print("Airline: \(flight.airline) Destiniation: \(flight.destination.city) Departure Time: \(flight.departureTime) Terminal: \(flight.terminal) STATUS: \(flight.status)")
+            }
+        
+    }
+}
 
-
-
+printDepartures(departureBoard: jfkDepartureBoard)
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function

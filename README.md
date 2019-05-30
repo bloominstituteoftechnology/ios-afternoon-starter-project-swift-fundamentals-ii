@@ -1,4 +1,6 @@
-# Swift Fundamentals II Starter Project
+# Airport Departures - Swift Fundamentals II Starter Project
+
+![Airport Departures Display](images/matthew-smith-5934-unsplash.jpg)
 
 JFK Airport needs you to help them design a new iPhone app to display departure information on upcoming flights.
 
@@ -22,6 +24,7 @@ After completing this assignment, you should ...
 * be able to use a `switch` statement to control the logic in an app
 * understand how to create a free-standing function
 * understand how to add a method to a `class` or `struct` type
+* be able to write calculations involving `Int` and `Double` types
 
 ## Required Features
 

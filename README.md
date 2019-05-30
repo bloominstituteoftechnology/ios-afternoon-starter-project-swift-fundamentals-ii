@@ -2,9 +2,9 @@
 
 JFK Airport needs you to help them design a new iPhone app to display departure information on upcoming flights.
 
-They need your help in determining what data needs to be displayed to the user, and how to handle situations when fights are canceled, delayed, or there isn't information due to various issues.
+They need your help in determining what data needs to be displayed to the user, and how to handle situations when fights are canceled, delayed, or there isn't information due to various situations.
 
-Help them design logic that can alert customers about upcoming flights and price estimates for airfare including checked bags.
+Help them design logic that can alert customers about upcoming flights and price estimates for airfare (including checked bags).
 
 ## Instructions
 
@@ -30,8 +30,9 @@ After completing this assignment, you should ...
 
 ## Stretch Goals
 
-* There are stretch goals (marked "Stretch:") to explore different APIs (NumberFormatter, DateFormatter, etc.)
-* Use the links and hints to research the API (read the documentation)
+* There are stretch goals at the bottom of questions (marked "Stretch:") to help you explore different APIs (Application Programming Interface)
+	* `NumberFormatter`, `DateFormatter`, etc.
+	* Use the links and hints to research these different APIs (you'll need to read the documentation)
 
 
 

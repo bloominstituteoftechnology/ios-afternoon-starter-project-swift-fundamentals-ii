@@ -17,8 +17,43 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
+enum FlightStatus {
+	case enroute
+	case enrouteOnTime
+	case enrouteDelayed
+	case landed
+	case scheduled
+	case cancelled
+	case delayed
+}
+
+struct Airport {
+	var destination: String
+}
+
+struct Flight {
+//	var time:
+	var departureTime: Date?
+	var date: Date
+	var terminal: String?
+	var airport: Airport
+	var flightStatus: FlightStatus
+}
 
 
+class DepartureBoard {
+	var departureFlights: [Flight]
+	var currentAirport: String
+	
+	init(currentAirport: String) {
+		self.currentAirport = currentAirport
+		departureFlights = []
+	}
+	
+	func addFlight(departureFlight: [Flight]) {
+		departureFlights.append(contentsOf: departureFlight)
+	}
+}
 
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
@@ -30,8 +65,17 @@ import UIKit
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
+var newFlight = Flight(departureTime: Date(), date: Date(), terminal: "4", airport: .init(destination: "Los Angeles (LAX)"), flightStatus: .enrouteOnTime)
+var laAirFrance = Flight(departureTime: Date(), date: Date(), terminal: "4", airport: .init(destination: "Los Anegeles (LAX)"), flightStatus: .enrouteOnTime)
+var laAeromexico = Flight(departureTime: Date(), date: Date(), terminal: "4", airport: .init(destination: "Los Angeles (LAX)"), flightStatus: .enrouteOnTime)
+var	buffaloDeltaPrivateJets = Flight(departureTime: nil, date: Date(), terminal: nil, airport: .init(destination: "Buffalo"), flightStatus: .landed)
+var charlotteAA = Flight(departureTime: nil, date: Date(), terminal: "8", airport: .init(destination: "Charlotte"), flightStatus: .cancelled)
 
+var departureBoard = DepartureBoard(currentAirport: "JFK")
 
+departureBoard.addFlight(departureFlight: [newFlight, laAirFrance, laAeromexico, buffaloDeltaPrivateJets, charlotteAA])
+
+print(departureBoard.departureFlights.count)
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`

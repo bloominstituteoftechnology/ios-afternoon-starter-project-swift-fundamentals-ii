@@ -1,6 +1,6 @@
 import UIKit
 
-
+// Test
 //: ## 1. Create custom types to represent an Airport Departures display
 //: ![Airport Departures](matthew-smith-5934-unsplash.jpg)
 //: Look at data from [Departures at JFK Airport in NYC](https://www.airport-jfk.com/departures.php) for reference.
@@ -16,8 +16,37 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
+struct Airport {
+    let arrival: String
+    let destination: String
+    let flightStatus: FlightStatus
+}
 
+enum FlightStatus {
+    case enroute
+    case cancel
+    case delayed
+}
 
+let delayedFlight = FlightStatus.delayed
+let myFightToday: FlightStatus = .enroute
+
+let flight = Airport(arrival: "JFK", destination: "LAX", flightStatus: .enroute)
+
+struct Flight {
+    let date: Int
+    let terminal: Int
+}
+
+class DepartureBoard {
+    var departureFlight: String
+    var currentAirport: String
+
+    init(departureFlight: String, currentAirport: String) {
+        self.departureFlight = departureFlight
+        self.currentAirport = currentAirport
+}
+    
 
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time

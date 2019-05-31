@@ -22,6 +22,7 @@ enum FlightStatus {
     case canceled
     case delayed
     case landed
+    case boarding
 }
 
 struct Airport {
@@ -37,7 +38,12 @@ struct Flight {
     var terminal: String?
     var status: FlightStatus
     var destination: Airport
+    
 }
+
+let dateFormatter = DateFormatter()
+dateFormatter.dateStyle = .none
+dateFormatter.timeStyle = .short
 
 class DepartureBoard {
     var board: [Flight]
@@ -48,7 +54,50 @@ class DepartureBoard {
         board = []
     }
     
+    func flightAlert() {
+        for flight in board {
+            var departureStr = "TBD"
+            if let departureTime = flight.departureTime {
+                departureStr = dateFormatter.string(from: departureTime)
+            }
+            var terminalStr = "TBD"
+            if let terminal = flight.terminal {
+                terminalStr = terminal
+            }
+            switch flight.status {
+            case .canceled:
+                print("We're sorry your flight to \(flight.destination.city) was canceled, here is a $500 voucher.")
+            case .sheduled:
+                print("Your flight to \(flight.destination.city) is scheduled to depart at \(departureStr) from terminal: \(terminalStr)")
+            case .boarding:
+                print("Your flight is boarding, please head to terminal: \(terminalStr) immediately. The doors are closing soon.")
+            case .delayed:
+                print("your flight \(flight.flightNumber) to \(flight.destination.city) has been delayed.")
+            case .enRoute:
+                print("your flight \(flight.flightNumber) to \(flight.destination.city) is on its way!")
+            case .landed:
+                print("The \(flight.airline) flight number \(flight.flightNumber) has landed.")
+            }
+            if flight.terminal == nil {
+                print("Passengers on \(flight.airline) flight \(flight.flightNumber) towards \(flight.destination.name), your terminal is currently unavailable. Please  see the nearest information desk for more details.")
+            }
+        }
+    }
 }
+
+//a. If the flight is canceled print out: "We're sorry your flight to (city) was canceled, here is a $500 voucher"
+//
+//b. If the flight is scheduled print out: "Your flight to (city) is scheduled to depart at (time) from terminal: (terminal)"
+//
+//c. If their flight is boarding print out: "Your flight is boarding, please head to terminal: (terminal) immediately. The doors are closing soon."
+//
+//d. If the departureTime or terminal are optional, use "TBD" instead of a blank String
+//
+//e. If you have any other cases to handle please print out appropriate messages
+//
+//d. Call the alertPassengers() function on your DepartureBoard object below
+//
+//f. Stretch: Display a custom message if the terminal is nil, tell the traveler to see the nearest information desk for more details.
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -106,17 +155,14 @@ printDepartures(departureBoard: jfkDepartureBoard)
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
 
-let dateFormatter = DateFormatter()
-dateFormatter.dateStyle = .none
-dateFormatter.timeStyle = .short
+
 
 func printDepartures2(departureBoard: DepartureBoard) {
 
     for flight in departureBoard.board {
         var departureStr = ""
         if let departureTime = flight.departureTime {
-            //departureStr = String(departureTime)
-            let departureStr = dateFormatter.string(from: departureTime)
+            departureStr = dateFormatter.string(from: departureTime)
         }
         var terminalStr = ""
         if let terminal = flight.terminal {
@@ -128,17 +174,6 @@ func printDepartures2(departureBoard: DepartureBoard) {
 }
 printDepartures2(departureBoard: jfkDepartureBoard)
 
-
-/*
-guard let departureTime = flight.departureTime else {
-    return
-}
-guard let terminal = flight.terminal else {
-    return
-}
-*/
-
-//print("Airline: \(flight.airline) Destiniation: \(flight.destination.city) Departure Time: \(departureStr) Terminal:\(terminal) STATUS: \(flight.status)")
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
 //:
@@ -153,6 +188,8 @@ guard let terminal = flight.terminal else {
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
+jfkDepartureBoard.flightAlert()
+    
 
 
 

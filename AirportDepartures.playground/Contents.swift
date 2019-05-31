@@ -238,6 +238,19 @@ departureBoard.alertPassengers()
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+// Unsure if step "d" is asking you to make 3 total passengers add up to $750 + $50 worth of checked bags + $200 worth of distance charges, or if it wants you to use the cost laid out for bags and miles to figure out the cost per traveler so the method returns a total of $750. Went with the latter but included a commented out line to execute the former.
 
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+    var totalValue: Double = 0.0
+    let bagCost: Double = Double(checkedBags) * 25
+    let distanceCost: Double = Double(distance) * 0.10
+    let travelerCost: Double = Double(travelers) * 166.67
+//    let travelerCost: Double = Double(travelers) * 250
+    
+    totalValue = bagCost + distanceCost + travelerCost
+    
+    return totalValue
+}
 
+calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)
 

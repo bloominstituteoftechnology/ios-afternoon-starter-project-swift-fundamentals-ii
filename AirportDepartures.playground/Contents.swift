@@ -24,6 +24,7 @@ enum FlightStatus: String {
     case canceled = "Canceled"
     case delayed = "Delayed"
     case landed = "Landed"
+    case boarding = "Boarding"
 }
 
 struct Airport {
@@ -48,6 +49,41 @@ class DepartureBoard {
     
     func addFlight(departureFlight: [Flight]) {
         departureFlights.append(contentsOf: departureFlight)
+    }
+    
+    func alertPassengers() {
+        for flight in departureFlights {
+            var terminalValue = ""
+            var departingTimeValue = ""
+            
+            if let terminal = flight.terminal {
+                terminalValue = terminal
+            } else {
+                terminalValue = "TBD"
+            }
+            
+            if let time = flight.departureTime {
+                departingTimeValue = String(describing: time)
+            } else {
+                departingTimeValue = "TBD"
+            }
+            
+            
+            switch flight.status {
+            case .canceled:
+                print("We're sorry your flight to \(flight.airportDestination.destination) was canceled, here is a $500 voucher")
+            case .scheduled:
+                print("Your flight to \(flight.airportDestination.destination) is scheduled to depart at \(departingTimeValue) from terminal: \(terminalValue)")
+            case .boarding:
+                print("Your flight is boarding, please head to terminal: \(terminalValue) immediately. The doors are closing soon.")
+            case .delayed:
+                print("Your flight has been delayed! Please stand by for a new departure time")
+            case .landed:
+                print("Your flight has landed! Thank you for flying with us today!")
+            default:
+                print("Your flight is en route to you \(flight.airportDestination.destination)")
+            }
+        }
     }
 }
 //: ## 2. Create 3 flights and add them to a departure board
@@ -182,7 +218,7 @@ printDepartures2(departureBoard: departureBoard)
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 
-
+departureBoard.alertPassengers()
 
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination

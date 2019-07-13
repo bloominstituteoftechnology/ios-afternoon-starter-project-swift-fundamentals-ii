@@ -16,12 +16,16 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
+let dateFormatter = DateFormatter()
+dateFormatter.dateStyle = .none
+dateFormatter.timeStyle = .short
+
 // Created enumeration for FlightStatus
 
 enum FlightStatus: String {
     case enRoute = "En Route"
     case scheduled = "Scheduled"
-    case canceled = "Cancelled"
+    case canceled = "Canceled"
     case delayed = "Delayed"
 }
 
@@ -61,10 +65,28 @@ class DepartureBoard {
     
     func addFlight(flight: Flight) {
         self.departureFlights.append(flight)
+        
+    }
+    
+    func alertPassengers() {
+        for flight in departureFlights{
+            switch flight.status {
+            case .enRoute:
+                print("Flight number \(flight.flightNumber) is En Route and is scheduled to arrive \(flight.arrivalTime)")
+            case .scheduled:
+                if let unwrappedTime = flight.departureTime, let unwrappedTerminalNumber = flight.terminalNumber {
+                print("Flight number \(flight.flightNumber) to \(flight.destinationAirport.city) is scheduled to depart at \(unwrappedTime) from terminal \(unwrappedTerminalNumber).")
+                } else {
+                    print("TBD")
+                }
+            case .canceled:
+                print("Unfortunately, flight number \(flight.flightNumber) to \(flight.destinationAirport.city) was canceled. Here is a $500 voucher.")
+            case .delayed:
+                print("Flight number \(flight.flightNumber) to \(flight.destinationAirport.city) has been delayed.")
+            }
+        }
     }
 }
-
-
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -101,35 +123,45 @@ var departureBoard = DepartureBoard(departureFlights: [], currentAirport: phxAir
 var flightOne = Flight(origin: phxAirport,
                        destinationAirport: jaxAirport,
                        airline: "American Airline",
-                       flightNumber: "V28X",
+                       flightNumber: "V289",
                        departureTime: Date(),
                        arrivalTime: "10:00PM",
                        terminalNumber: "34",
-                       status: .enRoute)
+                       status: .delayed)
 
 var flightTwo = Flight(origin: jaxAirport,
                        destinationAirport: phxAirport,
                        airline: "Delta",
-                       flightNumber: "X3A2",
+                       flightNumber: "X372",
                        departureTime: Date(),
                        arrivalTime: "11:30PM",
-                       terminalNumber: nil,
+                       terminalNumber: "42",
                        status: .scheduled)
 
 var flightThree = Flight(origin: orlAirport,
                          destinationAirport: jaxAirport,
                          airline: "American Airline",
-                         flightNumber: "L8CC",
+                         flightNumber: "L891",
                          departureTime: nil,
                          arrivalTime: "9:00AM",
                          terminalNumber: "10",
                          status: .canceled)
+
+var flightFour = Flight(origin: orlAirport,
+                         destinationAirport: phxAirport,
+                         airline: "Southwest Airlines",
+                         flightNumber: "D131",
+                         departureTime: Date(),
+                         arrivalTime: "8:15PM",
+                         terminalNumber: "21",
+                         status: .enRoute)
 
 // Appending Three Flights To Departure Board
 
 departureBoard.addFlight(flight: flightOne)
 departureBoard.addFlight(flight: flightTwo)
 departureBoard.addFlight(flight: flightThree)
+departureBoard.addFlight(flight: flightFour)
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:
@@ -147,10 +179,15 @@ func printDepartures(a: DepartureBoard) {
         print("Destination: \(flight.destinationAirport.city)")
         print("Flight Status: \(flight.status.rawValue)")
         print("Flight Number: \(flight.flightNumber)")
-        print("Terminal: \(flight.terminalNumber)")
-        print("Departure Time: \(flight.departureTime)\n")
+        
+        if let unwrappedTerminalNumber = flight.terminalNumber {
+            print("Terminal: \(unwrappedTerminalNumber)")
+        }
+        
+        if let unwrappedDepartureTime = flight.departureTime {
+            print("Departure Time: \(unwrappedDepartureTime)\n")
+        }
     }
-    
 }
 
 printDepartures(a: departureBoard)
@@ -197,8 +234,6 @@ func printDepartures2(a: DepartureBoard) {
 }
 
 printDepartures2(a: departureBoard)
-
-
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
 //:
@@ -214,6 +249,7 @@ printDepartures2(a: departureBoard)
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 
+departureBoard.alertPassengers()
 
 
 

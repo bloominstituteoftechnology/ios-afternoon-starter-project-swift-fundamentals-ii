@@ -103,7 +103,7 @@ myDepartureBoard.flights.append(contentsOf: [flight1, flight2, flight3])
 func printDepartures(departureBoard: DepartureBoard) {
     
     for departure in departureBoard.flights {
-        print("Flight \(departure.flightNumber) originating from \(departure.origin.location) with a destination of \(departure.destination.location) is \(departure.flightStatus).")
+        print("Flight \(departure.flightNumber) originating from \(departure.origin.location) with a destination of \(departure.destination.location) is \(departure.flightStatus.rawValue).")
     }
     
 }
@@ -202,6 +202,8 @@ func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> String
     } else {
         return "Could not determine total cost"
     }
+
+    
     
 }
 

@@ -80,7 +80,10 @@ class DepartureBoard {
                     print("TBD")
                 }
             case .canceled:
-                print("Unfortunately, flight number \(flight.flightNumber) to \(flight.destinationAirport.city) was canceled. Here is a $500 voucher.")
+                if let unwrappedTerminalNumber = flight.terminalNumber {
+                    print("Unfortunately, flight number \(flight.flightNumber) to \(flight.destinationAirport.city) at terminal number \(unwrappedTerminalNumber) was canceled. Here is a $500 voucher.")
+                }
+
             case .delayed:
                 print("Flight number \(flight.flightNumber) to \(flight.destinationAirport.city) has been delayed.")
             }
@@ -144,7 +147,7 @@ var flightThree = Flight(origin: orlAirport,
                          flightNumber: "L891",
                          departureTime: nil,
                          arrivalTime: "9:00AM",
-                         terminalNumber: "10",
+                         terminalNumber: nil,
                          status: .canceled)
 
 var flightFour = Flight(origin: orlAirport,
@@ -207,7 +210,7 @@ printDepartures(a: departureBoard)
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
 func printDepartures2(a: DepartureBoard) {
     
-    print("Welcome To \(a.currentAirport.city)'s Airport!\n")
+    print("Welcome To \(a.currentAirport.city)'s Airport!\nThere are \(a.departureFlights.count) total flights today.\n")
     
     for flight in a.departureFlights {
         
@@ -248,11 +251,7 @@ printDepartures2(a: departureBoard)
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
 departureBoard.alertPassengers()
-
-
-
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`
 //:
@@ -270,6 +269,13 @@ departureBoard.alertPassengers()
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+func calculateAirfare(checkedBags: Double, distance: Double, travelers: Double) -> Double {
+    let checkedBagsTotal = checkedBags * 25
+    let distanceTotal = distance * 0.10
+    let distanceAndCheckedBags = checkedBagsTotal + distanceTotal
+    let finalTotal = distanceAndCheckedBags * travelers
+    print("Your total price is: $\(finalTotal)")
+    return finalTotal
+}
 
-
-
+calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)

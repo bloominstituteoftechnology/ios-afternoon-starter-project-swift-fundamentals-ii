@@ -16,10 +16,6 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
-let dateFormatter = DateFormatter()
-dateFormatter.dateStyle = .none
-dateFormatter.timeStyle = .short
-
 // Created enumeration for FlightStatus
 
 enum FlightStatus: String {
@@ -79,11 +75,12 @@ class DepartureBoard {
                 } else {
                     print("TBD")
                 }
+                
             case .canceled:
                 if let unwrappedTerminalNumber = flight.terminalNumber {
                     print("Unfortunately, flight number \(flight.flightNumber) to \(flight.destinationAirport.city) at terminal number \(unwrappedTerminalNumber) was canceled. Here is a $500 voucher.")
                 }
-
+                
             case .delayed:
                 print("Flight number \(flight.flightNumber) to \(flight.destinationAirport.city) has been delayed.")
             }

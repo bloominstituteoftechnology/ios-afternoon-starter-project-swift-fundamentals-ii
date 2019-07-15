@@ -10,17 +10,6 @@ extension Date {
     }
 }
 
-
-//let toLAflightTime: DateComponents = DateComponents(hour: 16, minute: 40)
-//let composedTimeToLA = calendar.date(from: toLAflightTime)
-//
-//let toNYFlightTime: DateComponents = DateComponents(hour: 4, minute: 50)
-//let composedTimeToNY = calendar.date(from: toNYFlightTime)
-//
-//let toAustinFlightTime: DateComponents = DateComponents(hour: 2, minute: 30)
-//let composedTimeToAustin = calendar.date(from: toAustinFlightTime)
-
-
 //: ## 1. Create custom types to represent an Airport Departures display
 //: ![Airport Departures](matthew-smith-5934-unsplash.jpg)
 //: Look at data from [Departures at JFK Airport in NYC](https://www.airport-jfk.com/departures.php) for reference.
@@ -62,6 +51,7 @@ struct Flight {
     var departureTime: Date?
     var terminal: String?
     var flightStatus: FlightStatus
+    var distance: Int
 }
 
 // 1.f - 5.a, b, c & d
@@ -118,15 +108,13 @@ func composedFlightTimes(hour: Int?, minute: Int?) -> Date? {
     return composedFlightTime
 }
 
-let departureToLA = composedFlightTimes(hour: 5, minute: 30)
-let departureToNY = composedFlightTimes(hour: 16, minute: 45)
-let departureToAustin = composedFlightTimes(hour: 20, minute: 15)
 
 // 2.a, c & d
-let toLA = Flight(airline: "American Airlines", flightNumber: "AM 1345", destination: "Los Angeles", departureTime: nil, terminal:
-    "4", flightStatus: .canceled)
-let toNY = Flight(airline: "Delta Airlines", flightNumber: "DA 2323", destination: "New York", departureTime: departureToNY, terminal: "5", flightStatus: .scheduled)
-let toAustin = Flight(airline: "United Airlines", flightNumber: "UA 3945", destination: "Austin", departureTime: departureToAustin, terminal: nil, flightStatus: .boarding)
+let toLA = Flight(airline: "American Airlines", flightNumber: "AM1345", destination: "Los Angeles", departureTime: nil, terminal:
+    "4", flightStatus: .canceled, distance: 2014)
+let toNY = Flight(airline: "Delta Airlines", flightNumber: "DA2323", destination: "New York", departureTime: composedFlightTimes(hour: 16, minute: 45), terminal: "5", flightStatus: .scheduled, distance: 713)
+let toAustin = Flight(airline: "United Airlines", flightNumber: "UA3945", destination: "Austin", departureTime: composedFlightTimes(hour: 20, minute: 15), terminal: nil, flightStatus: .boarding, distance: 1120)
+let toGermany = Flight(airline: "American Airline", flightNumber: "AA1345", destination: "Munich", departureTime: composedFlightTimes(hour: 6, minute: 30), terminal: "5", flightStatus: .scheduled, distance: 4510)
 
 let departureBoard = DepartureBoard(flights: [], airport: .init(name: "Ohare", city: "Chicago"))
 
@@ -134,6 +122,7 @@ let departureBoard = DepartureBoard(flights: [], airport: .init(name: "Ohare", c
 departureBoard.flights.append(toLA)
 departureBoard.flights.append(toNY)
 departureBoard.flights.append(toAustin)
+departureBoard.flights.append(toGermany)
 
 
 
@@ -236,7 +225,10 @@ func convertToDollar(number: Double) -> String {
     return numberFormatter.string(from: NSNumber(value: number))!
 }
 
-print(calculateAirfare(checkedBags: 5, distance: 1500, travelers: 2))
-print(convertToDollar(number: calculateAirfare(checkedBags: 5, distance: 1500, travelers: 2)))
+for flight in departureBoard.flights {
+    print("Your total for flight \(flight.flightNumber) to \(flight.destination) is:\n\(convertToDollar(number: calculateAirfare(checkedBags: 5, distance: flight.distance, travelers: 2)))")
+}
+
+
 
 

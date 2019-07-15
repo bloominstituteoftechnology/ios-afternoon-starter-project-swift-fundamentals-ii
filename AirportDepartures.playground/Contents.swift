@@ -17,11 +17,11 @@ import UIKit
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
 // type of the flight status
 enum FlightStatus: String {
-    case enRoute
-    case scheduled
-    case canceled
-    case delayed
-    case boarding
+    case enRoute = "En Route"
+    case scheduled = "Scheduled"
+    case canceled = "Canceled"
+    case delayed = "Delayed"
+    case boarding = "Boarding"
 }
 
 // name of the airport

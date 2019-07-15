@@ -67,21 +67,23 @@ class DepartureBoard {
     func alertPassengers() {
         for flight in departureFlights{
             switch flight.status {
-            case .enRoute:
-                print("Flight number \(flight.flightNumber) is En Route and is scheduled to arrive \(flight.arrivalTime)")
-            case .scheduled:
+                
+            case .enRoute: // enRoute Case For Alert
+                print("Flight number \(flight.flightNumber) is En Route and is scheduled to arrive \(flight.arrivalTime).")
+                
+            case .scheduled:  // Scheduled Case For Alert
                 if let unwrappedTime = flight.departureTime, let unwrappedTerminalNumber = flight.terminalNumber {
                 print("Flight number \(flight.flightNumber) to \(flight.destinationAirport.city) is scheduled to depart at \(unwrappedTime) from terminal \(unwrappedTerminalNumber).")
                 } else {
                     print("TBD")
                 }
                 
-            case .canceled:
+            case .canceled: // Canceled Case For Alert
                 if let unwrappedTerminalNumber = flight.terminalNumber {
                     print("Unfortunately, flight number \(flight.flightNumber) to \(flight.destinationAirport.city) at terminal number \(unwrappedTerminalNumber) was canceled. Here is a $500 voucher.")
                 }
                 
-            case .delayed:
+            case .delayed: // Delayed Case For Alert
                 print("Flight number \(flight.flightNumber) to \(flight.destinationAirport.city) has been delayed.")
             }
         }
@@ -148,13 +150,13 @@ var flightThree = Flight(origin: orlAirport,
                          status: .canceled)
 
 var flightFour = Flight(origin: orlAirport,
-                         destinationAirport: phxAirport,
-                         airline: "Southwest Airlines",
-                         flightNumber: "D131",
-                         departureTime: Date(),
-                         arrivalTime: "8:15PM",
-                         terminalNumber: "21",
-                         status: .enRoute)
+                        destinationAirport: phxAirport,
+                        airline: "Southwest Airlines",
+                        flightNumber: "D131",
+                        departureTime: Date(),
+                        arrivalTime: "8:15PM",
+                        terminalNumber: "21",
+                        status: .enRoute)
 
 // Appending Three Flights To Departure Board
 
@@ -223,6 +225,7 @@ func printDepartures2(a: DepartureBoard) {
         } else {
             print("Terminal: No Terminal Has Been Assigned Yet")
         }
+        
         if flight.status != .canceled {
         print("Status: \(flight.status.rawValue)\n")
         } else {

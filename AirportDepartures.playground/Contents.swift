@@ -1,5 +1,53 @@
 import UIKit
 
+class DepartureBoard {
+    var departureFlight: Flight
+    var airport: Airport
+
+    
+    init(departureFlight: Flight, airport: Airport) {
+        self.departureFlight = departureFlight
+        self.airport = airport
+
+    }
+}
+
+
+
+enum FlightStatus {
+    case enRoute
+    case scheduled
+    case canceled
+    case delayed
+    case onTime
+}
+
+struct Airport {
+    let Destination: String
+}
+
+struct Flight {
+    let airport: Airport
+    let flightStatus: FlightStatus
+    let departureTime: Date?
+    let terminal: String?
+}
+
+let flightOne = Flight(airport: .init(Destination: "ORD"), flightStatus: .canceled, departureTime: nil, terminal: nil)
+
+let flightTwo = Flight(airport: .init(Destination: "NRT"), flightStatus: .onTime, departureTime: Date(), terminal: "9")
+
+let flightThree = Flight(airport: .init(Destination: "YYZ"), flightStatus: .delayed, departureTime: nil, terminal: "11")
+
+
+func printDepartures(departureBoard: DepartureBoard) {
+    for
+}
+
+
+
+
+
 
 //: ## 1. Create custom types to represent an Airport Departures display
 //: ![Airport Departures](matthew-smith-5934-unsplash.jpg)

@@ -1,18 +1,15 @@
 import UIKit
 
 class DepartureBoard {
-    var departureFlight: Flight
-    var airport: Airport
-
+    var departureFlight: [Flight]
+    var currentAirport: String
     
-    init(departureFlight: Flight, airport: Airport) {
+    init(departureFlight: [Flight] = []) {
+        currentAirport = "JFK"
         self.departureFlight = departureFlight
-        self.airport = airport
-
     }
+    
 }
-
-
 
 enum FlightStatus {
     case enRoute
@@ -39,9 +36,14 @@ let flightTwo = Flight(airport: .init(Destination: "NRT"), flightStatus: .onTime
 
 let flightThree = Flight(airport: .init(Destination: "YYZ"), flightStatus: .delayed, departureTime: nil, terminal: "11")
 
+DepartureBoard(departureFlight: [flightOne, flightTwo, flightThree])
+
+
 
 func printDepartures(departureBoard: DepartureBoard) {
-    for
+    for departures in departureBoard.departureFlight {
+        print("\(departures)")
+    }
 }
 
 

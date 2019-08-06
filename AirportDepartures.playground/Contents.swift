@@ -11,12 +11,12 @@ class DepartureBoard {
     
 }
 
-enum FlightStatus {
-    case enRoute
-    case scheduled
-    case canceled
-    case delayed
-    case onTime
+enum FlightStatus: String {
+    case enRoute = "En Route"
+    case scheduled = "Scheduled"
+    case canceled = "Canceled"
+    case delayed = "Delayed"
+    case onTime = "On Time"
 }
 
 struct Airport {
@@ -42,9 +42,23 @@ DepartureBoard(departureFlight: [flightOne, flightTwo, flightThree])
 
 func printDepartures(departureBoard: DepartureBoard) {
     for departures in departureBoard.departureFlight {
-        print("\(departures)")
+        if case departures.flightStatus = FlightStatus.canceled {
+            print("This flight is canceled.")
+        } else {
+            print("\(departures.flightStatus.rawValue)")
+        }
+        if case departures.departureTime = departures.departureTime {
+            print("\(String(describing: departures.departureTime))")
+        } else {
+            print("Flight time is to be determined.")
+        }
+        print(departures)
     }
 }
+
+printDepartures(departureBoard: DepartureBoard.init(departureFlight: [flightTwo]))
+
+printDepartures(departureBoard: DepartureBoard.init(departureFlight: [flightThree]))
 
 
 
@@ -146,6 +160,7 @@ func printDepartures(departureBoard: DepartureBoard) {
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+
 
 
 

@@ -52,7 +52,7 @@ func printDepartures(departureBoard: DepartureBoard) {
         } else {
             print("Flight time is to be determined.")
         }
-        print(departures)
+        print("\(departures.airport) \(departures.self) \(departures.terminal) \(departures.flightStatus)")
     }
 }
 

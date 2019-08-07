@@ -2,11 +2,11 @@ import UIKit
 
 class DepartureBoard {
     var departureFlight: [Flight]
-    var currentAirport: String
+    var currentAirport: Airport
     
-    init(departureFlight: [Flight] = []) {
-        currentAirport = "JFK"
-        self.departureFlight = departureFlight
+    init(city: String, code: String) {
+        currentAirport = Airport(city: city, code: code)
+        departureFlight = []
     }
     
 }
@@ -20,7 +20,8 @@ enum FlightStatus: String {
 }
 
 struct Airport {
-    let Destination: String
+    let city: String
+    let code: String
 }
 
 struct Flight {
@@ -30,35 +31,51 @@ struct Flight {
     let terminal: String?
 }
 
-let flightOne = Flight(airport: .init(Destination: "ORD"), flightStatus: .canceled, departureTime: nil, terminal: nil)
+var departureBoard = DepartureBoard(city: "Toronto", code: "TOR")
 
-let flightTwo = Flight(airport: .init(Destination: "NRT"), flightStatus: .onTime, departureTime: Date(), terminal: "9")
+let lax = Airport(city: "Los Angeles", code: "LAX")
+let nrt = Airport(city: "Tokyo", code: "NRT")
+let yyt = Airport(city: "Toronto", code: "YYT")
 
-let flightThree = Flight(airport: .init(Destination: "YYZ"), flightStatus: .delayed, departureTime: nil, terminal: "11")
 
-DepartureBoard(departureFlight: [flightOne, flightTwo, flightThree])
+let flightOne = Flight(airport: lax, flightStatus: .delayed, departureTime: Date(), terminal: "4C")
 
+let flightTwo = Flight(airport: nrt, flightStatus: .onTime, departureTime: Date(), terminal: "9")
+
+let flightThree = Flight(airport: yyt, flightStatus: .delayed, departureTime: nil, terminal: "11")
+
+departureBoard.departureFlight.append(flightOne)
+departureBoard.departureFlight.append(flightTwo)
+departureBoard.departureFlight.append(flightThree)
 
 
 func printDepartures(departureBoard: DepartureBoard) {
-    for departures in departureBoard.departureFlight {
-        if case departures.flightStatus = FlightStatus.canceled {
-            print("This flight is canceled.")
-        } else {
-            print("\(departures.flightStatus.rawValue)")
+    for flight in departureBoard.departureFlight {
+        guard let departureTime = flight.departureTime else{
+            print("Your flight time is to be determined.") }
+        guard let terminal = flight.terminal else {
+            print("Your terminal is to be determined.")
         }
-        if case departures.departureTime = departures.departureTime {
-            print("\(String(describing: departures.departureTime))")
-        } else {
-            print("Flight time is to be determined.")
-        }
-        print("\(departures.airport) \(departures.self) \(departures.terminal) \(departures.flightStatus)")
+        
+        
+        print("Airpot: \(departureBoard.currentAirport) Destination: \(flight.airport) Time: \(departureTime) Terminal: \(terminal) Status: \(flight.flightStatus) ")
     }
 }
+printDepartures(departureBoard: departureBoard)
 
-printDepartures(departureBoard: DepartureBoard.init(departureFlight: [flightTwo]))
 
-printDepartures(departureBoard: DepartureBoard.init(departureFlight: [flightThree]))
+
+
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+    let bagCost: Double = Double(checkedBags * 25)
+    let mileCost: Double = Double(distance) * 0.1
+    let ticketCost: Double = Double(travelers * 250)
+    
+    let total = bagCost + mileCost + ticketCost
+    
+    return total
+    
+}
 
 
 

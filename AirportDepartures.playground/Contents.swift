@@ -9,6 +9,46 @@ class DepartureBoard {
         departureFlight = []
     }
     
+    func alertPassengers() {
+        for flight in departureFlight {
+            
+            var departureTimeString = "TBA"
+            if let departureTime = flight.departureTime {
+                departureTimeString = "\(departureTime)"
+            }
+            
+            var terminalString = "TBA"
+            if let terminal = flight.terminal {
+                terminalString = "\(terminal)"
+            }
+            
+            let flightAirport = flight.airport
+            let status = flight.flightStatus
+            
+            switch flight.flightStatus {
+            case .canceled:
+                print("We're sorry your flight to \(flight.airport) was canceled, here is a $500 voucher")
+            case .scheduled:
+                print("Your flight has arrived as scheduled.")
+            case .onTime:
+                print("Your flight to \(flight.airport) is scheduled to depart at \(String(describing: flight.departureTime)) from terminal: \(String(describing: flight.terminal))")
+            case .enRoute:
+                print("Your flight is scheduled to arrive at \(flight.airport) on time.")
+            default:
+                print("")
+                
+            }
+            
+            if flight.terminal == nil {
+                guard let departureTime = flight.departureTime else {return}
+                print("Airpot: \(departureBoard.currentAirport) Destination: \(flight.airport) Time: \(departureTime) Status: \(flight.flightStatus) Terminal: TBD")
+            } else if flight.departureTime == nil {
+                guard let terminal = flight.terminal else {return}
+                print("Airpot: \(departureBoard.currentAirport) Destination: \(flight.airport) Time: TBD Terminal: \(terminal) Status: \(flight.flightStatus) ")
+            }
+        }
+    }
+    
 }
 
 enum FlightStatus: String {
@@ -49,16 +89,16 @@ departureBoard.departureFlight.append(flightTwo)
 departureBoard.departureFlight.append(flightThree)
 
 
-func printDepartures(departureBoard: DepartureBoard) {
-    for flight in departureBoard.departureFlight {
-        guard let departureTime = flight.departureTime else{
-            print("Your flight time is to be determined.") }
-        guard let terminal = flight.terminal else {
-            print("Your terminal is to be determined.")
-        }
-        
-        
-        print("Airpot: \(departureBoard.currentAirport) Destination: \(flight.airport) Time: \(departureTime) Terminal: \(terminal) Status: \(flight.flightStatus) ")
+//func printDepartures(departureBoard: DepartureBoard) {
+//    for flight in departureBoard.departureFlight {
+//        guard let departureTime = flight.departureTime else{
+//            print("Your flight time is to be determined.") }
+//        guard let terminal = flight.terminal else {
+//            print("Your terminal is to be determined.")
+//        }
+//        
+//        
+//        print("Airpot: \(departureBoard.currentAirport) Destination: \(flight.airport) Time: \(departureTime) Terminal: \(terminal) Status: \(flight.flightStatus) ")
     }
 }
 printDepartures(departureBoard: departureBoard)

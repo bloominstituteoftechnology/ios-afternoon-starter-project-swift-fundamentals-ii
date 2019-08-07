@@ -48,8 +48,8 @@ struct Flight {
     let flightStatus: FlightStatus
     let flightNumber: String
     let terminal: String?
-    let arrivalTime: Date?
-    let departureTime: Date?
+    let arrivalTime: String?
+    let departureTime: String?
     
 }
 
@@ -114,11 +114,20 @@ class DepartureBoard {
 // c. Make one of the flights .canceled with a nil departure time
 // d. Make one of the flights have a nil terminal because it has not been decided yet.
 
-let flight1 = Flight(destination: .init(name: "Dallas - DFW", type: "Destination"), flightStatus: .On_Time, flightNumber: "NH 9000", terminal: "7", arrivalTime: Date(), departureTime: nil)
+let date = Date()
+let formatter = DateFormatter()
+formatter.dateStyle = .none
+formatter.timeStyle = .short
 
-let flight2 = Flight(destination: .init(name: "New York - JFK", type: "Arrival"), flightStatus: .Delayed, flightNumber: "UA 7998", terminal: nil, arrivalTime: Date(), departureTime: Date())
+let finalDate = formatter.string(from: date)
 
-let flight3 = Flight(destination: .init(name: "Dallas - DFW", type: "Arrival"), flightStatus: .On_Time, flightNumber: "NH 8000", terminal: "7", arrivalTime: Date(), departureTime: Date())
+
+
+let flight1 = Flight(destination: .init(name: "Dallas - DFW", type: "Destination"), flightStatus: .On_Time, flightNumber: "NH 9000", terminal: "7", arrivalTime: finalDate, departureTime: finalDate)
+
+let flight2 = Flight(destination: .init(name: "New York - JFK", type: "Arrival"), flightStatus: .Delayed, flightNumber: "UA 7998", terminal: nil, arrivalTime: finalDate, departureTime: finalDate)
+
+let flight3 = Flight(destination: .init(name: "Dallas - DFW", type: "Arrival"), flightStatus: .On_Time, flightNumber: "NH 8000", terminal: "7", arrivalTime: finalDate, departureTime: finalDate)
 
 
 // b. Use the Array append() method to add Flight's
@@ -164,7 +173,7 @@ func printDepartures(departureBoard: DepartureBoard) {
         }
     
         print("""
-            Destination: \(flight.destination.name)\t\tFlight#: \(flight.flightNumber)\t\tDeparture Time: \(uwTime)\tTerminal: \(uwTerm)
+            Destination: \(flight.destination.name)\t\tFlight#: \(flight.flightNumber)\t\tDeparture Time: \(uwTime)\t\tTerminal: \(uwTerm)
             """)
     }
 }
@@ -197,12 +206,13 @@ let ticketCost = calculateAirfare(checkedBags: 3, distance: 2000, travelers: 3)
 let nsNumber = NSNumber(value: ticketCost)
 
 let ticketPrice = currencyFormatter.string(from: nsNumber)
-guard let ticketPrice = ticketPrice else {
+if let ticketPrice = ticketPrice {
+    print(ticketPrice)
+} else {
     print("Sorry, your ticket is free.")
-    fatalError()
 }
 
-ticketPrice
+
 
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil

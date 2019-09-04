@@ -108,7 +108,7 @@ func printDepartures(departureBoard: DepartueBoard) {
         }
         
         print("""
-            Destination: \(flight.destination.name)\t\tFlight #: \(flight.flightNumber)\t\tDeparture Time: \(uwTime)\t\tTerminal: \(uwTerm)
+            Destination: \(flight.destination.name)\t\tFlight #: \(flight.flightNumber)\t\tDeparture Time: \(uwTime)\t\tTerminal: \(uwTerm)\t\tSchedule: \(flight.flightStatus)
             """)
     }
 }

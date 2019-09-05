@@ -26,7 +26,7 @@ enum FlightStatus: String {
 
 struct Airport {
     let city: String
-    let code: String
+
 }
 
 struct Flight {
@@ -54,11 +54,11 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-        let flightOne = Flight(airport: "SkyHarbor" , flightStatus: FlightStatus.delayed, departureTime: Date(), terminal: "4C")
+        let flightOne = Flight(Airport: "SkyHarbor" , flightStatus: FlightStatus.delayed, departureTime: Date(), terminal: "4C")
         
-        let flightTwo = Flight(airport: "lax", flightStatus: FlightStatus.onTime, departureTime: Date(), terminal: "4G")
+        let flightTwo = Flight(Airport: "lax", flightStatus: FlightStatus.onTime, departureTime: Date(), terminal: "4G")
         
-        let flightThree = Flight(airport: "honolulu", flightStatus: FlightStatus.delayed, departureTime: nil, terminal: "1D")
+        let flightThree = Flight(Airport: "honolulu", flightStatus: FlightStatus.delayed, departureTime: nil, terminal: "1D")
         
        
 

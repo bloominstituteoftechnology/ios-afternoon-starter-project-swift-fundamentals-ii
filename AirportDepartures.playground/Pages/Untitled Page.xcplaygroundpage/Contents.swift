@@ -119,13 +119,21 @@ DBoardJFK.add(flight: number3)
 func printDepartures(departureBoard: DepartureBoard) {
     for flight in departureBoard.departureFlight {
          if let unwrappedTime = flight.departureTime {
-            print("Flight to \(flight.airport.destination) is \(flight.status) at terminal \(flight.terminal) on \(unwrappedTime)")
-        } else if let unwrappedTerminal = flight.terminal {
-            print("\(flight.airport.destination) is \(flight.status) at terminal \(unwrappedTerminal) on \("")")
+            if let unwrappedTerminal = flight.terminal {
+                print("Flight to \(flight.airport.destination) is \(flight.status) at terminal: \(unwrappedTerminal) on \(unwrappedTime)")
+            } else {
+                print("Flight to \(flight.airport.destination) is \(flight.status) at terminal: TBD on \(unwrappedTime)")
+            }
+        } else if let unwrappedTerminal1 = flight.terminal {
+            print("\(flight.airport.destination) is \(flight.status) at terminal: \(unwrappedTerminal1) on \("")")
         }
     }}
 
 printDepartures(departureBoard: DBoardJFK)
+
+
+
+
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
 //:

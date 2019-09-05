@@ -47,6 +47,7 @@ struct Flight {
     let departureTime: Date?
     let terminal: String?
     let status: FlightStatus
+    let flightNumber: String
 }
 
 func unwrapDate(dateToUnwrap: Optional<Date>) -> String {
@@ -125,19 +126,22 @@ let departure1 = Flight(destination: "Boston",
                         airline: .jetBlue,
                         departureTime: Date(),
                         terminal: "B6",
-                        status: .enRouteOnTime)
+                        status: .enRouteOnTime,
+                        flightNumber: "750")
 
 let departure2 = Flight(destination: "Miami",
                         airline: .virgin,
                         departureTime: nil,
                         terminal: "C1",
-                        status: .cancelled)
+                        status: .cancelled,
+                        flightNumber: "2050")
 
 let departure3 = Flight(destination: "Los Angeles",
                         airline: .quantas,
                         departureTime: Date(),
                         terminal: nil,
-                        status: .scheduled)
+                        status: .scheduled,
+                        flightNumber: "9250")
 
 let departureBoard = DepartureBoard(airportName: "John F. Kennedy Airport", airportCode: "JFK")
 
@@ -166,6 +170,7 @@ printDepartures(departureBoard: departureBoard)
 
 
 
+
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
 //:
@@ -180,9 +185,21 @@ printDepartures(departureBoard: departureBoard)
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
-
-
-
+func printDepartures2(departureBoard: DepartureBoard) {
+    print("\nJFK DEPARTURES")
+    
+    for flight in departureBoard.departures {
+        let destination: String = "\(flight.destination)"
+        let airline: String = "\(flight.airline)"
+        let flightInfo: String = "\(flight.flightNumber)"
+        let departureTime: String = unwrapDate(dateToUnwrap: flight.departureTime)
+        let terminal: String = unwrapTerminal(terminalToUnwrap: flight.terminal)
+        let status: String = flight.status.rawValue
+        
+        print("Destination: \(destination) Airline: \(airline) Flight: \(flightInfo) Departure: \(departureTime) Terminal: \(terminal) Status: \(status)")
+    }
+}
+printDepartures2(departureBoard: departureBoard)
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
 //:

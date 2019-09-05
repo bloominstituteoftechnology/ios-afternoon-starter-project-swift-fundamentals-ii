@@ -96,15 +96,16 @@ var number1 = Flight(departureTime: Date(), airport: atlanta, terminal: "5", sta
 var number2 = Flight(departureTime: Date(), airport: lasVegas, terminal: "6", status: .scheduled)
 var number3 = Flight(departureTime: Date(), airport: tokyo, terminal: "7", status: .scheduled)
 
-DBoardJFK.add(flight: number1)
-DBoardJFK.add(flight: number2)
-DBoardJFK.add(flight: number3)
 
 number2.departureTime = nil
 number2.status = .canceled
 
 number3.terminal = nil
 number3.status = .delayed
+
+DBoardJFK.add(flight: number1)
+DBoardJFK.add(flight: number2)
+DBoardJFK.add(flight: number3)
 
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
@@ -117,10 +118,10 @@ number3.status = .delayed
 //: d. Print out the current DepartureBoard you created using the function
 func printDepartures(departureBoard: DepartureBoard) {
     for flight in departureBoard.departureFlight {
-        if flight.departureTime != nil {
-            print("Flight to \(flight.airport) is \(flight.status) at \(flight.terminal) on \(flight.departureTime)")
-        } else {
-            print("flight.airport) is \(flight.status) at \(flight.terminal) on \("")")
+         if let unwrappedTime = flight.departureTime {
+            print("Flight to \(flight.airport.destination) is \(flight.status) at terminal \(flight.terminal) on \(unwrappedTime)")
+        } else if let unwrappedTerminal = flight.terminal {
+            print("\(flight.airport.destination) is \(flight.status) at terminal \(unwrappedTerminal) on \("")")
         }
     }}
 

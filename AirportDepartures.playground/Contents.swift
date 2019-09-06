@@ -16,8 +16,47 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
+enum FlightStatus {
+    case enRoute
+    case scheduled
+    case cancelled
+    case delayed
+}
 
+struct Airport {
+    let name: String
+    let address: String
+    let phoneNumber: String
+    let gates: String
+    let numberOfEmployees: Int
+    let numberOfPlanes: Int
+}
 
+struct Flight {
+    let craftName: String
+    let terminal: String?
+    let passangerNumber: String
+    let isCheckedIn: Bool
+    let seatNumber: String
+    let departureTime: Date?
+}
+
+class DepartureBoard {
+    var destination: String
+    var airlineFlight: String
+    var departure: Date?
+    var terminal: String?
+    var status: FlightStatus
+    var currentAirport: String
+    
+    init(destination: String, airlineFlight: String, departure: Date?, status: FlightStatus, currentAirport: String) {
+        self.destination = destination
+        self.airlineFlight = airlineFlight
+        self.departure = departure
+        self.status = status
+        self.currentAirport = currentAirport
+    }
+}
 
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time

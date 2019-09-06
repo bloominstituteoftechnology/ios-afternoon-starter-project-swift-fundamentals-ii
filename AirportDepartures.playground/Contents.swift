@@ -16,7 +16,7 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
-enum FlightStatus {
+enum FlightStatus: String {
     case enRoute
     case scheduled
     case cancelled
@@ -83,9 +83,80 @@ departureBoard.flights.append(flight3)
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
+func printDepartures(departureBoard: DepartureBoard) {
+    for departure in departureBoard.flights {
+        print(departure)
+    }
+}
+
+printDepartures(departureBoard: departureBoard)
 
 
+//: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
+//: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
+//:
+//: b. Use optional binding to unwrap any optional values, use string interpolation to turn a non-optional date into a String
+//:
+//: c. Call the new or udpated function. It should not print `Optional(2019-05-30 17:09:20 +0000)` for departureTime or for the Terminal.
+//:
+//: d. Stretch: Format the time string so it displays only the time using a [`DateFormatter`](https://developer.apple.com/documentation/foundation/dateformatter) look at the `dateStyle` (none), `timeStyle` (short) and the `string(from:)` method
+//:
+//: e. Your output should look like:
+//:
+//:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
+//:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
+//:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
+/*
+let craftName: String
+let terminal: String?
+let passangerNumber: String
+let isCheckedIn: Bool
+let seatNumber: String
+let departureTime: Date?
+let status: FlightStatus
+*/
+func printDepartures2(departureBoard: DepartureBoard) {
+    var terminalValue: String
+    var departureDate: String
+    for departures in departureBoard.flights {
+        if let terminal = departures.terminal {
+            terminalValue = terminal
+        } else {
+            terminalValue = ""
+        }
+        
+        if let departureTime = departures.departureTime {
+            
+                    let formatter = DateFormatter()
+                    formatter.dateFormat = "MM-dd-yyyy HH:mm:ss"
+                    formatter.dateStyle = .short
+                    formatter.timeStyle = .short
+                    let dateString = formatter.string(from: departureTime)
+        
+            departureDate = dateString
+        } else {
+            departureDate = ""
+        }
+        
+        print("Craft Name: \(departures.craftName), terminal: \(terminalValue), passenger number: \(departures.passangerNumber) Are you checked In?:\(departures.isCheckedIn), seat #: \(departures.seatNumber), departure Time: \(departureDate), flight status: \(departures.status.rawValue)")
+    }
+}
 
+printDepartures2(departureBoard: departureBoard)
+//: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
+//: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
+//:
+//: b. Use optional binding to unwrap any optional values, use string interpolation to turn a non-optional date into a String
+//:
+//: c. Call the new or udpated function. It should not print `Optional(2019-05-30 17:09:20 +0000)` for departureTime or for the Terminal.
+//:
+//: d. Stretch: Format the time string so it displays only the time using a [`DateFormatter`](https://developer.apple.com/documentation/foundation/dateformatter) look at the `dateStyle` (none), `timeStyle` (short) and the `string(from:)` method
+//:
+//: e. Your output should look like:
+//:
+//:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
+//:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
+//:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function

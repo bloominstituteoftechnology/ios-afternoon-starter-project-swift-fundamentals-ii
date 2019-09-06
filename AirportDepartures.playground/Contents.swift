@@ -16,9 +16,36 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
-
-
-
+enum FlightStatus {
+    case EnRoute
+    case Scheduled
+    case Canceled
+    case Delayed
+}
+struct Airport {
+    var destination: String
+    var arrival: String
+}
+struct Flight {
+    var destination: String
+    var airline: String
+    var departureTime: Date?
+    var terminal: String?
+    var flightStatus: FlightStatus
+}
+class DepartureBoard {
+    let memphisFlight: String
+    let floridaFlight: String
+    let airportName: String
+    var newFlight: [Flight]
+    
+    init(memphisFlight: String, floridaFlight: String, airportName: String) {
+        self.memphisFlight = memphisFlight
+        self.floridaFlight = floridaFlight
+        self.airportName = airportName
+        self.newFlight = []
+    }
+}
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -29,9 +56,13 @@ import UIKit
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-
-
-
+let addFlight = DepartureBoard(memphisFlight: "Memphis", floridaFlight: "Florida", airportName: "Delta Airlines")
+let caliFlight = Flight(destination: "California", airline: "American Airlines", departureTime: nil, terminal: "Terminal 5", flightStatus: .Canceled)
+let vegasFlight = Flight(destination: "Las Vegas, Nevada", airline: "Delta Airlines", departureTime: Date(), terminal: nil, flightStatus: .Scheduled)
+let nyFlight = Flight(destination: "New York City", airline: "Unknown Airlines", departureTime: Date(), terminal: "Terminal 12", flightStatus: .EnRoute)
+addFlight.newFlight.append(caliFlight)
+addFlight.newFlight.append(vegasFlight)
+addFlight.newFlight.append(nyFlight)
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:

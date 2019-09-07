@@ -149,9 +149,8 @@ func printDepartures2(departureBoard: DepartureBoard){
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateStyle = .none
                 dateFormatter.timeStyle = .short
-                let date = Date(timeIntervalSinceReferenceDate: 118800)
                 dateFormatter.locale = Locale(identifier: "en_US")
-                print(dateFormatter.string(from: date))
+                
                 departuretime = dateFormatter.string(from: unwrappedDate)
         }
      
@@ -211,12 +210,15 @@ func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double
 
 let airfare = calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)
 
-let formatter = NumberFormatter()
-formatter.locale = Locale.current
-formatter.numberStyle = .currency
-if let formattedTicketCost = formatter.string(from: airfare as NSNumber) {
-    print("\(formattedTicketCost)")
-}
+func printAirfare(calculatedAirfare: Double){
+    let formatter = NumberFormatter()
+    formatter.locale = Locale(identifier: "en_US")
+    formatter.numberStyle = .currency
+    if let formattedTicketCost = formatter.string(from: calculatedAirfare as NSNumber) {
+        print("Your airfare cost is \(formattedTicketCost)")
+    }
+    }
 
+printAirfare(calculatedAirfare: airfare)
 
 

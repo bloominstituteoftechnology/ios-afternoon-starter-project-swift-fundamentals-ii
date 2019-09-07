@@ -57,10 +57,16 @@ class DepartureBoard {
                 term = "\(terminal)"
             }else{
                 term = "TBD"
-                print("Go see the nearest information desk for more details.")
+                print("Go see the nearest information desk for more details about your terminal location.")
             }
             if let departTime = flight.departureTime{
-                time = "\(departTime)"
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateStyle = .none
+                dateFormatter.timeStyle = .short
+                dateFormatter.locale = Locale(identifier: "en_US")
+                
+                time = dateFormatter.string(from: departTime)
+                
             }else{
                 time = "TBD"
             }

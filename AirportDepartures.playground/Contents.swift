@@ -16,6 +16,55 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
+// 1a
+enum FlightStatus {
+    case enroute
+    case scheduled
+    case canceled
+    case delayed
+    case ontime
+    case landed
+}
+
+// 1b
+struct Airport {
+    var Destination: String
+    var Arrival: String
+}
+
+// 1c, d, e
+struct Flight {
+    var departureTime: Date?
+    var airport: String
+    var gate: String
+    var terminal: String?
+    var airline: String
+    var status: String
+    var destination: String
+    var seatAssignment: String
+    var flightNumber: String
+}
+
+// 1f
+class DepartureBoard {
+    var destination: String
+    var airline: String
+    var flightNumber: String
+    var departureTime: Date?
+    var terminal: String?
+    var status: String
+    var nextFlight: [Flight]
+    
+    init(destination: String, airline: String, flightNumber: String, departureTime: Date?, terminal: String?, status: String) {
+        self.destination = destination
+        self.airline = airline
+        self.flightNumber = flightNumber
+        self.departureTime = departureTime
+        self.terminal = terminal
+        self.status = status
+        self.nextFlight = []
+    }
+}
 
 
 
@@ -29,8 +78,36 @@ import UIKit
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
+// 2a
+var nycToLondon = DepartureBoard(destination: "London",
+                                 airline: "Virgin Atlantic",
+                                 flightNumber: "VS 4",
+                                 departureTime: Date(),
+                                 terminal: "4",
+                                 status: "En Route")
 
+var nycToParis = DepartureBoard(destination: "Paris",
+                                airline: "Air France",
+                                flightNumber: "AF 3577",
+                                departureTime: Date(),
+                                terminal: "4",
+                                status: "En Route On-time")
 
+var nycToDenver = DepartureBoard(destination: "Denver",
+                                 airline: "Delta",
+                                 flightNumber: "DL 1050",
+                                 departureTime: Date(),
+                                 terminal: "2",
+                                 status: "En Route Delayed")
+
+//2b
+
+var nycToLondon.append() = DepartureBoard(destination: "London",
+                                          airline: "Air France",
+                                          flightNumber: "AF 6753",
+                                          departureTime: Date(),
+                                          terminal: "4",
+                                          status: "En Route")
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`

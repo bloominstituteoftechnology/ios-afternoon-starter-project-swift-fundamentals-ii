@@ -16,7 +16,7 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
-enum FlightStatus {
+enum FlightStatus: String {
     case EnRoute
     case Scheduled
     case Canceled
@@ -25,6 +25,9 @@ enum FlightStatus {
 struct Airport {
     var destination: String
     var arrival: String
+    var gate: String
+    var terminal: String
+    var Flights: String
 }
 struct Flight {
     var destination: String
@@ -32,6 +35,7 @@ struct Flight {
     var departureTime: Date?
     var terminal: String?
     var flightStatus: FlightStatus
+//  var flightTime: DateComponents
 }
 class DepartureBoard {
     let memphisFlight: String
@@ -56,13 +60,42 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-let addFlight = DepartureBoard(memphisFlight: "Memphis", floridaFlight: "Florida", airportName: "Delta Airlines")
-let caliFlight = Flight(destination: "California", airline: "American Airlines", departureTime: nil, terminal: "Terminal 5", flightStatus: .Canceled)
-let vegasFlight = Flight(destination: "Las Vegas, Nevada", airline: "Delta Airlines", departureTime: Date(), terminal: nil, flightStatus: .Scheduled)
+//struct DateComponents {
+//    var calendar: Calendar?
+//    var timeZone: TimeZone?
+//    var date: Date?
+//    var year: Int?
+//    var month: Int?
+//    var day: Int?
+//    var time: Int?
+//    var amOrPm: String
+//
+//    init(calendar: Calendar?, timeZone: TimeZone?, date: Date?, year: Int?, month: Int?, day: Int?, time: Int?, amOrPm: String) {
+//        self.calendar = calendar
+//        self.timeZone = timeZone
+//        self.date = date
+//        self.year = year
+//        self.month = month
+//        self.day = day
+//        self.time = time
+//        self.amOrPm = amOrPm
+//    }
+//}
+//let setTime = DateComponents(calendar: nil, timeZone: nil, date: Date(), year: 2019, month: 09, day: 06, time: 2, amOrPm: "PM")
+
+let addFlight = DepartureBoard(memphisFlight: "Memphis", floridaFlight: "Florida", airportName: "Delta")
+
+let caliFlight = Flight(destination: "California", airline: "delta", departureTime: nil, terminal: "1", flightStatus: .Canceled)
+
+let vegasFlight = Flight(destination: "Las Vegas, Nevada", airline: "Delta", departureTime: Date(), terminal: nil, flightStatus: .Scheduled)
+
 let nyFlight = Flight(destination: "New York City", airline: "Unknown Airlines", departureTime: Date(), terminal: "Terminal 12", flightStatus: .EnRoute)
+
 addFlight.newFlight.append(caliFlight)
-addFlight.newFlight.append(vegasFlight)
+
 addFlight.newFlight.append(nyFlight)
+
+addFlight.newFlight.append(vegasFlight)
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:
@@ -71,9 +104,13 @@ addFlight.newFlight.append(nyFlight)
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
-
-
-
+func printDepartures(departureBoard: DepartureBoard) {
+    for departure in departureBoard.newFlight {
+        print("Flight \(departure.destination) to \(departure.self)")
+        print("\tStatus: \(departure.flightStatus.rawValue)")
+    }
+}
+printDepartures(departureBoard: addFlight)
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
@@ -127,6 +164,3 @@ addFlight.newFlight.append(nyFlight)
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
-
-
-

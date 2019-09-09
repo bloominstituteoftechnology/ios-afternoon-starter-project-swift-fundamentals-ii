@@ -21,7 +21,7 @@ dateFormatter.dateStyle = .none
 dateFormatter.timeStyle = .short
 
 
-// 1.a
+
 enum FlightStatus: String {
     case Scheduled = "Scheduled"
     case Boarding = "Boarding"
@@ -31,18 +31,18 @@ enum FlightStatus: String {
     case Landed = "Landed"
     case On_Time = "On Time"
 }
-// 1.b
+
 struct Airport {
     let name: String
 }
-// 1.c, d, e
+
 struct Flight {
     let destination: Airport
     var departureTime: Date?
     var terminal: String?
     var flightStatus: FlightStatus
 }
-// 1.f
+
 class DepartureBoard {
     var currentAirport: String
     var flights: [Flight]
@@ -70,7 +70,7 @@ class DepartureBoard {
             
             switch flight.flightStatus {
             case .Canceled:
-                print("We're sorry, the flight to \(flight.destination.name) was canceled.")
+                print("We're sorry, the flight to \(flight.destination.name) was canceled. Here is a voucher for $500.")
             case .Scheduled:
                 if flight.terminal != nil {
                     print("The flight to \(flight.destination.name) is scheduled to depart at \(dateToString) from terminal: \(flight.terminal ?? "TBD")")
@@ -114,12 +114,11 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-// 2.a
-let flight1 = Flight(destination: Airport(name: "Manchester"),
-                           departureTime: Date(),
-                           terminal: "A",
-                           flightStatus: (.Scheduled))
 
+let flight1 = Flight(destination: Airport(name: "Manchester"),
+                     departureTime: Date(),
+                     terminal: "A",
+                     flightStatus: (.Scheduled))
 let flight2 = Flight(destination: Airport(name: "Atlanta"),
                      departureTime: nil,
                      terminal: "A",
@@ -129,7 +128,7 @@ let flight3 = Flight(destination: Airport(name: "Los Angeles"),
                      terminal: nil,
                      flightStatus: (.Scheduled))
 
-let departureBoard1 = DepartureBoard(currentAirport: "JKF")
+let departureBoard1 = DepartureBoard(currentAirport: "JFK")
 
 departureBoard1.add(flight: flight1)
 departureBoard1.add(flight: flight2)
@@ -204,17 +203,25 @@ departureBoard1.alertPassengers()
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
-func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
-    
+
+
+func convertDoubleToCurrency(amount: Double) -> String {
+    let currencyFormatter = NumberFormatter()
+    currencyFormatter.currencyDecimalSeparator
+    currencyFormatter.numberStyle = .currency
+    currencyFormatter.locale = Locale.current
+    return currencyFormatter.string(from: NSNumber(value: amount))!
+}
+
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> String {
     let bag: Double = 25
     let costPerMile: Double = 0.10
-    
     let bagTotal: Double = bag * Double(checkedBags)
     let distanceTotal: Double = costPerMile * Double(distance)
     let bagAndDistanceTotal: Double = bagTotal + distanceTotal
     let travelerTotal: Double = bagAndDistanceTotal * Double(travelers)
-    print("The total airfare for \(travelers) travelers who are traveling \(distance) miles with \(checkedBags) bags is $\(travelerTotal).")
-    return travelerTotal
+    print("The total airfare for \(travelers) travelers who are traveling \(distance) miles with \(checkedBags) bags is \(convertDoubleToCurrency(amount: travelerTotal)).")
+    return convertDoubleToCurrency(amount: travelerTotal)
 }
 
 calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)

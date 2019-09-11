@@ -125,7 +125,7 @@ func printDepartures(departureBoard: DepartureBoard) {
     for flight in departureBoard.flights {
         if let departureTime = flight.departTime {  // checks to see if departTime has a value
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "HH:mm"
+            dateFormatter.dateFormat = "h:mm a"
             let time = dateFormatter.string(from: departureTime)
             
             if let gate = flight.terminal {       // checks to see if terminal has a value
@@ -200,16 +200,19 @@ ausDepartureBoard.alertpassengers()
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
-let numberFormatter = NumberFormatter()
-numberFormatter.numberStyle = .currency
+func numberFormatter(amount: Double) -> String {
+let formatter = NumberFormatter()
+formatter.numberStyle = .currency
+    return formatter.string(from: NSNumber(value: amount))!
+}
 
-func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> String {
     let bagPrice: Double = 25
     let milePrice: Double = 0.10
     
     let finalPrice = Double(checkedBags) * bagPrice + Double(travelers) * milePrice * Double(distance)
-    return finalPrice
-    
+    return numberFormatter(amount: finalPrice)
 }
 
-calculateAirfare(checkedBags: 3, distance: 2500, travelers: 2)
+let myCharge = calculateAirfare(checkedBags: 3, distance: 2500, travelers: 2)
+print(myCharge)

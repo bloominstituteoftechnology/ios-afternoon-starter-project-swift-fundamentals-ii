@@ -17,32 +17,34 @@ import UIKit
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
 enum FlightStatus: String {
-    case EnRoute
-    case Scheduled
-    case Canceled
-    case Delayed
-    case Landed
-    case OnTime
+    case EnRoute // For flights currently travelling
+    case Scheduled //For future-dated flights that have not departed
+    case Canceled //For flights that have been ground for x reasons
+    case Delayed //Flights that have missed their initial departure time but still have plans of departing
+    case Landed //Flights that have arrived to the destination terminal
+    case OnTime //Flights that are set to leave at currently scheduled time but have not initiated flight yet
 }
 
 struct Airport {
-    let Destination: String
-    let Arrival: String
+    var Destination: String //where the flight is traveling to
+    var Arrival: String
 }
 
 struct Flight {
-    let Date: Int?
-    let Terminal: String?
+    var Date: Int? // the date and time the flight is scheduled to depart
+    var Terminal: String? // the terminal or gate the flight is departing from
 }
 
 class DepartureBoard {
-    var departureFlights: String
-    var currentAirport: String
+    var departureFlights: String //current flights scheduled to leave organized by first out; use tail number
+    var currentAirport: String //where the flight is currently located
+    var airline: String //name of airline service
     
     
     init(departureFlights: String, currentAirport: String) {
         self.departureFlights = departureFlights
         self.currentAirport = currentAirport
+        self.airline = airline
     }
     
 }
@@ -56,7 +58,8 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-
+let flightInfo = 
+var flightDepartureBoard: [String] = []
 
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`

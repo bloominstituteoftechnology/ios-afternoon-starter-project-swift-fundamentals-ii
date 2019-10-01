@@ -54,7 +54,15 @@ class DepartureBoard {
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
 
+var flight1 = Flight(date: Date(), terminal: "A", status: .scheduled)
+var flight2 = Flight(date: Date(), terminal: nil, status: .delayed)
+var flight3 = Flight(date: Date(), terminal: "B", status: .enRoute)
 
+let thisAirport = Airport(departing: true)
+
+let thisDepartureBoard = DepartureBoard(currentAirport: thisAirport)
+
+thisDepartureBoard.departingFlights.append(contentsOf: [flight1, flight2, flight3])
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`

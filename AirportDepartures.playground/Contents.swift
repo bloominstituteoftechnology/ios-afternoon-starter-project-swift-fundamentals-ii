@@ -15,6 +15,22 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
+// NOTE: 'TODO' comments marked w/ "(ideally)" aren't intended to be completed in this project, but are some ideas of how to improve this sort of thing in the real world
+
+// helper functions & vars
+//-------------------
+// set JFK calendar for date formatting
+var jfkCalendar = Calendar.current
+if let timeZone = TimeZone(abbreviation: "EST") {
+    jfkCalendar.timeZone = timeZone
+}
+
+let jfkDateFormatter = DateFormatter()
+jfkDateFormatter.dateStyle = .none
+jfkDateFormatter.timeStyle = .short
+jfkDateFormatter.timeZone = jfkCalendar.timeZone
+
+// Types
 
 enum FlightStatus: String {
     case scheduledOnTime = "Scheduled -- On Time"
@@ -35,7 +51,7 @@ struct Airport {
 
 struct Flight {
     let id: String
-    let airline: String // TODO: make another class for airlines
+    let airline: String // TODO: make another class for airlines (ideally)
     let origin: Airport
     let destination: Airport
     var status: FlightStatus = .scheduledOnTime
@@ -45,35 +61,38 @@ struct Flight {
     var terminal: String? = nil
     
     init(id: String, airline: String, origin: Airport, destination: Airport, departureTime: Date, duration: TimeInterval, terminal: String? = nil) {
-        self.id = id // in reality id might not be input manually; too much room for human error
+        self.id = id // TODO: get flight ID num programmatically to avoid human error (ideally)
         self.airline = airline
         self.origin = origin
         self.destination = destination
         self.departureTime = departureTime
-        self.duration = duration
+        self.duration = duration // TODO: somehow get duration programmatically (ideally)
         self.arrivalTime = Date(timeInterval: duration, since: departureTime)
+        self.terminal = terminal
     }
     
-    mutating func changeDepartureTime(to time: Date) {
+    // below methods allow adjusting times (including to 'nil' times)
+    mutating func changeDepartureTime(to time: Date?) {
         self.departureTime = time
-        if let duration = self.duration {
+        if let duration = self.duration, let time = time {
             self.arrivalTime = Date(timeInterval: duration, since: time)
         }
     }
     
-    mutating func changeArrivalTime(to time: Date) {
+    mutating func changeArrivalTime(to time: Date?) {
         self.arrivalTime = time
-        if let duration = self.duration {
+        if let duration = self.duration, let time = time {
             self.departureTime = Date(timeInterval: -duration, since: time)
         }
     }
     
-    mutating func changeDuration(to duration: TimeInterval) {
-        self.duration = duration
-        if let departureTime = self.departureTime {
-            self.arrivalTime = Date(timeInterval: duration, since: departureTime)
-        }
-    }
+    // (commented out because not actually needed)
+    //mutating func changeDuration(to duration: TimeInterval) {
+    //    self.duration = duration
+    //    if let departureTime = self.departureTime {
+    //        self.arrivalTime = Date(timeInterval: duration, since: departureTime)
+    //    }
+    //}
     
     mutating func cancel() {
         self.departureTime = nil
@@ -81,6 +100,7 @@ struct Flight {
         self.duration = nil
         self.terminal = nil
         self.status = .canceled
+        // TODO: automatically notify passengers of cancellation (ideally)
     }
 }
 
@@ -96,20 +116,21 @@ class DepartureBoard {
         for flight in flights {
             let depTimeText: String
             if let departureTime = flight.departureTime {
-                depTimeText = "\(departureTime)"
+                depTimeText = jfkDateFormatter.string(from: departureTime)
             } else {
                 depTimeText = "TBD"
             }
             
             let termText: String
             if let terminal = flight.terminal {
-                termText = "\(terminal)"
+                termText = terminal
             } else {
                 termText = "TBD"
             }
             
             var alertText = ""
             
+            // NOTE: I know there are instances where some cases are handled in two spots; that is to concatenate the alert text with the proper message(s).
             switch flight.status {
             case .canceled:
                 alertText += "We're sorry your flight to \(flight.destination.location) was canceled. A $500 voucher is available for the inconvenience."
@@ -117,12 +138,12 @@ class DepartureBoard {
                 alertText += "We're sorry, but your flight has been delayed. "
                 fallthrough
             case .scheduledOnTime, .scheduledDelayed, .enRouteDelayed, .enRouteOnTime, .landedOnTime, .landedDelayed:
-                alertText += "Your flight to \(flight.destination.location) is scheduled to depart at \(depTimeText) from terminal: \(termText)."
+                alertText += "Your flight to \(flight.destination.location) is scheduled to depart at \(depTimeText) from Terminal \(termText)."
                 fallthrough
             case .landedDelayed, .landedOnTime:
                 alertText += " It has currently landed."
             case .boarding:
-                alertText += "Your flight is boarding. Please head to terminal: \(termText) immediately. The doors are closing soon."
+                alertText += "Your flight is boarding. Please head to Terminal \(termText) immediately. The doors are closing soon."
             }
             if flight.terminal == nil {
                 alertText += " Please see the information desk for more details."
@@ -131,7 +152,6 @@ class DepartureBoard {
         }
     }
 }
-// I know there are multiple cases where some cases are handled, but that is to concatenate the alert text with the proper message(s).
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -142,13 +162,6 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-// helper functions
-//-------------------
-// set JFK calendar for date formatting
-var jfkCalendar = Calendar.current
-if let timeZone = TimeZone(abbreviation: "EST") {
-    jfkCalendar.timeZone = timeZone
-}
 
 // set flight dates
 func dateFromComponents(year: Int, month: Int, day: Int, hour: Int, minute: Int) -> Date {
@@ -197,13 +210,23 @@ flightVS3941.cancel()
 var flightB61592 = Flight(id: "B6 1592",
                      airline: "JetBlue Airways",
                      origin: jfk,
-                     destination: sea,
+                     destination: bli,
                      departureTime: flight3Date,
                      duration: TimeInterval(20000))
+
+var flightB61788 = Flight(id: "B6 1788",
+                          airline: "JetBlue Airways",
+                          origin: jfk,
+                          destination: bli,
+                          departureTime: Date(),
+                          duration: TimeInterval(20000),
+                          terminal: "4")
+flightB61788.status = .boarding
 
 frontDepartureBoard.flights.append(flightDL2563)
 frontDepartureBoard.flights.append(flightVS3941)
 frontDepartureBoard.flights.append(flightB61592)
+frontDepartureBoard.flights.append(flightB61788)
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
@@ -215,11 +238,6 @@ frontDepartureBoard.flights.append(flightB61592)
 //: d. Print out the current DepartureBoard you created using the function
 
 func printDepartures(departureBoard: DepartureBoard) {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateStyle = .none
-    dateFormatter.timeStyle = .short
-    dateFormatter.timeZone = jfkCalendar.timeZone
-    
     for flight in departureBoard.flights {
         print("Flight : \(flight.id)")
         print("\tDestination: \(flight.destination.location) (\(flight.destination.id))")
@@ -227,7 +245,7 @@ func printDepartures(departureBoard: DepartureBoard) {
         
         var departureDisplayText = "\tDeparts    : "
         if let departureTime = flight.departureTime {
-            departureDisplayText += dateFormatter.string(from: departureTime)
+            departureDisplayText += jfkDateFormatter.string(from: departureTime)
         } else {
             departureDisplayText += "n/a"
         }

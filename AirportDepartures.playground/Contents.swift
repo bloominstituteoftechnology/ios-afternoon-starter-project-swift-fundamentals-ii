@@ -59,6 +59,10 @@ class DepartureBoard
         {
             switch flight.flightStatus
             {
+            case .Landed:
+                print("Welcome to \(flight.airport.destination)!!")
+            case .Delayed:
+                print("Were sorry to let you know that your flight to \(flight.airport.destination) has been delayed")
             case .Canceled:
                 print("We're sorry your flight to \(flight.airport.destination) was canceled, here is a $500 voucher")
             case .Scheduled:
@@ -91,8 +95,8 @@ class DepartureBoard
                     alert += " to terminal TBD immediately."
                 }
                 print(alert + " The doors are closing soon.")
-            default:
-                continue
+            default: // En Route
+                print("The ETA to \(flight.airport.destination) is: ") //Would like to put a time here
             }
         }
     }

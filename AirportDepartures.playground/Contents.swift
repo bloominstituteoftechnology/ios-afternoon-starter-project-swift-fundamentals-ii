@@ -100,7 +100,18 @@ thisDepartureBoard.departingFlights.append(contentsOf: [flight1, flight2, flight
 //:
 //: d. Print out the current DepartureBoard you created using the function
 
+func printDepartures(for departureBoard: DepartureBoard) {
+    let flights = departureBoard.departingFlights
+    for flight in flights {
+        if let date = flight.date, let terminal = flight.terminal {
+            print("Time: \(date)\n\tTerminal: \(terminal)\n\tStatus: \(flight.status)")
+        } else {
+            print("This flight is a mystery.")
+        }
+    }
+}
 
+//printDepartures(for: thisDepartureBoard)
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function

@@ -257,6 +257,7 @@ func printDepartures(departureBoard: DepartureBoard) {
         } else {
             terminalDisplayText += "n/a"
         }
+        print(terminalDisplayText)
         
         print("\tStatus     : \(flight.status.rawValue)")
     }
@@ -345,4 +346,4 @@ func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double
 calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)
 calculateAirfare(checkedBags: 1, distance: 0, travelers: 20)
 calculateAirfare(checkedBags: 0, distance: 100, travelers: 1)
-calculateAirfare(checkedBags: 4, distance: 4999, travelers: 1)
+calculateAirfare(checkedBags: 4, distance: 14_999, travelers: 1)

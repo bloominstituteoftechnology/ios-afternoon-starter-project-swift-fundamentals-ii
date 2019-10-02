@@ -1,10 +1,11 @@
 import UIKit
 
 enum FlightStatus: String {
-    case EnRoute = "En Route"
     case Scheduled = "Scheduled"
     case Canceled = "Canceled"
     case Delayed = "Delayed"
+    case Boarding = "Boarding"
+    
 }
 
 let enRoute = FlightStatus.EnRoute
@@ -18,19 +19,20 @@ struct Airport {
     let airportCode: String
 }
 let airport01 = Airport(name: "JFK", city: "New York", airportCode: "JFK")
-
+let airport02 = Airport(name: "EWR", city: "Newark", airportCode: "EWR")
 struct Flight {
     var flightStatus: FlightStatus
     var flightTime: Date?
     var terminal: String?
-    
+    var destination: Airport
+    var origin: Airport
     
 }
-let flight01 = Flight(flightStatus: .Canceled, flightTime: nil, terminal: nil)
-let flight02 = Flight(flightStatus: .Delayed, flightTime: Date(), terminal: "b2")
-let flight03 = Flight(flightStatus: .EnRoute, flightTime: Date(), terminal: "g1")
+let flight01 = Flight(flightStatus: .Canceled, flightTime: nil, terminal: nil, destination: airport01, origin: airport02)
+let flight02 = Flight(flightStatus: .Delayed, flightTime: Date(), terminal: "b2", destination: airport01, origin: airport02)
+let flight03 = Flight(flightStatus: .Scheduled, flightTime: Date(), terminal: "g1", destination: airport01, origin: airport02)
 let flights: [Flight] = [flight01, flight02, flight03]
-print(flights)
+// print(flights)
 
 
 class DepartureBoard {
@@ -46,14 +48,25 @@ class DepartureBoard {
         departureFlights.append(Flights)
     }
     
-    
-
-    
-    
+    func notifyPassengers() {
+        for departureFlight in departureFlights {
+            switch departureFlight.flightStatus{
+            case .Canceled:
+                print("We're sorry, your flight to \(departureFlight.destination) was cancelled")
+            case .Boarding:
+                print("Your flight is boarding, please head to terminal: \(departureFlight.terminal ?? "TBD") immediately. The doors are closing soon.")
+            case .Scheduled:
+                print("Your flight to \(departureFlight.destination) is scheduled to depart at \(String(describing: departureFlight.flightTime)) from terminal: \(departureFlight.terminal ?? "TBD")")
+            case .Delayed:
+                print("Your flight has been delayed... Please tweet at your airline for a free hotel room or hush-money payment")
+            }
+        }
+    }
 }
+
 let departureBoard01 = DepartureBoard(currentAirport: airport01, flight: flights)
    
-let flight04 = Flight(flightStatus: .Canceled, flightTime: Date(), terminal: "g1")
+let flight04 = Flight(flightStatus: .Canceled, flightTime: Date(), terminal: "g1", destination: airport01, origin: airport02)
 
 departureBoard01.add(Flights: flight04)
 
@@ -87,13 +100,20 @@ func printDepartures(departureBoard:DepartureBoard) {
 func printDepartures2(departureBoard:DepartureBoard) {
     for departureFlights in departureBoard.departureFlights {
         if let flightTime = departureFlights.flightTime, let terminal = departureFlights.terminal {
+            print("Flight Status:\(departureFlights.flightStatus) Flight Time: \(flightTime) Terminal: \(terminal)")
+        } else if let flightTime = departureFlights.flightTime {
+            print("Flight Status:\(departureFlights.flightStatus) Flight Time: \(flightTime) Terminal not found.")
+        } else if let terminal = departureFlights.terminal {
+            print("Flight Status:\(departureFlights.flightStatus) Flight time not available. Terminal: \(terminal)")
+        } else {print("Flight Status:\(departureFlights.flightStatus) Flight time not available. Terminal not found") }
+   /*     if let flightTime = departureFlights.flightTime, let terminal = departureFlights.terminal {
             if let terminal = departureFlights.terminal {
                 print("Flight Status:\(departureFlights.flightStatus) Flight Time: \(flightTime) Terminal: \(terminal)")
             } else {print("Flight Status:\(departureFlights.flightStatus) Flight Time: \(departureFlights.flightTime) Terminal not found")}
         } else {print("Flight Status:\(departureFlights.flightStatus) Flight time not found. Terminal: \(departureFlights.terminal)")}
         
         //print("Flight Status:\(departureFlights.flightStatus) Flight Time: \(departureFlights.flightTime) Terminal: \(departureFlights.terminal)")
-    
+    */
     }
 }
 
@@ -115,7 +135,6 @@ printDepartures2(departureBoard: departureBoard01)
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
 
 
 

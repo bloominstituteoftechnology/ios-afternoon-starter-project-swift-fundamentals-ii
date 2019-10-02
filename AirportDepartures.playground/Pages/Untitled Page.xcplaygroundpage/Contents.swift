@@ -155,7 +155,12 @@ printDepartures2(departureBoard: departureBoard01)
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
-
+func calculateAirfare(checkedbags: Int, distance: Int, travelers: Int) -> Double {
+    let totalBags = checkedbags * 25
+    let totalDist = distance  0.10
+    let totalTickets = travelers * totalDist
+    let totalAirfare = Double(totalTickets + T)
+}
 
 
 

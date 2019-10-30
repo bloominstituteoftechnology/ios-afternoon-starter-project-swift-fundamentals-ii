@@ -16,7 +16,52 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
+let date = Date()
+let calendar = Calendar.current
 
+let hour = calendar.component(.hour, from: date)
+let minutes = calendar.component(.minute, from: date)
+let seconds = calendar.component(.second, from: date)
+print(date)
+
+enum Airlines {
+    case Southwest
+    case United
+    case Alaskan
+}
+
+enum FlightStatus {
+    case enRoute
+    case scheduled
+    case canceled
+    case delayed
+    case boarding
+}
+
+struct Airport {
+    let city: String
+    let code: String
+}
+
+struct Flight {
+    var destination: Airport
+    var date: Date?
+    var terimal: Int?
+    var scheduled: FlightStatus
+    var flightNumber: String
+    var airline: Airlines
+    
+}
+
+class DepartureBoard {
+    var airport: Airport
+    var departures: [Flight]
+    
+    init(city: String, code: String) {
+        self.airport = Airport(city: city, code: code)
+        self.departures = []
+    }
+}
 
 
 //: ## 2. Create 3 flights and add them to a departure board
@@ -29,7 +74,19 @@ import UIKit
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
+let bna = Airport(city: "Nashville", code: "BNA")
+let lax = Airport(city: "Los Angeles", code: "LAX")
+let atl = Airport(city: "Atlanta", code: "ATL")
 
+let flight1 = Flight(destination: bna, date: Date(), terimal: 7, scheduled: .scheduled, flightNumber: "UN 550", airline: .United)
+let flight2 = Flight(destination: lax, date: Date(), terimal: nil, scheduled: .canceled, flightNumber: "SW 330", airline: .Southwest)
+let flight3 = Flight(destination: atl, date: Date(), terimal: 5, scheduled: .boarding, flightNumber: "ALK 200", airline: .Alaskan)
+
+var localDepartures = DepartureBoard(city: "New York", code: "JFK")
+
+localDepartures.departures.append(flight1)
+localDepartures.departures.append(flight2)
+localDepartures.departures.append(flight3)
 
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`

@@ -71,6 +71,11 @@ let flightOne = Flight(destination: .init(name: "Los Angeles (LAX)", type: "Dest
 let flightTwo = Flight(destination: .init(name: "Chicago (ORD)", type: "Arrival"), status: .canceled, flightNumber: "AZ 3251", terminal: "3", departueTime: nil, arrivalTime: nil)
 
 let flightThree = Flight(destination: .init(name: "Houston (IAH)", type: "Destination"), status: .on_time, flightNumber: "JL 5828", terminal: nil, departueTime: thisDate, arrivalTime: thisDate)
+
+let departureBoard = DepartureBoard()
+departureBoard.flights.append(flightOne)
+departureBoard.flights.append(flightTwo)
+departureBoard.flights.append(flightThree)
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:
@@ -79,7 +84,9 @@ let flightThree = Flight(destination: .init(name: "Houston (IAH)", type: "Destin
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
-
+func printDepartures(departureBoard: DepartureBoard) {
+    
+}
 
 
 

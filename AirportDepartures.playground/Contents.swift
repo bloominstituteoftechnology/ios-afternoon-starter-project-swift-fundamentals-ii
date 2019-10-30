@@ -16,12 +16,14 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
-enum FlightStatus {
-    case en_route
-    case scheduled
-    case canceled
-    case delayed
-    case landed
+enum FlightStatus: String {
+    case en_route = "En Route"
+    case scheduled = "Scheduled"
+    case canceled = "Canceled"
+    case delayed = "Delayed"
+    case landed = "Landed"
+    case on_time = "On Time"
+    case boarding = "Boarding"
 }
 
 struct Airport {
@@ -34,8 +36,8 @@ struct Flight {
     let status: FlightStatus
     let flightNumber: String
     let terminal: String?
-    let departueTime: Date?
-    let arrivalTime: Date?
+    let departueTime: String?
+    let arrivalTime: String?
 }
 
 class DepartureBoard {
@@ -47,7 +49,6 @@ class DepartureBoard {
         self.airline = []
     }
 }
-
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -58,9 +59,18 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
+let date = Date()
+let formatter = DateFormatter()
+formatter.dateStyle = .none
+formatter.timeStyle = .short
 
+let thisDate = formatter.string(from: date)
 
+let flightOne = Flight(destination: .init(name: "Los Angeles (LAX)", type: "Destination"), status: .en_route, flightNumber: "LA 6980", terminal: "8", departueTime: thisDate, arrivalTime: thisDate)
 
+let flightTwo = Flight(destination: .init(name: "Chicago (ORD)", type: "Arrival"), status: .canceled, flightNumber: "AZ 3251", terminal: "3", departueTime: nil, arrivalTime: nil)
+
+let flightThree = Flight(destination: .init(name: "Houston (IAH)", type: "Destination"), status: .on_time, flightNumber: "JL 5828", terminal: nil, departueTime: thisDate, arrivalTime: thisDate)
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:

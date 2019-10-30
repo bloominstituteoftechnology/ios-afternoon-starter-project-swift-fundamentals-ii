@@ -48,6 +48,38 @@ class DepartureBoard {
         self.flights = []
         self.airline = []
     }
+    
+    func alertPassengers() {
+        for flight in self.flights {
+            
+            var uwTime: String
+            var uwTerm: String
+            
+            if let uwDepartureTime = flight.departueTime {
+                uwTime = "\(uwDepartureTime)"
+            } else {
+                uwTime = "TBD"
+            }
+            
+            if let uwTerminal = flight.terminal {
+                uwTerm = "\(uwTerminal)"
+            } else {
+                uwTerm = "TBD"
+                print("Go to the nearest information desk for more details")
+            }
+            
+            switch flight.status {
+            case .canceled:
+                print("We're sorry your flight to \(flight.destination.name) was canceled, here is a $500 voucher.")
+            case .scheduled:
+                print("Your flight to \(flight.destination.name) is scheduled to depart at \(uwTime) from terminal: \(uwTerm)")
+            case .boarding:
+                print("Your flight is boarding, please head to terminal: \(uwTerm) immediately. The doors will be closing soon.")
+            default:
+                print("Sorry for the inconvenience")
+            }
+        }
+    }
 }
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
@@ -85,11 +117,29 @@ departureBoard.flights.append(flightThree)
 //:
 //: d. Print out the current DepartureBoard you created using the function
 func printDepartures(departureBoard: DepartureBoard) {
-    
+    for flight in departureBoard.flights {
+        flight.status.rawValue
+        
+        var uwTime: String
+        var uwTerm: String
+        
+        if let uwDepartureTime = flight.departueTime {
+            uwTime = "\(uwDepartureTime)"
+        } else {
+            uwTime = "TBD"
+        }
+        
+        if let uwTerminal = flight.terminal {
+            uwTerm = "\(uwTerminal)"
+        } else {
+            uwTerm = "TBD"
+        }
+        
+        print("""
+            Destination: \(flight.destination.name)\t\tFlight #: \(flight.flightNumber)\t\tDeparture Time: \(uwTime)\t\tTerminal: \(uwTerm)\t\tSchedule: \(flight.status)
+            """)
+    }
 }
-
-
-
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
 //:
@@ -104,9 +154,7 @@ func printDepartures(departureBoard: DepartureBoard) {
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
-
-
-
+printDepartures(departureBoard: departureBoard)
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
 //:
@@ -121,10 +169,7 @@ func printDepartures(departureBoard: DepartureBoard) {
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
-
-
-
+// See above for alertPassengers() 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`
 //:

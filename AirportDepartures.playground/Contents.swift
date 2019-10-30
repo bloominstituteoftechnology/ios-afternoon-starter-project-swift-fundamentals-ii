@@ -46,7 +46,37 @@ class DepartureBoard {
         self.currentAirport = currentAirport
     }
     
-    
+    func alertPassengers() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .none
+        dateFormatter.timeStyle = .short
+        for departure in departures {
+            switch departure.flightStatus {
+            case .boarding:
+                let terminalString = "\(departure.terminal ?? "TBD")"
+                print("Your flight is boarding, please head to terminal: \(terminalString) immediately. The doors are closing soon.")
+            case .delayed:
+                print("We are sorry but flight number \(departure.number) has been delayed.")
+            case .cancelled:
+                print("We're sorry your flight to \(departure.airport.city) was cancelled, here is a $500 voucher")
+            case .scheduled:
+                var timeString = ""
+                var terminalString = ""
+                if let terminal = departure.terminal {
+                    terminalString = "\(terminal)"
+                } else {
+                    terminalString = "TBD"
+                }
+                
+                if let time = departure.departure {
+                    timeString = "\(dateFormatter.string(from: time))"
+                } else {
+                    timeString = "TBD"
+                }
+                print("Your flight to \(departure.airport.city) is scheduled to depart at \(timeString) from terminal: \(terminalString)")
+            }
+        }
+    }
 }
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
@@ -136,7 +166,8 @@ printDepartures2(departureBoard: departureBoard)
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
+print("\nalertPassengers")
+departureBoard.alertPassengers()
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`
 //:

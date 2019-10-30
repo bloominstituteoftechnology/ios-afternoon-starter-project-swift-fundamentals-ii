@@ -169,7 +169,7 @@ printDepartures(departureBoard: departureBoard)
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-// See above for alertPassengers() 
+// See above for function that alerts passengers
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`
 //:
@@ -187,6 +187,30 @@ printDepartures(departureBoard: departureBoard)
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+    
+    let bagCost = Double(checkedBags) * 25
+    let airfare = Double(distance) * 0.10
+    let ticket = Double(travelers) + Double(airfare) + bagCost
+    
+    return ticket
+}
 
+calculateAirfare(checkedBags: 3, distance: 2000, travelers: 2)
 
+let currencyFormatter = NumberFormatter()
+currencyFormatter.usesGroupingSeparator = true
+currencyFormatter.numberStyle = .currency
 
+currencyFormatter.locale = .current
+
+departureBoard.alertPassengers()
+let ticketCost = calculateAirfare(checkedBags: 3, distance: 2000, travelers: 2)
+let nsNumber = NSNumber(value: ticketCost)
+
+let ticketPrice = currencyFormatter.string(from: nsNumber)
+if let ticketPrice = ticketPrice {
+    print("Your cost of airfare for this trip is \(ticketPrice)")
+} else {
+    print("Sorry for the inconvenience, your ticket is free.")
+}

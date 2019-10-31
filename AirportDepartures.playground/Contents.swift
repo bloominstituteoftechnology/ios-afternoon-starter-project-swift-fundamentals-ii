@@ -27,10 +27,10 @@ enum FlightStatus: String {
     case boarding = "Boarding"
 }
 
-enum Airline {
-    case Southwest
-    case AmericanAir
-    case Alaska
+enum Airline: String {
+    case Southwest = "Southwest"
+    case AmericanAir = "American Airlines"
+    case Alaska = "Alaskan Airlines"
 }
 struct Airport {
     let name: String
@@ -143,7 +143,7 @@ func printDepartures(departureBoard: DepartureBoard) {
         }
 
         print("""
-            Destination: \(flight.destination.name)\t\tFlight #: \(flight.flightNumber)\t\tDeparture Time: \(Time)\t\tTerminal: \(Term)\t\tSchedule: \(flight.status.rawValue) \t\tOn Airline: \(flight.airline)
+            Destination: \(flight.destination.name)\t\tFlight #: \(flight.flightNumber)\t\tDeparture Time: \(Time)\t\tTerminal: \(Term)\t\tSchedule: \(flight.status.rawValue) \t\tOn Airline: \(flight.airline.rawValue)
             """)
     }
 }

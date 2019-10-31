@@ -22,6 +22,7 @@ enum FlightStatus: String {
     case Canceled = "Canceled"
     case Delayed = "Delayed"
     case Landed = "Landed"
+    case Boarding = "Boarding"
 }
 
 struct Airport {
@@ -37,6 +38,7 @@ struct Flight {
     var status: FlightStatus
 }
 
+
 class DepartureBoard {
     var flightList: [Flight]
     var currentAirport: String
@@ -44,6 +46,31 @@ class DepartureBoard {
     init(flightList: [Flight], currentAirport: String) {
         self.flightList = flightList
         self.currentAirport = currentAirport
+    }
+    
+    func alertPassengers() {
+        for flight in flightList {
+            // I think I have to nest another if let to handle departureTime optionals, as in Question 4's answer.
+            if let terminal = flight.terminal {
+                switch flight.status {
+                case .Canceled: print("We're sorry your flight to \(flight.destination) was canceled, here is a $500 voucher")
+                case .Scheduled: print("Your flight to \(flight.destination) is scheduled to depart at \(flight.departureTime) from terminal: \(terminal)")
+                case .Boarding: print("Your flight is boarding, please head to terminal: \(terminal) immediately. The doors are closing soon.")
+                case .Delayed: print("Your flight is delayed")
+                case .EnRoute: print("Your flight to \(flight.destination) has departed")
+                case .Landed: print("Your flight has landed")
+                }
+            } else {
+                switch flight.status {
+                case .Canceled: print("We're sorry your flight to \(flight.destination) was canceled, here is a $500 voucher")
+                case .Scheduled: print("Your flight to \(flight.destination) is scheduled to depart at \(flight.departureTime) from terminal: TBD")
+                case .Boarding: print("Your flight is boarding, please head to terminal: TBD immediately. The doors are closing soon.")
+                case .Delayed: print("Your flight is delayed")
+                case .EnRoute: print("Your flight to \(flight.destination) has departed")
+                case .Landed: print("Your flight has landed")
+                }
+            }
+        }
     }
 }
 
@@ -90,7 +117,7 @@ func printDepartures(departureBoard: DepartureBoard) {
 printDepartures(departureBoard: myJFKDepartureBoard)
 
 
-
+// not a pretty output like Question 4's example output
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
 //:
@@ -108,25 +135,20 @@ printDepartures(departureBoard: myJFKDepartureBoard)
 func printDepartures2(departureBoard: DepartureBoard) {
     for flight in departureBoard.flightList {
         if let departureTime = flight.departureTime {
-            print(departureTime)
+            if let terminal = flight.terminal {
+                print("Destination: \(flight.destination) Airline: \(flight.airline) Flight: \(flight.flight) Departure Time: \(departureTime) Terminal: \(terminal) Status: \(flight.status)")
+            } else {
+                print("Destination: \(flight.destination) Airline: \(flight.airline) Flight: \(flight.flight) Departure Time: \(departureTime) Terminal:  Status: \(flight.status)")
+            }
+        } else if let terminal = flight.terminal {
+            print("Destination: \(flight.destination) Airline: \(flight.airline) Flight: \(flight.flight) Departure Time:  Terminal: \(terminal) Status: \(flight.status)")
         } else {
-            print("")
+                print("Destination: \(flight.destination) Airline: \(flight.airline) Flight: \(flight.flight) Departure Time:  Terminal:  Status: \(flight.status)")
         }
-        if let terminal = flight.terminal {
-            print(terminal)
-        } else {
-            print("")
-        }
-        
-        // should I do the unwrapping in a method as opposed to lines 109-119 ?
-        func unwrapOptionalValues(departureTime: Flight.departureTime, terminal: Flight.terminal)
-        
-        // from previous (easy) function
-        print(flight)
     }
 }
 
-
+printDepartures2(departureBoard: myJFKDepartureBoard)
 
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
@@ -143,8 +165,8 @@ func printDepartures2(departureBoard: DepartureBoard) {
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
-
+myJFKDepartureBoard.alertPassengers()
+// see comment near line 53
 
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
@@ -164,6 +186,7 @@ func printDepartures2(departureBoard: DepartureBoard) {
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
-
+// Did not finish.
+// Will definitely attempt and ask for help.
 
 

@@ -27,6 +27,11 @@ enum FlightStatus: String {
     case boarding = "Boarding"
 }
 
+enum Airline {
+    case Southwest
+    case AmericanAir
+    case Alaska
+}
 struct Airport {
     let name: String
     let type: String
@@ -39,15 +44,14 @@ struct Flight {
     let terminal: String?
     let departueTime: String?
     let arrivalTime: String?
+    let airline: Airline
 }
 
 class DepartureBoard {
     var flights: [Flight]
-    var airline: [String]
 
     init() {
         self.flights = []
-        self.airline = []
     }
 
     func alertPassengers() {
@@ -101,11 +105,11 @@ class DepartureBoard {
 
     let thisDate = formatter.string(from: date)
     
-   let flightOne = Flight(destination: .init(name: "Los Angeles (LAX)", type: "Destination"), status: .en_route, flightNumber: "LAX 420", terminal: "8", departueTime: thisDate, arrivalTime: thisDate)
+let flightOne = Flight(destination: .init(name: "Los Angeles (LAX)", type: "Destination"), status: .en_route, flightNumber: "LAX 420", terminal: "8", departueTime: thisDate, arrivalTime: thisDate, airline: Airline.Alaska)
 
-    let flightTwo = Flight(destination: .init(name: "Seattle (SEA)", type: "Arrival"), status: .canceled, flightNumber: "SEA 4", terminal: "3", departueTime: nil, arrivalTime: nil)
+let flightTwo = Flight(destination: .init(name: "Seattle (SEA)", type: "Arrival"), status: .canceled, flightNumber: "SEA 4", terminal: "3", departueTime: nil, arrivalTime: nil, airline: Airline.AmericanAir)
 
-    let flightThree = Flight(destination: .init(name: "Nashville (BNA)", type: "Destination"), status: .on_time, flightNumber: "BNA 1200", terminal: nil, departueTime: thisDate, arrivalTime: thisDate)
+let flightThree = Flight(destination: .init(name: "Nashville (BNA)", type: "Destination"), status: .on_time, flightNumber: "BNA 1200", terminal: nil, departueTime: thisDate, arrivalTime: thisDate, airline: Airline.Southwest)
 
     let departureBoard = DepartureBoard()
     departureBoard.flights.append(flightOne)
@@ -139,7 +143,7 @@ func printDepartures(departureBoard: DepartureBoard) {
         }
 
         print("""
-            Destination: \(flight.destination.name)\t\tFlight #: \(flight.flightNumber)\t\tDeparture Time: \(Time)\t\tTerminal: \(Term)\t\tSchedule: \(flight.status)
+            Destination: \(flight.destination.name)\t\tFlight #: \(flight.flightNumber)\t\tDeparture Time: \(Time)\t\tTerminal: \(Term)\t\tSchedule: \(flight.status) \t\tOn Airline: \(flight.airline)
             """)
     }
 }
@@ -228,7 +232,6 @@ if let ticketPrice = ticketPrice {
 } else {
     print("Sorry for the inconvenience, please see kiosk attendant for assistance.")
 }
-
 
 
 

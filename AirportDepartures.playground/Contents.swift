@@ -104,7 +104,7 @@ class DepartureBoard {
     formatter.timeStyle = .short
 
     let thisDate = formatter.string(from: date)
-    
+  
 let flightOne = Flight(destination: .init(name: "Los Angeles (LAX)", type: "Destination"), status: .en_route, flightNumber: "LAX 420", terminal: "8", departueTime: thisDate, arrivalTime: thisDate, airline: Airline.Alaska)
 
 let flightTwo = Flight(destination: .init(name: "Seattle (SEA)", type: "Arrival"), status: .canceled, flightNumber: "SEA 4", terminal: "3", departueTime: nil, arrivalTime: nil, airline: Airline.AmericanAir)
@@ -143,7 +143,7 @@ func printDepartures(departureBoard: DepartureBoard) {
         }
 
         print("""
-            Destination: \(flight.destination.name)\t\tFlight #: \(flight.flightNumber)\t\tDeparture Time: \(Time)\t\tTerminal: \(Term)\t\tSchedule: \(flight.status) \t\tOn Airline: \(flight.airline)
+            Destination: \(flight.destination.name)\t\tFlight #: \(flight.flightNumber)\t\tDeparture Time: \(Time)\t\tTerminal: \(Term)\t\tSchedule: \(flight.status.rawValue) \t\tOn Airline: \(flight.airline)
             """)
     }
 }
@@ -232,6 +232,4 @@ if let ticketPrice = ticketPrice {
 } else {
     print("Sorry for the inconvenience, please see kiosk attendant for assistance.")
 }
-
-
 

@@ -53,19 +53,19 @@ class DepartureBoard {
     func alertPassengers() {
         for flight in self.flights {
 
-            var uwTime: String
-            var uwTerm: String
+            var Time: String
+            var Term: String
 
-            if let uwDepartureTime = flight.departueTime {
-                uwTime = "\(uwDepartureTime)"
+            if let DepartureTime = flight.departueTime {
+                Time = "\(DepartureTime)"
             } else {
-                uwTime = "TBD"
+                Time = "TBD"
             }
 
-            if let uwTerminal = flight.terminal {
-                uwTerm = "\(uwTerminal)"
+            if let Terminal = flight.terminal {
+                Term = "\(Terminal)"
             } else {
-                uwTerm = "TBD"
+                Term = "TBD"
                 print("Go to the nearest information desk for more details")
             }
 
@@ -73,9 +73,9 @@ class DepartureBoard {
             case .canceled:
                 print("We're sorry your flight to \(flight.destination.name) was canceled, here is a $500 voucher.")
             case .scheduled:
-                print("Your flight to \(flight.destination.name) is scheduled to depart at \(uwTime) from terminal: \(uwTerm)")
+                print("Your flight to \(flight.destination.name) is scheduled to depart at \(Time) from terminal: \(Term)")
             case .boarding:
-                print("Your flight is boarding, please head to terminal: \(uwTerm) immediately. The doors will be closing soon.")
+                print("Your flight is boarding, please head to terminal: \(Term) immediately. The doors will be closing soon.")
             default:
                 print("Sorry for the inconvenience")
             }
@@ -123,23 +123,23 @@ func printDepartures(departureBoard: DepartureBoard) {
     for flight in departureBoard.flights {
         flight.status.rawValue
 
-        var unwrapTime: String
-        var unwrapTerm: String
+        var Time: String
+        var Term: String
 
-        if let uwDepartureTime = flight.departueTime {
-            unwrapTime = "\(uwDepartureTime)"
+        if let DepartureTime = flight.departueTime {
+            Time = "\(DepartureTime)"
         } else {
-            unwrapTime = "TBD"
+            Time = "TBD"
         }
 
-        if let uwTerminal = flight.terminal {
-            unwrapTerm = "\(uwTerminal)"
+        if let Terminal = flight.terminal {
+            Term = "\(Terminal)"
         } else {
-            unwrapTerm = "TBD"
+            Term = "TBD"
         }
 
         print("""
-            Destination: \(flight.destination.name)\t\tFlight #: \(flight.flightNumber)\t\tDeparture Time: \(unwrapTime)\t\tTerminal: \(unwrapTerm)\t\tSchedule: \(flight.status)
+            Destination: \(flight.destination.name)\t\tFlight #: \(flight.flightNumber)\t\tDeparture Time: \(Time)\t\tTerminal: \(Term)\t\tSchedule: \(flight.status)
             """)
     }
 }
@@ -200,4 +200,35 @@ printDepartures(departureBoard: departureBoard)
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+
+    let bagCost = Double(checkedBags) * 25
+    let airfare = Double(distance) * 0.10
+    let ticket = Double(travelers) + Double(airfare) + bagCost
+
+    return ticket
+}
+
+calculateAirfare(checkedBags: 3, distance: 2000, travelers: 2)
+
+let currencyFormatter = NumberFormatter()
+currencyFormatter.usesGroupingSeparator = true
+currencyFormatter.numberStyle = .currency
+
+currencyFormatter.locale = .current
+
+departureBoard.alertPassengers()
+let ticketCost = calculateAirfare(checkedBags: 3, distance: 2000, travelers: 2)
+let nsNumber = NSNumber(value: ticketCost)
+
+let ticketPrice = currencyFormatter.string(from: nsNumber)
+if let ticketPrice = ticketPrice {
+    print("The cost of your airfare is \(ticketPrice)")
+} else {
+    print("Sorry for the inconvenience, please see kiosk attendant for assistance.")
+}
+
+
+
 

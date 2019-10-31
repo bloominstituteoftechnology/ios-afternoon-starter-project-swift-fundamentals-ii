@@ -49,7 +49,41 @@ class DepartureBoard {
         self.flights = []
         self.airline = []
     }
+
+    func alertPassengers() {
+        for flight in self.flights {
+
+            var uwTime: String
+            var uwTerm: String
+
+            if let uwDepartureTime = flight.departueTime {
+                uwTime = "\(uwDepartureTime)"
+            } else {
+                uwTime = "TBD"
+            }
+
+            if let uwTerminal = flight.terminal {
+                uwTerm = "\(uwTerminal)"
+            } else {
+                uwTerm = "TBD"
+                print("Go to the nearest information desk for more details")
+            }
+
+            switch flight.status {
+            case .canceled:
+                print("We're sorry your flight to \(flight.destination.name) was canceled, here is a $500 voucher.")
+            case .scheduled:
+                print("Your flight to \(flight.destination.name) is scheduled to depart at \(uwTime) from terminal: \(uwTerm)")
+            case .boarding:
+                print("Your flight is boarding, please head to terminal: \(uwTerm) immediately. The doors will be closing soon.")
+            default:
+                print("Sorry for the inconvenience")
+            }
+        }
+    }
 }
+
+
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -126,10 +160,6 @@ func printDepartures(departureBoard: DepartureBoard) {
 // Return to D Strech Goal at some point.
 
 printDepartures(departureBoard: departureBoard)
-//: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
-//: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
-//:
-
 
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
@@ -146,6 +176,10 @@ printDepartures(departureBoard: departureBoard)
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
+
+//Added alert functionality above
+
+
 
 
 
@@ -167,18 +201,3 @@ printDepartures(departureBoard: departureBoard)
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
 
-func calculateAirfare(bags: Int, distance: Int, travelers: Int) -> Double {
-    let bagFare = bags * 25
-    let mileage = Double(distance) * 0.10
-    let ticketCost = (Double(bagFare) + mileage) * Double(travelers)
-    return ticketCost
-}
-
-let numberFormatter = NumberFormatter()
-
-numberFormatter.numberStyle = .currency
-if let formattedAirfare = numberFormatter.string(from: NSNumber(value: calculateAirfare(bags: 2, distance: 2000, travelers: 3))) {
-    print(formattedAirfare)
-}
-
-calculateAirfare(bags: 3, distance: 300, travelers: 3)

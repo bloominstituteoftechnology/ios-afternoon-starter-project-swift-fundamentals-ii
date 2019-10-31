@@ -22,6 +22,7 @@ enum FlightStatus: String {
     case scheduled = "Scheduled"
     case canceled = "Canceled"
     case delayed = "Delayed"
+    case boarding = "Boarding"
 }
 enum Airlines: String {
     case Southwest = "Southwest"
@@ -106,24 +107,24 @@ printDepartures(departureBoard: flightDatabase)
 
 func printDepartures2(departureBoard: DepartureBoard) {
     for unwrap in departureBoard.departure {
+        let airline = unwrap.airline
+        let flight = unwrap.name
+        let status = unwrap.status
         var departureString: String = ""
+
         if let Time = unwrap.departureTime {
             departureString = "\(Time)"
         }
         var terminalString: String = ""
         if let terminal = unwrap.terminal {
             terminalString = "\(terminal)"
-
-    for airlineName in departureBoard.departure {
-        let airline = airlineName.airline
-        let flight = airlineName.name
-        let status = airlineName.status
         
-        print("Destination: \(departureBoard.currentAirport.destination), Airline: \(airline), Flight: \(flight), Departure Time: \(departureString), Terminal: \(terminalString), Status: \(status).")
+        
+            print("Destination: \(departureBoard.currentAirport.destination), Airline: \(airline.rawValue), Flight: \(flight), Departure Time: \(departureString), Terminal: \(terminalString), Status: \(status.rawValue).")
             }
         }
     }
-}
+
 printDepartures2(departureBoard: flightDatabase)
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
@@ -140,8 +141,36 @@ printDepartures2(departureBoard: flightDatabase)
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 
+func printDepartures3(departureBoard: DepartureBoard) {
+    for unwrap in departureBoard.departure {
+        let airline = unwrap.airline
+        let flight = unwrap.name
+        let status = unwrap.status
+        var departureString: String = ""
 
+        if let Time = unwrap.departureTime {
+            departureString = "\(Time)"
+        }
+        var terminalString: String = ""
+        if let terminal = unwrap.terminal {
+            terminalString = "\(terminal)"
+        
+            switch unwrap.status {
+            case .canceled:
+                print("We're sorry your flight to \(departureBoard.currentAirport.destination) was cancelled, here is a $500 voucher.")
+            case .scheduled:
+                print("Your flight to \(departureBoard.currentAirport.destination) is proceeding as scheduled to depart at \(departureString). Please head to \(terminalString)")
+            case .boarding:
+                print("Your flight is currently boarding. Please immedietely proceed to \(terminalString)")
+            default:
+                return
+            }
+            print("Destination: \(departureBoard.currentAirport.destination), Airline: \(airline.rawValue), Flight: \(flight), Departure Time: \(departureString), Terminal: \(terminalString), Status: \(status.rawValue).")
+            }
+        }
+    }
 
+printDepartures3(departureBoard: flightDatabase)
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`
@@ -160,6 +189,26 @@ printDepartures2(departureBoard: flightDatabase)
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+class TotalAirfare {
+    let bags: Int
+    let distance: Int
+    let travelers: Int
+    
+    init(bags: Int, distance: Int, travelers: Int) {
+        self.bags = bags
+        self.distance = distance
+        self.travelers = travelers
+    }
+        
+    func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+        let bagTotal = Double(checkedBags) * 25
+        let mileage = Double(distance) * 0.10
+        let travelerTotal = Double(travelers)
+        
+        let totalcost: Double = (bagTotal + mileage) * travelerTotal
+        print(totalcost)
+        return totalcost
+        }
+    }
 
-
-
+TotalAirfare.calculateAirfare(<#T##self: TotalAirfare##TotalAirfare#>)

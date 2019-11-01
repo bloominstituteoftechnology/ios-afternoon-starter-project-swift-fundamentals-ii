@@ -52,26 +52,46 @@ class DepartureBoard {
         for flight in flightList {
             // I think I have to nest another if let to handle departureTime optionals, as in Question 4's answer.
             if let terminal = flight.terminal {
+                if let departureTime = flight.departureTime {
                 switch flight.status {
                 case .Canceled: print("We're sorry your flight to \(flight.destination) was canceled, here is a $500 voucher")
-                case .Scheduled: print("Your flight to \(flight.destination) is scheduled to depart at \(flight.departureTime) from terminal: \(terminal)")
+                case .Scheduled: print("Your flight to \(flight.destination) is scheduled to depart at \(departureTime) from terminal: \(terminal)")
                 case .Boarding: print("Your flight is boarding, please head to terminal: \(terminal) immediately. The doors are closing soon.")
                 case .Delayed: print("Your flight is delayed")
                 case .EnRoute: print("Your flight to \(flight.destination) has departed")
                 case .Landed: print("Your flight has landed")
                 }
+                } else {
+                    switch flight.status {
+                    case .Canceled: print("We're sorry your flight to \(flight.destination) was canceled, here is a $500 voucher")
+                    case .Scheduled: print("Your flight to \(flight.destination) is scheduled to depart at TBD from terminal: \(terminal)")
+                    case .Boarding: print("Your flight is boarding, please head to terminal: \(terminal) immediately. The doors are closing soon.")
+                    case .Delayed: print("Your flight is delayed")
+                    case .EnRoute: print("Your flight to \(flight.destination) has departed")
+                    case .Landed: print("Your flight has landed")
+                }
+                }
+            } else if let departureTime = flight.departureTime {
+                switch flight.status {
+                    case .Canceled: print("We're sorry your flight to \(flight.destination) was canceled, here is a $500 voucher")
+                    case .Scheduled: print("Your flight to \(flight.destination) is scheduled to depart at \(departureTime) from terminal: TBD")
+                    case .Boarding: print("Your flight is boarding, please head to terminal: TBD immediately. The doors are closing soon.")
+                    case .Delayed: print("Your flight is delayed")
+                    case .EnRoute: print("Your flight to \(flight.destination) has departed")
+                    case .Landed: print("Your flight has landed")
+                }
             } else {
                 switch flight.status {
                 case .Canceled: print("We're sorry your flight to \(flight.destination) was canceled, here is a $500 voucher")
-                case .Scheduled: print("Your flight to \(flight.destination) is scheduled to depart at \(flight.departureTime) from terminal: TBD")
+                case .Scheduled: print("Your flight to \(flight.destination) is scheduled to depart at TBD from terminal: TBD")
                 case .Boarding: print("Your flight is boarding, please head to terminal: TBD immediately. The doors are closing soon.")
                 case .Delayed: print("Your flight is delayed")
                 case .EnRoute: print("Your flight to \(flight.destination) has departed")
                 case .Landed: print("Your flight has landed")
-                }
             }
         }
     }
+}
 }
 
 //: ## 2. Create 3 flights and add them to a departure board
@@ -89,6 +109,7 @@ var flight2 = Flight(destination: "Rome", airline: "British Airways", flight: "B
 var flight3 = Flight(destination: "Berlin", airline: "Aer Lingus", flight: "C7 3392",  departureTime: Date(), terminal: "10", status: .Scheduled)
 
 var myJFKDepartureBoard = DepartureBoard(flightList: [], currentAirport: "JFK")
+
 myJFKDepartureBoard.flightList.append(flight1)
 myJFKDepartureBoard.flightList.append(flight2)
 myJFKDepartureBoard.flightList.append(flight3)
@@ -166,7 +187,7 @@ printDepartures2(departureBoard: myJFKDepartureBoard)
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 myJFKDepartureBoard.alertPassengers()
-// see comment near line 53
+
 
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
@@ -186,7 +207,22 @@ myJFKDepartureBoard.alertPassengers()
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
-// Did not finish.
-// Will definitely attempt and ask for help.
+
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+    let checkedBagCost: Int = 25
+    let mileCost: Double = 0.10
+    
+    let totalBagCost = checkedBags * checkedBagCost
+    let totalMileageCost = Double(distance) * mileCost
+    let ticketCost = Double(totalBagCost) + totalMileageCost
+    let totalCost = ticketCost * Double(travelers)
+    
+    return totalCost
+}
+
+calculateAirfare(checkedBags: 3, distance: 5000, travelers: 2)
+calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)
+calculateAirfare(checkedBags: 0, distance: 10000, travelers: 100)
+
 
 

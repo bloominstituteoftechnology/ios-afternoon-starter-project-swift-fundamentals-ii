@@ -213,6 +213,23 @@ departureBoard.alertPassengers()
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+    
+    var totalAmount: Double = 0
+    
+    totalAmount += Double(checkedBags * 25)
+    totalAmount += Double(distance) * 0.1
+    totalAmount *= Double(travelers)
+    
+    return totalAmount
+}
+
+let numberFormatter = NumberFormatter()
+numberFormatter.numberStyle = .currency
+
+if let amountInDollars = numberFormatter.string(from: calculateAirfare(checkedBags: 5, distance: 25000, travelers: 39) as NSNumber) {
+    print(amountInDollars)
+}
 
 
 

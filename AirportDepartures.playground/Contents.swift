@@ -16,6 +16,76 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
+enum FlightStatus: String {
+    case enRoute
+    case scheduled
+    case cancelled
+    case delayed
+}
+
+struct Airport {
+    let name: String
+    let address: String
+    let phoneNumber: String
+    let gates: String
+    let numberOfEmployees: Int
+    let numberOfPlanes: Int
+}
+
+struct Flight {
+    let craftName: String
+    let terminal: String?
+    let passangerNumber: String
+    let isCheckedIn: Bool
+    let seatNumber: String
+    let departureTime: Date?
+    let status: FlightStatus
+}
+
+class DepartureBoard {
+    var flights: [Flight]
+    var currentAirport: Airport
+    
+    init(currentAirport: Airport) {
+        flights = []
+        self.currentAirport = currentAirport
+    }
+    
+    func alertPassengers() {
+        var departureTime: String
+        var terminal: String
+        
+        for flight in flights {
+            if let departTime = flight.departureTime {
+                let formatter = DateFormatter()
+                formatter.dateFormat = "MM-dd-yyyy HH:mm:ss"
+                formatter.dateStyle = .short
+                formatter.timeStyle = .short
+                let dateString = formatter.string(from: departTime)
+                departureTime = dateString
+            } else {
+                departureTime = "TBD"
+            }
+            if let term = flight.terminal {
+                terminal = term
+            } else {
+                terminal = "TBD"
+            }
+           
+            switch flight.status {
+            case .enRoute:
+                print("Your flight is boarding, please head to terminal: \(terminal) immediately. The doors are closing soon.")
+            case .delayed:
+                print("We are sorry but your flight is delayed at this time.")
+            case .cancelled:
+                print("We're sorry your flight was canceled, here is a $500 voucher")
+            case .scheduled:
+                print("Your flight is scheduled to depart at \(departureTime) from terminal: \(terminal)")
+            
+            }
+        }
+    }
+}
 
 
 

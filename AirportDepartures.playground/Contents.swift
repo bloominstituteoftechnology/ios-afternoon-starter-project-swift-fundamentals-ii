@@ -24,7 +24,18 @@ enum FlightStatus: String {
     case enRoute = "En Route"
 }
 
+struct Airport {
+    var name: String
+    let city: String
+    let terminals: [String]
+    let flights: [Flight]
+}
 
+struct Flight {
+    var status: [FlightStatus]
+    var departureTime: Date?
+    var terminal: String?
+}
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:

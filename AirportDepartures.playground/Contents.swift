@@ -87,12 +87,21 @@ let departureBoard = DepartureBoard(flights: [tokyo, washington, losAngeles], ai
 //:
 //: d. Print out the current DepartureBoard you created using the function
 func printDepartures(departureBoard: DepartureBoard) {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .none
+    dateFormatter.timeStyle = .short
+    
     for flight in departureBoard.flights {
-        print("Destination: \(flight.destination) Airline \(flight.airline) Flight: \(flight.number) Departure Time: \(flight.departureTime) Terminal: \(flight.terminal) Status: \(flight.status.rawValue)")
+        if let terminal = flight.terminal, let departureTime = flight.departureTime {
+            print("Destination: \(flight.destination) Airline \(flight.airline) Flight: \(flight.number) Departure Time: \(dateFormatter.string(from: departureTime)) Terminal: \(terminal) Status: \(flight.status.rawValue)")
+        } else {
+             print("Destination: \(flight.destination) Airline \(flight.airline) Flight: \(flight.number) Status: \(flight.status.rawValue)")
+        }
+       
     }
 }
 
-printDepartures(departureBoard: departureBoard)
+//printDepartures(departureBoard: departureBoard)
 
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
@@ -109,9 +118,9 @@ printDepartures(departureBoard: departureBoard)
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
+// I will modify the previous function
 
-
-
+printDepartures(departureBoard: departureBoard)
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
 //:

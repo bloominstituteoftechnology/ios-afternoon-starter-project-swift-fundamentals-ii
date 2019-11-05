@@ -44,7 +44,25 @@ struct Flight {
     
 }
 
-/*1f       */
+/*1f*/
+
+class DepartureBoard {
+    var departureFlights: [String]
+    var currentAirport: String
+    
+    init(departureFlights: [String], currentAirport: String) {
+        self.departureFlights = departureFlights
+        self.currentAirport = currentAirport
+    }
+        
+}
+
+/* 2. Create 3 flights and add them to a departure board
+a. For the departure time, use Date() for the current time
+b. Use the Array append() method to add Flight’s
+c. Make one of the flights .canceled with a nil departure time
+d. Make one of the flights have a nil terminal because it has not been decided yet.
+e. Stretch: Look at the API for DateComponents for creating a specific time */
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`

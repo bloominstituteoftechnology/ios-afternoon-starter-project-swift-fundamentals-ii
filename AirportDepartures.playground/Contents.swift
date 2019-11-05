@@ -122,6 +122,14 @@ departureBoard.flights.append(flight3)
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
+func printDepartures(departureBoard: DepartureBoard) {
+    for departure in departureBoard.flights {
+        print(departure)
+    }
+}
+
+printDepartures(departureBoard: departureBoard)
+
 
 
 

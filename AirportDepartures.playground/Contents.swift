@@ -18,10 +18,8 @@ import UIKit
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
 enum FlightStatus: String {
     case scheduled = "Scheduled"
-    case delayed = "Delayed"
     case cancelled = "Cancelled"
-    case onTime = "On Time"
-    case enRoute = "En Route"
+    case boarding = "Boarding"
 }
 
 struct Airport {
@@ -60,6 +58,37 @@ class DepartureBoard {
         flights.append(flight)
     }
     
+    func alertPassengers() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .none
+        dateFormatter.timeStyle = .short
+        
+        for flight in flights {
+            switch flight.status {
+            case .scheduled:
+                if let terminal = flight.terminal {
+                    if let departureTime = flight.departureTime  {
+                        print("Your flight to \(flight.destination) is scheduled to depart at \(dateFormatter.string(from: departureTime)) from terminal: \(terminal)")
+                    }
+                
+                } else {
+                    if let departureTime = flight.departureTime {
+                        print("Your flight to \(flight.destination) scheduled to depart at \(dateFormatter.string(from: departureTime)) hasn't been assigned a terminal. See the nearest information desk for more details")
+                    }
+                    
+                }
+            case .cancelled:
+                print("We're sorry your flight to \(flight.destination) was cancelled. Here's a $500 voucher")
+            case .boarding:
+                if let terminal = flight.terminal {
+                    print("Your flight to \(flight.destination) is boarding, please head to terminal: \(terminal) immediately. The doors are closing soon")
+                }
+                
+               
+            }
+        }
+    }
+    
 }
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
@@ -75,9 +104,11 @@ let tokyo = Flight(number: "BA 4605", status: .scheduled , destination: "Tokyo",
 let washington = Flight(number: "DL 5188", status: .cancelled, destination: "Washington", airline: "Delta Air Lines", departureTime: nil, terminal: nil)
 let losAngeles = Flight(number: "DL 453", status: .scheduled, destination: "Los Angeles", airline: "Delta Air Lines", departureTime: Date(), terminal: "Terminal 3")
 
+let miami = Flight(number: "BA 5089", status: .boarding, destination: "Miami", airline: "British Airways", departureTime: Date(), terminal: "Terminal 5")
+
 let airport = Airport(name: "JFK Airport", city: "New York City", terminals: ["Terminal 1", "Terminal 2", "Terminal 3", "Terminal 4", "Terminal 5"])
 
-let departureBoard = DepartureBoard(flights: [tokyo, washington, losAngeles], airport: airport)
+let departureBoard = DepartureBoard(flights: [tokyo, washington, losAngeles, miami], airport: airport)
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:
@@ -135,7 +166,7 @@ printDepartures(departureBoard: departureBoard)
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
+departureBoard.alertPassengers()
 
 
 

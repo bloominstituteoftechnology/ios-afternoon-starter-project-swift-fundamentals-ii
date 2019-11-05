@@ -32,6 +32,7 @@ struct Airport {
 }
 
 struct Flight {
+    let number: String
     var status: [FlightStatus]
     var departureTime: Date?
     var terminal: String?

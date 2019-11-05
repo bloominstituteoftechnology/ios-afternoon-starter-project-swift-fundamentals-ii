@@ -29,6 +29,13 @@ struct Airport {
     let city: String
     let terminals: [String]
     let flights: [Flight]
+    
+    init(name: String, city: String, terminals: [String], flights: [Flight] = []) {
+        self.name = name
+        self.city = city
+        self.terminals = terminals
+        self.flights = flights
+    }
 }
 
 struct Flight {
@@ -63,6 +70,10 @@ class DepartureBoard {
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
 let tokyo = Flight(number: "BA 4605", status: .scheduled , departureTime: Date(), terminal: nil)
+let washington = Flight(number: "DL 5188", status: .cancelled, departureTime: nil, terminal: nil)
+let losAngeles = Flight(number: "DL 453", status: .scheduled, departureTime: Date(), terminal: "Terminal 3")
+
+let airport = Airport(name: "JFK Airport", city: "New York City", terminals: ["Terminal 1", "Terminal 2", "Terminal 3", "Terminal 4", "Terminal 5"])
 
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`

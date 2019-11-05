@@ -193,7 +193,7 @@ printDepartures2(departureBoard: departureBoard)
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 
-
+departureBoard.alertPassengers()
 
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination

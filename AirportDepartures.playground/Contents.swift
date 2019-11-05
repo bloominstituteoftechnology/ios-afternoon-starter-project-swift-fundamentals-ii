@@ -37,6 +37,21 @@ struct Flight {
     var departureTime: Date?
     var terminal: String?
 }
+
+class DepartureBoard {
+    private(set) var flights: [Flight]
+    let airport: Airport
+    
+    init(flights: [Flight], airport: Airport) {
+        self.flights = flights
+        self.airport = airport
+    }
+    
+    func addFlight(flight: Flight) {
+        flights.append(flight)
+    }
+    
+}
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:

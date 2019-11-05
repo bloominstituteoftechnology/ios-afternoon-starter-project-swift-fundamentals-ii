@@ -33,7 +33,7 @@ struct Airport {
 
 struct Flight {
     let number: String
-    var status: [FlightStatus]
+    var status: FlightStatus
     var departureTime: Date?
     var terminal: String?
 }
@@ -62,7 +62,7 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-
+let tokyo = Flight(number: "BA 4605", status: .scheduled , departureTime: Date(), terminal: nil)
 
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`

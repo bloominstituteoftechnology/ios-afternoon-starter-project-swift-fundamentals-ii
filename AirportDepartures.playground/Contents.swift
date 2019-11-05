@@ -16,9 +16,36 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
+enum FlightStatus: String {
+    case enRoute
+    case scheduled
+    case canceled
+    case delayed
+    case diverted
+    case landed
+}
 
+struct Airport {
+    let airportName: String
+}
 
+struct Flight {
+    let flightNo: String
+    let departTime: Date?
+    let terminal: String?
+    let airline: String
+    let flightStatus: FlightStatus
+}
 
+class DepartureBoard {
+    var destination: [Airport]
+    var flights: [Flight]
+    
+    init(destination: String, flights: [String]) {
+        self.destination = []
+        self.flights = []
+    }
+}
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -29,7 +56,9 @@ import UIKit
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-
+let flight1 = Flight(flightNo: "9K101", departTime: Date(), terminal: "5", airline: "Cape Air", flightStatus: .landed)
+let flight2 = Flight(flightNo: "B65921", departTime: Date(), terminal: "5", airline: "JetBlue", flightStatus: .enRoute)
+let flight3 = Flight(flightNo: "KE82", departTime: nil, terminal: nil, airline: "Korean Air", flightStatus: .canceled)
 
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`

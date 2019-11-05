@@ -75,7 +75,7 @@ let losAngeles = Flight(number: "DL 453", status: .scheduled, departureTime: Dat
 
 let airport = Airport(name: "JFK Airport", city: "New York City", terminals: ["Terminal 1", "Terminal 2", "Terminal 3", "Terminal 4", "Terminal 5"])
 
-
+let departureBoard = DepartureBoard(flights: [tokyo, washington, losAngeles], airport: airport)
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:

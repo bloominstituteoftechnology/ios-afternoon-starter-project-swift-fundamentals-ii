@@ -23,7 +23,7 @@ enum FlightStatus: String{
     case Scheduled
     case Canceled
     case Delayed
-    //c. If their flight is boarding print out:...
+    //5c. If their flight is boarding print out:...
     case Boarding
 }
 //1b. Use a struct to represent an Airport (Destination or Arrival)
@@ -154,6 +154,7 @@ printDepartures(departureBoard: departures)
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
+//5
 extension DepartureBoard{
     func flightAlert(){
         for flight in flightList{

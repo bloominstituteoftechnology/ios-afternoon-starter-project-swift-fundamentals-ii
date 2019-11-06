@@ -41,7 +41,7 @@ init(flightList: [Flight], currentAirport: String) {
     self.flightList = []
     self.currentAirport = currentAirport
 }
-
+}
 
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
@@ -56,6 +56,16 @@ init(flightList: [Flight], currentAirport: String) {
 var flight1 = Flight(destination: "Los Angeles", airline: "Qantas", flight: "QF 12", departureTime: Date(), terminal: "8", status: .EnRoute)
 var flight2 = Flight(destination: "Nashville", airline: "SkyWest Airlines", flight: "OO 3788", departureTime: Date(), terminal: "4", status: .Landed)
 var flight3 = Flight(destination: "Dallas", airline: "Delta Airlines", flight: "DL 347", departureTime: Date(), terminal: "2", status: .Delayed)
+
+var JFKDepartureBoard = DepartureBoard(flightList: [], currentAirport: "JFK")
+
+
+JFKDepartureBoard.flightList.append(flight1)
+JFKDepartureBoard.flightList.append(flight2)
+JFKDepartureBoard.flightList.append(flight3)
+
+flight1.departureTime = nil //Flight cancelled
+flight3.terminal = nil // Terminal has not been decided yet
 
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`

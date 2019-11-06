@@ -45,7 +45,6 @@ class DepartureBoard {
         flights.append(flight)
     }
 }
-
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -78,8 +77,6 @@ let myDepartureBoard = DepartureBoard()
 myDepartureBoard.flights.append(LaxFlight)
 myDepartureBoard.flights.append(SjoFlight)
 myDepartureBoard.flights.append(BnaFlight)
-
-
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:
@@ -94,9 +91,7 @@ func printDepartures(departureBoard: DepartureBoard) {
         
     }
 }
-
 printDepartures(departureBoard: myDepartureBoard)
-
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
 //:
@@ -139,12 +134,9 @@ func alertPassengers(flight: Flight) {
     case FlightStatus.Delayed:
         print("Flight Delayed")
     }
-    
 }
 
-
-
-
+alertPassengers(flight: LaxFlight)
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`
 //:
@@ -165,10 +157,13 @@ func alertPassengers(flight: Flight) {
 func calculateAirfare(checkedBags: Int, distances: Int, travelers: Int) -> Double {
     let bagCost: Double = 25
     let mileCost: Double = 0.10
-    let ticketCost: Double = 166.55
+    let ticketCost: Double = 166.66
+    var totalCost  = ((Double(checkedBags) * bagCost) + (Double(distances) *
+        mileCost) + Double(travelers) * ticketCost)
     
-    
-    return ((Double(checkedBags) * bagCost)  + (Double(distances) * mileCost) + Double(travelers) * ticketCost)
+    totalCost.round(.up)
+   
+    return totalCost
 }
 calculateAirfare(checkedBags: 2, distances: 2000, travelers: 3)
-
+calculateAirfare(checkedBags: 3, distances: 3000, travelers: 3)

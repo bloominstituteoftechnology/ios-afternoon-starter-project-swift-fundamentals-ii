@@ -33,6 +33,15 @@ struct Flight {
     var status: FlightStatus
 }
 
+class DepartureBoard {
+var flightList: [Flight]
+var currentAirport: String
+
+init(flightList: [Flight], currentAirport: String) {
+    self.flightList = []
+    self.currentAirport = currentAirport
+}
+
 
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time

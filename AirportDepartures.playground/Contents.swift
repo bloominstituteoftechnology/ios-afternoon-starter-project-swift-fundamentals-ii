@@ -41,6 +41,23 @@ init(flightList: [Flight], currentAirport: String) {
     self.flightList = []
     self.currentAirport = currentAirport
 }
+    // Step 5. Add an instance method to your DepatureBoard class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a switch on the flight status variable.
+    func alertPassengers() {
+
+            for flight in flightList {
+                if let departureTime = flight.departureTime {
+
+                switch flight.status {
+                 case .Canceled: print("We're sorry your flight to \(flight.destination) was canceled, here is a $500 voucher")
+                 case .Scheduled: print("Your flight to \(flight.destination) is scheduled to depart at \(departureTime) from terminal: TBD")
+                 case .Boarding: print("Your flight is boarding, please head to terminal: TBD immediately. The doors are closing soon.")
+                 case .Delayed: print("Your flight is delayed")
+                 case .EnRoute: print("Your flight to \(flight.destination) has departed")
+                 case .Landed: print("Your flight has landed")
+                }
+            }
+        }
+    }
 }
 
 //: ## 2. Create 3 flights and add them to a departure board
@@ -76,7 +93,13 @@ flight3.terminal = nil // Terminal has not been decided yet
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
+func printDepartures(departureBoard: DepartureBoard) {
+    for flight in departureBoard.flightList {
+        print(flight)
+    }
+}
 
+printDepartures(departureBoard: JFKDepartureBoard)
 
 
 
@@ -94,7 +117,23 @@ flight3.terminal = nil // Terminal has not been decided yet
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
+func printDepartures2(departureBoard: DepartureBoard) {
+    for flight in departureBoard.flightList {
+        if let departureTime = flight.departureTime {
+            if let terminal = flight.terminal {
+                print("Destination: \(flight.destination) Airline: \(flight.airline) Flight: \(flight.flight) Departure Time: \(departureTime) Terminal: \(terminal) Status: \(flight.status)")
+            } else {
+                print("Destination: \(flight.destination) Airline: \(flight.airline) Flight: \(flight.flight) Departure Time: \(departureTime) Terminal:  Status: \(flight.status)")
+            }
+        } else if let terminal = flight.terminal {
+            print("Destination: \(flight.destination) Airline: \(flight.airline) Flight: \(flight.flight) Departure Time:  Terminal: \(terminal) Status: \(flight.status)")
+        } else {
+                print("Destination: \(flight.destination) Airline: \(flight.airline) Flight: \(flight.flight) Departure Time:  Terminal:  Status: \(flight.status)")
+        }
+    }
+}
 
+printDepartures2(departureBoard: JFKDepartureBoard)
 
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
@@ -111,7 +150,7 @@ flight3.terminal = nil // Terminal has not been decided yet
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
+JFKDepartureBoard.alertPassengers()
 
 
 

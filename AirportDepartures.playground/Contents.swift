@@ -63,16 +63,30 @@ let JFKAirport = Airport(city: "New York", IATACode: "JFK")
 let LAXAirport = Airport(city: "Los Angeles", IATACode: "LAX")
 var departureBoard = DepartureBoard(currentAirport: JFKAirport)
 
+let flight1 = Flight(destination: LAXAirport,
+                     airline: "Qantas",
+                     flightNumber: "QF 12",
+                     departureTime: Date(),
+                     terminal: "8",
+                     status: .enRoute_OnTime)
 
-let flight1 = Flight(destination: LAXAirport, airline: "Qantas", flightNumber: "QF 12", departureTime: Date(), terminal: "8", status: .enRoute_OnTime)
-let flight2 = Flight(destination: Airport(city: "Ontario", IATACode: "ONT"), airline: "JetBlue Airways", flightNumber: "B6 355", departureTime: Date(), terminal: nil, status: .scheduled_Delayed)
-let flight3 = Flight(destination: LAXAirport, airline: "Delta Air Lines", flightNumber: "DL 477", departureTime: nil, terminal: "4", status: .canceled)
+let flight2 = Flight(destination: Airport(city: "Ontario", IATACode: "ONT"),
+                     airline: "JetBlue Airways",
+                     flightNumber: "B6 355",
+                     departureTime: Calendar.current.date(from: DateComponents(year: 2019, month: 11, day: 5, hour: 18, minute: 0)),
+                     terminal: nil,
+                     status: .scheduled_Delayed)
+
+let flight3 = Flight(destination: LAXAirport,
+                     airline: "Delta Air Lines",
+                     flightNumber: "DL 477",
+                     departureTime: nil,
+                     terminal: "4",
+                     status: .canceled)
 
 departureBoard.departures.append(flight1)
 departureBoard.departures.append(flight2)
 departureBoard.departures.append(flight3)
-
-//TODO: Complete part e. (stretch goal)
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:
@@ -81,10 +95,51 @@ departureBoard.departures.append(flight3)
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
+func printDepartures(departureBoard: DepartureBoard) {
+    // specify the width (number of characters) of each column in the Departure Board
+    let COLUMN_WIDTH = [22, 22, 12, 13, 14, 20]
+    
+    // specify the format of the departure time on the Departure Board
+    let dateFormatter = DateFormatter()
+    dateFormatter.timeStyle = .short // h:mm AM/PM
+    
+    let departureBoardHeader =
+        "Destination" + String.init(repeating: " ", count: (COLUMN_WIDTH[0] - "Destination".count)) +
+            "Airline" + String.init(repeating: " ", count: (COLUMN_WIDTH[1] - "Airline".count)) +
+            "Flight" + String.init(repeating: " ", count: (COLUMN_WIDTH[2] - "Flight".count)) +
+            "Departure" + String.init(repeating: " ", count: (COLUMN_WIDTH[4] - "Departure".count)) +
+            "Terminal" + String.init(repeating: " ", count: (COLUMN_WIDTH[3] - "Terminal".count)) +
+            "Status" + String.init(repeating: " ", count: (COLUMN_WIDTH[5] - "Status".count))
+    
+    print(departureBoardHeader)
+    
+    for flight in departureBoard.departures {
+        let destination = flight.destination.city + " (" + flight.destination.IATACode + ")"
+        let airline = flight.airline
+        let flightNumber = flight.flightNumber
+        
+        var departureTime = ""
+        if let date = flight.departureTime {
+            departureTime = dateFormatter.string(from: date)
+        }
+        
+        let terminal = flight.terminal ?? ""
+        let status = flight.status.rawValue
+        
+        // Creates a String containing all of the relevant flight information and adds spaces to align the data in columns when printing multiple rows
+        let departureBoardRow =
+            destination + String.init(repeating: " ", count: (COLUMN_WIDTH[0] - destination.count)) +
+                airline + String.init(repeating: " ", count: (COLUMN_WIDTH[1] - airline.count)) +
+                flightNumber + String.init(repeating: " ", count: (COLUMN_WIDTH[2] - flightNumber.count)) +
+                departureTime + String.init(repeating: " ", count: (COLUMN_WIDTH[4] - departureTime.count)) +
+                terminal + String.init(repeating: " ", count: (COLUMN_WIDTH[3] - terminal.count)) +
+                status + String.init(repeating: " ", count: (COLUMN_WIDTH[5] - status.count))
+                
+        print(departureBoardRow)
+    }
+}
 
-
-
-
+printDepartures(departureBoard: departureBoard)
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
 //:

@@ -46,11 +46,6 @@ struct Flight{
 class DepartureBoard{
     var flightList: [Flight]
     let currentAirport: String
-    func test(flightList: [Flight]){
-        for flight in flightList{
-            print(flight.airLine)
-        }
-    }
     
     init(flightList:[Flight],currentAirport:String){
         self.flightList = flightList

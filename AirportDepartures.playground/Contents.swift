@@ -23,13 +23,16 @@ enum FlightStatus: String {
     case delayed
     case diverted
     case landed
+    case boarding
 }
 
 struct Airport {
-    var destination: String
+    let city: String
+    let abbreviation: String
 }
 
 struct Flight {
+    var destination: String
     var flightNo: String
     var airline: String
     var departTime: Date?
@@ -38,12 +41,17 @@ struct Flight {
 }
 
 class DepartureBoard {
-    var flights: [String]
+    var flights: [Flight]
+    var airport: Airport
     
-    init(flights: [String]) {
-        self.flights = []
+    init(city: String, abbreviation: String) {
+        airport = Airport(city: city, abbreviation: abbreviation) // initializing new instance of airport
+        flights = []
     }
 }
+
+//let departureBoard = DepartureBoard(city: "Los Angeles", abbreviation: "LAX")
+
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -54,20 +62,18 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-
-let flight1 = Flight(flightNo: "9K101", airline: "Cape Air", departTime: Date(), terminal: "5", flightStatus: .landed)
-let flight2 = Flight(flightNo: "B65921", airline: "JetBlue", departTime: Date(), terminal: "5", flightStatus: .enRoute)
-let flight3 = Flight(flightNo: "KE82", airline: "Korean Air", departTime: nil, terminal: nil, flightStatus: .canceled)
-
-
 let today = Date()
 let format = DateFormatter()
 format.dateStyle = .medium
 print(format.string(from: today))
 
-let myDepartureBoard = DepartureBoard.append(contentsOf: flight1, flight2, flight3)
+var flight1 = Flight(destination: "LAX", flightNo: "9K101", airline: "Cape Air", departTime: Date(), terminal: "5", flightStatus: .landed)
+var flight2 = Flight(destination: "ONT", flightNo: "B65921", airline: "JetBlue", departTime: Date(), terminal: "5", flightStatus: .enRoute)
+var flight3 = Flight(destination: "VIA", flightNo: "KE82", airline: "Korean Air", departTime: nil, terminal: nil, flightStatus: .canceled)
 
 
+let departureBoard2 = DepartureBoard(flights: flight1, airport: )
+DepartureBoard.flights.append(flight1)
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
 //:
@@ -86,6 +92,8 @@ let myDepartureBoard = DepartureBoard.append(contentsOf: flight1, flight2, fligh
 
 func printDepartures2(departureBoard: [String] ) {
     print(<#T##items: Any...##Any#>)
+    
+    
 }
 
 
@@ -104,7 +112,16 @@ func printDepartures2(departureBoard: [String] ) {
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 
-
+switch Flight {
+case .canceled:
+    print("We're sorry your flight to \(Airport) was canceled, here is a $500 voucher")
+case .scheduled:
+    print("Your flight to \(Airport) is schedule to depart at \(time) from terminal: \(terminal)")
+case .boarding:
+    print("Your flight is boarding, please head to terminal: \(terminal) immediately. The doors are closing soon.")
+default:
+    print("If you need help, see the nearest information desk for more details.")
+}
 
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination

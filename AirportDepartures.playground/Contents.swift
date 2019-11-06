@@ -17,7 +17,7 @@ import UIKit
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
 enum FlightStatus: String {
-    case EnRoute = "EnRoute", Scheduled = "Scheduled", Canceled = "Canceled", Delayed = "Delayed", Landed = "Landed", Boarding = "Boarding"
+    case EnRoute, Scheduled, Canceled, Delayed, Landed, Boarding
 }
 
 struct Airport {
@@ -42,6 +42,7 @@ init(flightList: [Flight], currentAirport: String) {
     self.currentAirport = currentAirport
 }
     // Step 5. Add an instance method to your DepatureBoard class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a switch on the flight status variable.
+    
     func alertPassengers() {
 
             for flight in flightList {

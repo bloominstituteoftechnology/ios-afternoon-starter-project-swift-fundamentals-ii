@@ -53,7 +53,9 @@ init(flightList: [Flight], currentAirport: String) {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-
+var flight1 = Flight(destination: "Los Angeles", airline: "Qantas", flight: "QF 12", departureTime: Date(), terminal: "8", status: .EnRoute)
+var flight2 = Flight(destination: "Nashville", airline: "SkyWest Airlines", flight: "OO 3788", departureTime: Date(), terminal: "4", status: .Landed)
+var flight3 = Flight(destination: "Dallas", airline: "Delta Airlines", flight: "DL 347", departureTime: Date(), terminal: "2", status: .Delayed)
 
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`

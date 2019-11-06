@@ -97,7 +97,7 @@ departureBoard.departures.append(flight3)
 //: d. Print out the current DepartureBoard you created using the function
 func printDepartures(departureBoard: DepartureBoard) {
     // specify the width (number of characters) of each column in the Departure Board
-    let COLUMN_WIDTH = [22, 22, 12, 13, 14, 20]
+    let COLUMN_WIDTH = [22, 20, 12, 14, 12, 20]
     
     // specify the format of the departure time on the Departure Board
     let dateFormatter = DateFormatter()
@@ -107,11 +107,11 @@ func printDepartures(departureBoard: DepartureBoard) {
         "Destination" + String.init(repeating: " ", count: (COLUMN_WIDTH[0] - "Destination".count)) +
             "Airline" + String.init(repeating: " ", count: (COLUMN_WIDTH[1] - "Airline".count)) +
             "Flight" + String.init(repeating: " ", count: (COLUMN_WIDTH[2] - "Flight".count)) +
-            "Departure" + String.init(repeating: " ", count: (COLUMN_WIDTH[4] - "Departure".count)) +
-            "Terminal" + String.init(repeating: " ", count: (COLUMN_WIDTH[3] - "Terminal".count)) +
+            "Departure" + String.init(repeating: " ", count: (COLUMN_WIDTH[3] - "Departure".count)) +
+            "Terminal" + String.init(repeating: " ", count: (COLUMN_WIDTH[4] - "Terminal".count)) +
             "Status" + String.init(repeating: " ", count: (COLUMN_WIDTH[5] - "Status".count))
     
-    print(departureBoardHeader)
+    print("\(departureBoardHeader)\n")
     
     for flight in departureBoard.departures {
         let destination = flight.destination.city + " (" + flight.destination.IATACode + ")"
@@ -126,13 +126,13 @@ func printDepartures(departureBoard: DepartureBoard) {
         let terminal = flight.terminal ?? ""
         let status = flight.status.rawValue
         
-        // Creates a String containing all of the relevant flight information and adds spaces to align the data in columns when printing multiple rows
+        // Creates a single String containing all of the flight information to be displayed on one row and strategically adds spaces to align the data into columns
         let departureBoardRow =
             destination + String.init(repeating: " ", count: (COLUMN_WIDTH[0] - destination.count)) +
                 airline + String.init(repeating: " ", count: (COLUMN_WIDTH[1] - airline.count)) +
                 flightNumber + String.init(repeating: " ", count: (COLUMN_WIDTH[2] - flightNumber.count)) +
-                departureTime + String.init(repeating: " ", count: (COLUMN_WIDTH[4] - departureTime.count)) +
-                terminal + String.init(repeating: " ", count: (COLUMN_WIDTH[3] - terminal.count)) +
+                departureTime + String.init(repeating: " ", count: (COLUMN_WIDTH[3] - departureTime.count)) +
+                terminal + String.init(repeating: " ", count: (COLUMN_WIDTH[4] - terminal.count)) +
                 status + String.init(repeating: " ", count: (COLUMN_WIDTH[5] - status.count))
                 
         print(departureBoardRow)
@@ -154,9 +154,33 @@ printDepartures(departureBoard: departureBoard)
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
+// printDepartures2(departureBoard:) is a simplified version of the original printDepartures(departureBoard:) function in Step 3.
+// This function is designed to print the departure board information as shown in the above example.
+print()
+func printDepartures2(departureBoard: DepartureBoard) {
+    let dateFormatter = DateFormatter()
+    dateFormatter.timeStyle = .short // h:mm AM/PM
+    
+    for flight in departureBoard.departures {
+        let destination = flight.destination.city + " (" + flight.destination.IATACode + ")"
+        let airline = flight.airline
+        let flightNumber = flight.flightNumber
+        
+        var departureTime = ""
+        if let date = flight.departureTime {
+            departureTime = dateFormatter.string(from: date)
+        }
+        
+        let terminal = flight.terminal ?? ""
+        let status = flight.status.rawValue
+        
+        let departureBoardRow = "Destination: \(destination), Airline: \(airline), Flight: \(flightNumber), Departure: \(departureTime), Terminal: \(terminal), Status: \(status)"
+                
+        print(departureBoardRow)
+    }
+}
 
-
-
+printDepartures2(departureBoard: departureBoard)
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
 //:

@@ -17,7 +17,12 @@ import UIKit
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
 enum FlightStatus: String {
-    case EnRoute, Scheduled, Canceled, Delayed, Landed, Boarding
+    case EnRoute = "EnRoute"
+    case Scheduled = "Scheduled"
+    case Canceled = "Canceled"
+    case Delayed = "Delayed"
+    case Landed = "Landed"
+    case Boarding = "Boarding"
 }
 
 struct Airport {
@@ -49,12 +54,12 @@ init(flightList: [Flight], currentAirport: String) {
                 if let departureTime = flight.departureTime {
 
                 switch flight.status {
-                 case .Canceled: print("We're sorry your flight to \(flight.destination) was canceled, here is a $500 voucher")
-                 case .Scheduled: print("Your flight to \(flight.destination) is scheduled to depart at \(departureTime) from terminal: TBD")
-                 case .Boarding: print("Your flight is boarding, please head to terminal: TBD immediately. The doors are closing soon.")
-                 case .Delayed: print("Your flight is delayed")
-                 case .EnRoute: print("Your flight to \(flight.destination) has departed")
-                 case .Landed: print("Your flight has landed")
+                case .Canceled: print("We're sorry your flight to \(flight.destination) was canceled, here is a $500 voucher")
+                case .Scheduled: print("Your flight to \(flight.destination) is scheduled to depart at \(departureTime) from terminal: TBD")
+                case .Boarding: print("Your flight is boarding, please head to terminal: TBD immediately. The doors are closing soon.")
+                case .Delayed: print("Your flight is delayed")
+                case .EnRoute: print("Your flight to \(flight.destination) has departed")
+                case .Landed: print("Your flight has landed")
                 }
             }
         }
@@ -71,7 +76,7 @@ init(flightList: [Flight], currentAirport: String) {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-var flight1 = Flight(destination: "Los Angeles", airline: "Qantas", flight: "QF 12", departureTime: Date(), terminal: "8", status: .EnRoute)
+var flight1 = Flight(destination: "Los Angeles", airline: "Qantas", flight: "QF 12", departureTime: nil, terminal: "8", status: .Canceled)
 var flight2 = Flight(destination: "Nashville", airline: "SkyWest Airlines", flight: "OO 3788", departureTime: Date(), terminal: "4", status: .Landed)
 var flight3 = Flight(destination: "Dallas", airline: "Delta Airlines", flight: "DL 347", departureTime: Date(), terminal: "2", status: .Delayed)
 
@@ -82,8 +87,6 @@ JFKDepartureBoard.flightList.append(flight1)
 JFKDepartureBoard.flightList.append(flight2)
 JFKDepartureBoard.flightList.append(flight3)
 
-flight1.departureTime = nil //Flight cancelled
-flight3.terminal = nil // Terminal has not been decided yet
 
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
@@ -95,7 +98,7 @@ flight3.terminal = nil // Terminal has not been decided yet
 //:
 //: d. Print out the current DepartureBoard you created using the function
 func printDepartures(departureBoard: DepartureBoard) {
-    for flight in departureBoard.flightList {
+    for flight in departureBoard.flightList{
         print(flight)
     }
 }

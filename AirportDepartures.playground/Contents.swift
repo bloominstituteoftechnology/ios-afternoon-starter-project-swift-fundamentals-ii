@@ -20,6 +20,18 @@ enum FlightStatus: String {
     case EnRoute = "EnRoute", Scheduled = "Scheduled", Canceled = "Canceled", Delayed = "Delayed", Landed = "Landed", Boarding = "Boarding"
 }
 
+struct Airport {
+    var destination: String
+}
+
+struct Flight {
+    var destination: String
+    var airline: String
+    var flight: String
+    var departureTime: Date?
+    var terminal: String?
+    var status: FlightStatus
+}
 
 
 //: ## 2. Create 3 flights and add them to a departure board

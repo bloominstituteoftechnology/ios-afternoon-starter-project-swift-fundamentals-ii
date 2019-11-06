@@ -26,23 +26,21 @@ enum FlightStatus: String {
 }
 
 struct Airport {
-    let airportName: String
+    var destination: String
 }
 
 struct Flight {
-    let flightNo: String
-    let departTime: Date?
-    let terminal: String?
-    let airline: String
-    let flightStatus: FlightStatus
+    var flightNo: String
+    var airline: String
+    var departTime: Date?
+    var terminal: String?
+    var flightStatus: FlightStatus
 }
 
 class DepartureBoard {
-    var destination: [Airport]
-    var flights: [Flight]
+    var flights: [String]
     
-    init(destination: String, flights: [String]) {
-        self.destination = []
+    init(flights: [String]) {
         self.flights = []
     }
 }
@@ -56,21 +54,18 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-let flight1 = Flight(flightNo: "9K101", departTime: Date(), terminal: "5", airline: "Cape Air", flightStatus: .landed)
-let flight2 = Flight(flightNo: "B65921", departTime: Date(), terminal: "5", airline: "JetBlue", flightStatus: .enRoute)
-let flight3 = Flight(flightNo: "KE82", departTime: nil, terminal: nil, airline: "Korean Air", flightStatus: .canceled)
+
+let flight1 = Flight(flightNo: "9K101", airline: "Cape Air", departTime: Date(), terminal: "5", flightStatus: .landed)
+let flight2 = Flight(flightNo: "B65921", airline: "JetBlue", departTime: Date(), terminal: "5", flightStatus: .enRoute)
+let flight3 = Flight(flightNo: "KE82", airline: "Korean Air", departTime: nil, terminal: nil, flightStatus: .canceled)
 
 
-//: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
-//: a. Use the function signature: `printDepartures(departureBoard:)`
-//:
-//: b. Use a `for in` loop to iterate over each departure
-//:
-//: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
-//:
-//: d. Print out the current DepartureBoard you created using the function
+let today = Date()
+let format = DateFormatter()
+format.dateStyle = .medium
+print(format.string(from: today))
 
-
+let myDepartureBoard = DepartureBoard.append(contentsOf: flight1, flight2, flight3)
 
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
@@ -88,6 +83,10 @@ let flight3 = Flight(flightNo: "KE82", departTime: nil, terminal: nil, airline: 
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
 
+
+func printDepartures2(departureBoard: [String] ) {
+    print(<#T##items: Any...##Any#>)
+}
 
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
@@ -125,6 +124,15 @@ let flight3 = Flight(flightNo: "KE82", departTime: nil, terminal: nil, airline: 
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+var costPerBag = 25.00
+var costPerMile = 0.10
+var ticketCost: Double
+var totalFare: Double
 
+func calcFare(checkedBags: Double, distance: Double, travelers: Int) -> Double {
+    ticketCost = (checkedBags * costPerBag) + (distance * costPerMile)
+    totalFare = ticketCost * Double(travelers)
+    return totalFare
+}
 
-
+print(calcFare(checkedBags: 2, distance: 1000, travelers: 4))

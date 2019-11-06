@@ -45,12 +45,15 @@ class DepartureBoard {
     var airport: Airport
     
     init(city: String, abbreviation: String) {
-        airport = Airport(city: city, abbreviation: abbreviation) // initializing new instance of airport
-        flights = []
+        self.airport = Airport(city: city, abbreviation: abbreviation)// instance of an airport
+        self.flights = []
     }
 }
 
-//let departureBoard = DepartureBoard(city: "Los Angeles", abbreviation: "LAX")
+let myBoard = DepartureBoard(city: "Los Angeles", abbreviation: "LAX")
+print(myBoard.airport)
+
+
 
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
@@ -67,13 +70,32 @@ let format = DateFormatter()
 format.dateStyle = .medium
 print(format.string(from: today))
 
-var flight1 = Flight(destination: "LAX", flightNo: "9K101", airline: "Cape Air", departTime: Date(), terminal: "5", flightStatus: .landed)
-var flight2 = Flight(destination: "ONT", flightNo: "B65921", airline: "JetBlue", departTime: Date(), terminal: "5", flightStatus: .enRoute)
-var flight3 = Flight(destination: "VIA", flightNo: "KE82", airline: "Korean Air", departTime: nil, terminal: nil, flightStatus: .canceled)
+let flight1 = Flight(destination: "LAX", flightNo: "9K101", airline: "Cape Air", departTime: Date(), terminal: nil, flightStatus: .landed)
+let flight2 = Flight(destination: "ONT", flightNo: "B65921", airline: "JetBlue", departTime: Date(), terminal: "5", flightStatus: .enRoute)
+let flight3 = Flight(destination: "VIA", flightNo: "KE82", airline: "Korean Air", departTime: nil, terminal: nil, flightStatus: .canceled)
 
 
-let departureBoard2 = DepartureBoard(flights: flight1, airport: )
-DepartureBoard.flights.append(flight1)
+let myDepartureBoard = DepartureBoard(city: "Los Angeles", abbreviation: "LAX")
+myDepartureBoard.flights.append(flight1)
+myDepartureBoard.flights.append(flight2)
+myDepartureBoard.flights.append(flight3)
+
+//: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
+//: a. Use the function signature: `printDepartures(departureBoard:)`
+//:
+//: b. Use a `for in` loop to iterate over each departure
+//:
+//: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
+//:
+//: d. Print out the current DepartureBoard you created using the function
+func printDeparture(departureBoard: DepartureBoard) {
+    for x in departureBoard.Flight {
+        print("Today's current departures are \(DepartureBoard.flight.rawValue)")
+    }
+}
+
+
+
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
 //:
@@ -89,13 +111,10 @@ DepartureBoard.flights.append(flight1)
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
 
-
 func printDepartures2(departureBoard: [String] ) {
     print(<#T##items: Any...##Any#>)
     
-    
 }
-
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
@@ -141,6 +160,7 @@ default:
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+
 var costPerBag = 25.00
 var costPerMile = 0.10
 var ticketCost: Double
@@ -153,3 +173,5 @@ func calcFare(checkedBags: Double, distance: Double, travelers: Int) -> Double {
 }
 
 print(calcFare(checkedBags: 2, distance: 1000, travelers: 4))
+
+

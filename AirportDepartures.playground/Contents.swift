@@ -232,6 +232,7 @@ printDepartures2(departureBoard: departureBoard)
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 // added an alertPassengers() method to the DepartureBoard class on line 55
 departureBoard.alertPassengers()
+print()
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`
 //:
@@ -249,6 +250,22 @@ departureBoard.alertPassengers()
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+// The checkedBags argument represents the total number of checked bags for all travelers
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+    let bagFees = Double(checkedBags) * 25
+    let ticketPrice = Double(distance) * 0.1
+    
+    return bagFees + (ticketPrice * Double(travelers))
+}
 
+calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)
+calculateAirfare(checkedBags: 0, distance: 2000, travelers: 3)
+calculateAirfare(checkedBags: 1, distance: 327, travelers: 1)
 
+let totalAirfare = calculateAirfare(checkedBags: 1, distance: 327, travelers: 1)
+let numberFormatter = NumberFormatter()
+numberFormatter.numberStyle = .currency
 
+if let airfareString = numberFormatter.string(for: totalAirfare) {
+    print(airfareString)
+}

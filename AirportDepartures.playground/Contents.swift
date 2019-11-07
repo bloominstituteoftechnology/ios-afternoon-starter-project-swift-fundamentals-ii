@@ -79,9 +79,6 @@ func printDepartures(departureBoard: DeparturerBoard) {
     }
     
 }
-
-
-
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
 //:

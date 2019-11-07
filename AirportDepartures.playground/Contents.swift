@@ -65,11 +65,17 @@ class DepartureBoard {
                 if let date = flight.departureTime {
                     departureTime = dateFormatter.string(from: date)
                 }
-                let terminal = flight.terminal ?? "TBD"
-                print("Your flight to \(flight.destination.city) is scheduled to depart at \(departureTime) from terminal: \(terminal)")
+                if let terminal = flight.terminal {
+                    print("Your flight to \(flight.destination.city) is scheduled to depart at \(departureTime) from terminal: \(terminal)")
+                } else {
+                    print("Your flight to \(flight.destination.city) is scheduled to depart at \(departureTime). Please see the nearest information desk for more details.")
+                }
             case .boarding:
-                let terminal = flight.terminal ?? "TBD"
-                print("Your flight is boarding, please head to terminal: \(terminal) immediately. The doors are closing soon.")
+                if let terminal = flight.terminal {
+                    print("Your flight is boarding, please head to terminal: \(terminal) immediately. The doors are closing soon.")
+                } else {
+                    print("Your flight is boarding. If you do not know which terminal you are boarding at, please see the nearest information desk immediately. The doors are closing soon.")
+                }
             default:
                 break // No need to alert to passengers when their flight is already en route or has landed.
             }
@@ -224,7 +230,7 @@ printDepartures2(departureBoard: departureBoard)
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-// added an alertPassengers() method to the DepartureBoard class on lines 55 - 77
+// added an alertPassengers() method to the DepartureBoard class on line 55
 departureBoard.alertPassengers()
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`

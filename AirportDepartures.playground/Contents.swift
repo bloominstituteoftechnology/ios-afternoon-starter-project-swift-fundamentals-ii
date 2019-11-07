@@ -18,7 +18,7 @@ import UIKit
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
 enum FlightStatus: String {
     case EnRoute = "In the air!"
-    case Scheduled = "On time for departure."
+    case Scheduled = "You are set for this flight."
     case Cancelled = "This flight has been cancelled"
     case Delayed = "Postponed until further notice"
 }
@@ -87,7 +87,7 @@ myDepartureBoard.flights.append(BnaFlight)
 //: d. Print out the current DepartureBoard you created using the function
 func printDepartures(departureBoard: DepartureBoard) {
     for flight in myDepartureBoard.flights {
-        print("Destination: \(flight.destination) -- Airline: \(flight.airline) -- Departure Time: \(String(describing: flight.departureTime)) -- Terminal: \(String(describing: flight.terminal)) -- Status: \(flight.status)")
+        print("Destination: \(flight.destination) __ Airline: \(flight.airline) __ Departure Time: \(String(describing: flight.departureTime)) __ Terminal: \(String(describing: flight.terminal)) __ Status: \(flight.status)")
         
     }
 }
@@ -106,8 +106,27 @@ printDepartures(departureBoard: myDepartureBoard)
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
-//func printDepartures2(departureBoard: )
+func printDepartures2(departureBoard: DepartureBoard) {
+    for flight in myDepartureBoard.flights {
+        print("Destination: \(flight.destination) __ Airline: \(flight.airline) __ Departure Time: \(String(describing: flight.departureTime)) __ Terminal: \(String(describing: flight.terminal)) __ Status: \(flight.status)")
+        
+      //Changing time Func
+        var convertedTime: String = ""
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "HH-mm-ss +0000"
+        let newTimeFormatter = DateFormatter()
+        newTimeFormatter.dateFormat = "h:mm a"
+        
+        guard let dateTime = ["datetime_local"] as? String else {continue}
+        let dateComponets = dateTime.components(separatedBy: " ")
+        let splitTime = dateComponets[0]
+        if let time = timeFormatter.date(from: splitTime) {
+            convertedTime = newTimeFormatter.string(from: time)
+        }
+    }
+}
 
+printDepartures2(departureBoard: myDepartureBoard)
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
@@ -155,15 +174,16 @@ alertPassengers(flight: LaxFlight)
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
 func calculateAirfare(checkedBags: Int, distances: Int, travelers: Int) -> Double {
-    let bagCost: Double = 25
+    let bagCost: Double = 25.0
     let mileCost: Double = 0.10
     let ticketCost: Double = 166.66
     var totalCost  = ((Double(checkedBags) * bagCost) + (Double(distances) *
         mileCost) + Double(travelers) * ticketCost)
-    
+
     totalCost.round(.up)
-   
+
     return totalCost
 }
 calculateAirfare(checkedBags: 2, distances: 2000, travelers: 3)
 calculateAirfare(checkedBags: 3, distances: 3000, travelers: 3)
+

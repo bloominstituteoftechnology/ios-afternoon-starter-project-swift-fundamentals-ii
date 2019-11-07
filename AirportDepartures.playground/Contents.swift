@@ -23,6 +23,7 @@ enum FlightStatus: String {
     case landed_Delayed = "Landed - Delayed"
     case scheduled_OnTime = "Scheduled - On-time"
     case scheduled_Delayed = "Scheduled - Delayed"
+    case boarding = "Boarding"
     case canceled = "Canceled"
 }
 
@@ -48,6 +49,33 @@ class DepartureBoard {
         self.currentAirport = currentAirport
         self.departures = departures
     }
+    
+    //********************** STEP 5 **********************//
+    // This function was added to complete Step 5 below
+    func alertPassengers() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .short // h:mm AM/PM
+        
+        for flight in departures {
+            switch flight.status {
+            case .canceled:
+                print("We're sorry your flight to \(flight.destination.city) was canceled, here is a $500 voucher")
+            case .scheduled_OnTime, .scheduled_Delayed:
+                var departureTime = "TBD"
+                if let date = flight.departureTime {
+                    departureTime = dateFormatter.string(from: date)
+                }
+                let terminal = flight.terminal ?? "TBD"
+                print("Your flight to \(flight.destination.city) is scheduled to depart at \(departureTime) from terminal: \(terminal)")
+            case .boarding:
+                let terminal = flight.terminal ?? "TBD"
+                print("Your flight is boarding, please head to terminal: \(terminal) immediately. The doors are closing soon.")
+            default:
+                break // No need to alert to passengers when their flight is already en route or has landed.
+            }
+        }
+    }
+    
 }
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
@@ -137,6 +165,7 @@ func printDepartures(departureBoard: DepartureBoard) {
                 
         print(departureBoardRow)
     }
+    print()
 }
 
 printDepartures(departureBoard: departureBoard)
@@ -156,7 +185,6 @@ printDepartures(departureBoard: departureBoard)
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
 // printDepartures2(departureBoard:) is a simplified version of the original printDepartures(departureBoard:) function in Step 3.
 // This function is designed to print the departure board information as shown in the above example.
-print()
 func printDepartures2(departureBoard: DepartureBoard) {
     let dateFormatter = DateFormatter()
     dateFormatter.timeStyle = .short // h:mm AM/PM
@@ -178,6 +206,7 @@ func printDepartures2(departureBoard: DepartureBoard) {
                 
         print(departureBoardRow)
     }
+    print()
 }
 
 printDepartures2(departureBoard: departureBoard)
@@ -195,10 +224,8 @@ printDepartures2(departureBoard: departureBoard)
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
-
-
-
+// added an alertPassengers() method to the DepartureBoard class on lines 55 - 77
+departureBoard.alertPassengers()
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`
 //:

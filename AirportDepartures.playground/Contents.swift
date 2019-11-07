@@ -32,8 +32,8 @@ struct Flight {
     var destination: String
     var airline: String
     var flight: String
-    var departure: Date?
     var terminal: String?
+    var departure: Date?
     var status: FlightStatus
     
 }

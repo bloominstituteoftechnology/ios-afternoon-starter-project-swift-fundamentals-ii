@@ -19,63 +19,73 @@ import UIKit
 /*1*/
 /*1a.*/
 enum FlightStatus {
-    case enRoute
+    case enRouteDelayed =
     case scheduled
-    case delayed
+    case enRouteOnTime
     case canceled
+    case landedOnTime
+    case landedDelayed
 }
 
 /*1b.*/
+//Am I meant to only have "Destination" and Arrival" variables here?
 struct Airport {
-    let name: String
-    let code: String
+    let city: String
+    let abbreviation: String
 }
 
 /*1cde.*/
 struct Flight {
-    let arrivalAirport: Airport
-    let departureAirport: Airport
-    let airline: String
-    let flightNumber: String
-    let departureTime: Date?
-    let arrivalTime: String
-    let terminal: String?
-    let status: FlightStatus
+    var destination: String
+    var airline: String
+    var flightNumber: String
+    var depatureTime: Date?
+    var terminal: String?
+    var status: FlightStatus
     
 }
 
 /*1f*/
 
 class DepartureBoard {
-    var departureFlights: [String]
-    var currentAirport: String
+    var flights: [Flight]
+    var airport: Airport
     
-    init(departureFlights: [String], currentAirport: String) {
-        self.departureFlights = departureFlights
-        self.currentAirport = currentAirport
+    init(city: String, abbreviation: String) { // We could name these variables anything, but we chose city and abbriviation.
+        self.flights = [] //in the init, you are actually initializing instances of the properties.
+        self.airport = Airport(city: city, abbreviation: abbreviation) // here we initalized a new instance of "airport." We didn't
     }
-        
 }
 
 /* 2. Create 3 flights and add them to a departure board
-a. For the departure time, use Date() for the current time
+a. For the departure time, use Date() for the current time  //Is that an Apple provided method or did we define it somewhere?
 b. Use the Array append() method to add Flight’s
 c. Make one of the flights .canceled with a nil departure time
 d. Make one of the flights have a nil terminal because it has not been decided yet.
 e. Stretch: Look at the API for DateComponents for creating a specific time */
 
-//: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
-//: a. Use the function signature: `printDepartures(departureBoard:)`
-//:
-//: b. Use a `for in` loop to iterate over each departure
-//:
-//: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
-//:
-//: d. Print out the current DepartureBoard you created using the function
+var flight1 = Flight(destination: "LAX", airline: "Jet Blue", flightNumber: "G101", depatureTime: nil, terminal: nil, status: .canceled)
+var flight2 = Flight(destination: "ONT", airline: "Delta", flightNumber: "B9", depatureTime: Date(), terminal: "8", status: .enRouteOnTime)
+var flight3 = Flight(destination: "VIE", airline: "United Airlines", flightNumber: "F22", depatureTime: Date(), terminal: "5", status: .landedOnTime)
 
+let departureBoard = DepartureBoard(city: "Los Angeles", abbreviation: "LAX")
+//We create an instance of DepartureBoard in order to append to it.
 
+departureBoard.flights.append(flight1)
+departureBoard.flights.append(flight2)
+departureBoard.flights.append(flight3)
 
+/* 3. Create a free-Standing function that can print the flight information from the DepartureBoard
+ a. Use the function signature: printDeparture(departureBoard:)
+ b. Use a for in loop to iterate over each departure
+ c. Make your FlightStatus enum conform to String so you can print the rawValue String values from the enum. see the enum documentation.
+ d. Print out the current DepartureBoard you created using the funciton.*/
 
+func printDeparture(departureBoard: DepartureBoard) {
+    for departure in departureBoard.flights {
+        print("\(departure.flights.rawValue)")
+    }
+}
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
 //:

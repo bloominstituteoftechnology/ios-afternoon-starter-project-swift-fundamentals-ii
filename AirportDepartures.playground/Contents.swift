@@ -21,20 +21,8 @@ enum FlightStatus: String {
     case Scheduled
     case Canceled
     case Delayed
-    case Landed
+    case Boarding
 }
-//
-//enum Terminal: String {
-//    case Terminal1 = "Terminal 1"
-//    case Terminal2 = "Terminal 2"
-//    case Terminal3 = "Terminal 3"
-//    case Terminal4 = "Terminal 4"
-//    case Terminal5 = "Terminal 5"
-//    case Terminal6 = "Terminal 6"
-//    case Terminal7 = "Terminal 7"
-//    case Terminal8 = "Terminal 8"
-//    case TerminalTBIT = "Terminal TBIT"
-//}
 
 struct Airport {
     var destinationCity: String
@@ -50,6 +38,7 @@ struct Airline {
 struct Flight {
     let flightNumber: String
     let airline: Airline
+    let callName: String
     let departureTime: String?
     let scheduledDepartureTime: String
     let scheduledArrivalTime: String
@@ -57,13 +46,11 @@ struct Flight {
     let terminal: String?
     let gate: String?
     let flightStatus: FlightStatus
-    let departureAirport: String
+    let departureAirport: Airport
     let arrivalAirport: Airport
     let date: Date?
-   
     
 }
-
 
 class DepartureBoard {
     var flightList: [Flight]
@@ -71,8 +58,30 @@ class DepartureBoard {
     
     
     init(airport: Airport) {
-        self.flightList = []
         self.airport = airport
+        self.flightList = []
+        
+        
+    }
+    func passengerAlert() {
+        for flights in flightList {
+            
+            switch flights.flightStatus {
+            case FlightStatus.Canceled:
+                print("We're sorry your flight to \(flights.arrivalAirport.destinationCity) was canceled, here is a $500 voucher")
+            case FlightStatus.Scheduled:
+                print("Your flight to \(flights.arrivalAirport.destinationCity) is scheduled to depart at \(flights.scheduledDepartureTime) from terminal: \(flights.terminal!)")
+            case FlightStatus.Boarding:
+                print("Your flight is boarding, please head to terminal: \(flights.terminal!) immediately. The doors are closing soon.")
+            case FlightStatus.Delayed:
+                print("We're sorry your flight to \(flights.arrivalAirport.destinationCity) has been delayed. Thank you for flying with \(flights.airline.name)")
+            case FlightStatus.En_Route:
+                print("Thank you for flying with \(flights.airline.name) we are currently \(FlightStatus.En_Route) hope you enjoy \(flights.arrivalAirport.destinationCity)")
+            default:
+                print("No status available.")
+            }
+            
+        }
     }
 }
 //: ## 2. Create 3 flights and add them to a departure board
@@ -85,19 +94,22 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-let jetBlue = Airline(name: "JetBlue", callName: <#T##String#>)
+
+let jetBlue = Airline(name: "JetBlue", callName: "JBU")
+let americanAirlines = Airline(name: "American Airlines", callName: "AAL")
+let qantas = Airline(name: "Qantas", callName: "QF")
+
+let arrivingAirport = Airport(destinationCity: "Los Angeles", airportCallName: "LAX")
+let departureAirport = Airport(destinationCity: "New York", airportCallName: "JFK")
+
+let jetBlueFlight = Flight(flightNumber: "B6 23", airline: jetBlue, callName: "JBU", departureTime: "05:30 am", scheduledDepartureTime: "05:40 am", scheduledArrivalTime: "08:51 am", estimatedArrivalTime: "08:51 am", terminal: "4", gate: "59", flightStatus: .En_Route, departureAirport: departureAirport, arrivalAirport: arrivingAirport, date: Date())
+
+let americanAirlineFlight = Flight(flightNumber: "AA 171", airline: americanAirlines, callName: "AAL" , departureTime: nil, scheduledDepartureTime: "06:00 am", scheduledArrivalTime: "09:28 am", estimatedArrivalTime: "09:31 am", terminal: nil, gate: "42A", flightStatus: .Canceled, departureAirport: departureAirport, arrivalAirport: arrivingAirport, date: Date())
+
+let qantasFlight = Flight(flightNumber: "QF 3213", airline: qantas, callName: "QF", departureTime: "05:54 am", scheduledDepartureTime: "06:00 am", scheduledArrivalTime: "09:28 am", estimatedArrivalTime: "09:33 am", terminal: "4", gate: "42A", flightStatus: .Boarding, departureAirport: departureAirport, arrivalAirport: arrivingAirport, date: Date())
 
 
-
-let jetBlueFlight = Flight(flightNumber: "B6 23", airline: "jetBlue", departureTime: "05:30 am", scheduledDepartureTime: "05:40 am", scheduledArrivalTime: "08:51 am", estimatedArrivalTime: "08:51 am", terminal: "4", gate: "59", flightStatus: .Scheduled, departureAirport: "New York (JFK)", arrivalAirport: "Los Angeles (LAX)", date: Date())
-
-let americanAirlineFlight = Flight(flightNumber: "AA 171", airline: , departureTime: "Date()", scheduledDepartureTime: "06:00 am", scheduledArrivalTime: "09:28 am", estimatedArrivalTime: "09:31 am", terminal: nil, gate: "42A", flightStatus: .Canceled, departureAirport: "New York (JFK)", arrivalAirport: "Los Angeles (LAX)", date: Date())
-
-let qantasFlight = Flight(flightNumber: "QF 3213", airline: "Qantas", departureTime: "05:54 am", scheduledDepartureTime: "06:00 am", scheduledArrivalTime: "09:28 am", estimatedArrivalTime: "09:33 am", terminal: "4", gate: "42A", flightStatus: .En_Route, departureAirport: "New York (JFK)", arrivalAirport: "Los Angeles (LAX)", date: Date())
-
-var currentArrivingAirport = Airport(destinationCity: "Los Angeles", airportCallName: "LAX")
-
-var departureBoard = DepartureBoard(airport: currentArrivingAirport)
+var departureBoard = DepartureBoard(airport: departureAirport)
 
 departureBoard.flightList.append(americanAirlineFlight)
 departureBoard.flightList.append(jetBlueFlight)
@@ -105,10 +117,6 @@ departureBoard.flightList.append(qantasFlight)
 
 
 
-//departureBoard1.append(americanAirlineFlight)
-//departureBoard1.append(qantasFlight)
-
-//print(allFlights)
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:
@@ -120,24 +128,15 @@ departureBoard.flightList.append(qantasFlight)
 
 func printDepartures(departureBoard: DepartureBoard) {
     
-    for departure in  departureBoard.flightList {
-        let flightInfo: String = "\()"
-        let destinationCity: String
-        let departingCity: String
-        let departureTime: String?
-        let scheduledDepartureTime: String
-        let scheduledArrivalTime: String
-        let estimatedArrivalTime: String
-        let terminal: String?
-        let gate: String
-        let flightStatus: FlightStatus
-        let departureAirport: String
-        let arrivalAirport: String
-        let date: Date?
+    for flight in departureBoard.flightList {
+    
+        
+        print("\nDate: \(flight.departureTime) \n\tFlight Status: \(flight.flightStatus) Departure Time: \(flight.departureTime)  Airline: \(flight.airline.name), Call Name: \(flight.callName) flight number: \(flight.flightNumber)\n\tFlight To: \(arrivingAirport.destinationCity) Estimated Arrival Time: \(flight.estimatedArrivalTime ?? "") Scheduled Arrival Time: \(flight.scheduledArrivalTime) Terminal: \(flight.terminal ?? "") Gate: \(flight.gate ?? "")")
        
     }
 }
 
+printDepartures(departureBoard: departureBoard)
 
 
 
@@ -156,7 +155,20 @@ func printDepartures(departureBoard: DepartureBoard) {
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
+func printDepartures2(depatureBoard: DepartureBoard) {
+    
+    for flight in depatureBoard.flightList {
+        
+        if let timeDeparture = flight.departureTime {
+            print("\(timeDeparture)")
+        } else {
+            print("")
+        }
+        
+    }
+}
 
+printDepartures2(depatureBoard: departureBoard)
 
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
@@ -175,7 +187,7 @@ func printDepartures(departureBoard: DepartureBoard) {
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 
 
-
+departureBoard.passengerAlert()
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`
@@ -194,6 +206,18 @@ func printDepartures(departureBoard: DepartureBoard) {
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+    let checkedBags: Double = 25
+    let miles: Double = 1
+    let travelers: Double
+    let costPerMile: Double = 0.10 * miles
+    
+    let totalCostofAirfare = (costPerMile)
+   
+    return totalCostofAirfare
+}
 
+let myFlight = calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)
 
+print(myFlight)
 

@@ -111,7 +111,12 @@ func printDepartures2(departuBoard: DepartureBoard) {
     for flight in departuBoard.flight {
         if let terminal = flight.terminal,
             let departureTime = flight.departureTime {
-            print("Your flight at terminal \(terminal), is \(flight.flightStatus.rawValue). It departs at \(departureTime)")
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .none
+            dateFormatter.timeStyle = .short
+            
+            let timeString = dateFormatter.string(from: departureTime)
+            print("Your flight at terminal \(terminal), is \(flight.flightStatus.rawValue). It departs at \(timeString)")
         }
     }
 }

@@ -77,10 +77,10 @@ board.alertPassengers()
 func printDepartures(departureBoard: DepartureBoard) {
     
     for flight in board.departureFlights {
-        // Create a variable that can be updated. Make its initial value an empty string
+        
         var finalDate = ""
         var finalTerminal = ""
-        // Access the date of the current flight in the for loop and assign that value to date1
+
         if let unwrappedDate = flight.departureTime {
             
             let dateFormatter = DateFormatter()
@@ -95,9 +95,6 @@ func printDepartures(departureBoard: DepartureBoard) {
             finalTerminal = "\(unwrappedTerminal)"
         }
         
-        // Regardless of whatever happens, print out the finalDate anyways.
-        // - If the optional binding did not work, this prints out an empty string (because that was the initial value assigned to it)
-        // - If it did work, this will print out the string interpolated value of date1 that was assigned in line 120.
         print("Destination: \(flight.destination.name) Name: \(flight.airlineName) Time: \(finalDate) Terminal: \(finalTerminal) Status: \(flight.flightStatus.rawValue),")
     }
 }

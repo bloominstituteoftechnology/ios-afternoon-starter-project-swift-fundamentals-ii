@@ -16,6 +16,14 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
+
+func dateConverter(date: Date) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .none
+    dateFormatter.timeStyle = .short
+    return dateFormatter.string(from: date)
+}
+
 enum FlightStatus: String {
     case enRoute = "En Route"
     case scheduled = "Scheduled"
@@ -49,7 +57,8 @@ class DepartureBoard {
         for flight in flights {
             var departTime = "TBD"
             if let departureTime = flight.departureTime {
-                departTime = "\(departureTime)"
+                departTime = dateConverter(date: departureTime)
+//                departTime = "\(departureTime)"
             }
             var flightTerminal = "TBD"
             if let terminal = flight.terminal {
@@ -105,9 +114,10 @@ departureBoard.flights.append(EK6071)
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
+
 func printDepartures(departureBoard: DepartureBoard) {
     for flight in departureBoard.flights {
-        let departureBoard = "Destination: \(flight.destination) Airline: \(flight.airline) Flight: \(flight.flightNumber) Departure: \(String(describing: flight.departureTime)) Terminal: \(flight.terminal ?? "") Flight Status: \(flight.status.rawValue)"
+        let departureBoard = "Destination: \(flight.destination) Airline: \(flight.airline) Flight: \(flight.flightNumber) Departure: \(String(describing: flight.departureTime))) Terminal: \(flight.terminal ?? "") Flight Status: \(flight.status.rawValue)"
         
         print(departureBoard)
     }
@@ -129,11 +139,12 @@ printDepartures(departureBoard: departureBoard)
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
+
 func printDepartures2(departureBoard: DepartureBoard) {
     for flight in departureBoard.flights {
         var departureBoard = ("Destination: \(flight.destination) Airline: \(flight.airline) Flight: \(flight.flightNumber)")
         if let departureTime = flight.departureTime {
-            departureBoard.append(" Departure: \(departureTime)")
+            departureBoard.append(" Departure: \(dateConverter(date: departureTime))")
         } else {
             departureBoard.append("")
         }
@@ -188,6 +199,11 @@ departureBoard.alertPassengers()
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+func convertToCurrency(amount: Double) -> String {
+    let currencyFormatter = NumberFormatter()
+    currencyFormatter.numberStyle = .currency
+    return currencyFormatter.string(from: NSNumber(value: amount))!
+}
 
 func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
     var grandTotal: Double = 0.00
@@ -200,6 +216,12 @@ func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double
     return grandTotal
 }
 
-print(calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3))
-print(calculateAirfare(checkedBags: 4, distance: 2500, travelers: 4))
-print(calculateAirfare(checkedBags: 6, distance: 1200, travelers: 8))
+print(convertToCurrency(amount: calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)))
+print(convertToCurrency(amount: calculateAirfare(checkedBags: 4, distance: 2500, travelers: 4)))
+print(convertToCurrency(amount: calculateAirfare(checkedBags: 6, distance: 1200, travelers: 8)))
+
+
+
+
+
+

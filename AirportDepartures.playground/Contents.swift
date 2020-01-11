@@ -36,7 +36,7 @@ struct Airport {
     let name: String
     let location: String
     let numRunways: Int
-    var allowedPlaneSizes: [PlaneSize] = [.xLarge, .large, .medium, .small] //needs to be mutable in order to provide 2 init methods
+    var allowedPlaneSizes: [PlaneSize] = [.xLarge, .large, .medium, .small] //needs to be mutable in order to provide 2 init methods since it has a default value
     
     func isPlaneAllowed(size planeSize: PlaneSize) -> Bool {
         for allowedSize in allowedPlaneSizes {
@@ -67,7 +67,7 @@ struct Flight {
     }
     
     func formattedDate() -> String {
-        var timeString = "00:00"
+        var timeString = "TBD (See Information Desk)" //just in case something fails, we need to return something
         if let departureTime = self.departureTime {
            //format the time
            let dateFormatter = DateFormatter()
@@ -105,6 +105,8 @@ class DepartureBoard {
     }
     
     func sendStatusAlert() {
+        //playSound("dingDong.wav")
+        print("Announcements:")
         for flight in flights {
             if let status = flight.status { //only print flights that have a status
                 //for handling a nil departure time
@@ -129,17 +131,17 @@ class DepartureBoard {
                     case .Scheduled:
                         print("Your flight \(callsign) to \(destinationAirport) is scheduled to depart at \(departureTimeMessage) from terminal: \(terminalMessage)")
                     case .Boarding:
-                        print("Your flight \(callsign) is boarding, please head to terminal: \(terminalMessage) immediately. The doors are closing soon.")
+                        print("Your flight \(callsign) to \(destinationAirport) is boarding, please head to terminal: \(terminalMessage) immediately. The doors are closing soon.")
                     case .Delayed:
-                        print("We're sorry, but your flight \(callsign) has been delayed. Please head to Terminal: \(terminalMessage) to see your flight's new departure time.")
+                        print("We're sorry, but your flight \(callsign) to \(destinationAirport) has been delayed. Please head to Terminal: \(terminalMessage) to see your flight's new departure time.")
                     case .EnRoute:
-                        print("Your flight \(callsign) is currently en route and is expected to arrive at Terminal \(terminalMessage) shortly. Departure time is scheduled for: \(departureTimeMessage)")
+                        print("Your flight \(callsign) to \(destinationAirport) is currently en route and is expected to arrive at Terminal \(terminalMessage) shortly. Departure time is scheduled for: \(departureTimeMessage)")
                     case .OnTime:
-                        print("Your flight is on time. Please head to terminal \(terminalMessage) for your flight's departure at \(departureTimeMessage)")
+                        print("Your flight \(callsign) to \(destinationAirport) is on time. Please head to terminal \(terminalMessage) for your flight's departure at \(departureTimeMessage)")
                     }
             }
         }
-        print("\n")
+        print()
     }
     
 }
@@ -160,10 +162,10 @@ var date = Date().addingTimeInterval(TimeInterval(5.0 * 60.0)) //add 5 minutes t
 let departingFlight = Flight(airline: "Private(Fred Sanders)", callsign: "JFK01", departure: buchField, arrival: jfkIntl, size: .small, numPassengers: 4, departureTime: date, terminal: "1", status: .OnTime)
 
 date = date.addingTimeInterval(TimeInterval(115.0 * 60.0)) //2 hours from now since date is already set to 5 minutes from now
-let arrivingFlight01 = Flight(airline: "Private(Montgomery Hewitt)", callsign: "Buch01", departure: jfkIntl, arrival: buchField, size: .medium, numPassengers: 12, departureTime: date)
+let arrivingFlight01 = Flight(airline: "Private(Montgomery Hewitt)", callsign: "Buch01", departure: jfkIntl, arrival: buchField, size: .medium, numPassengers: 12, departureTime: date, status: .Delayed)
 let arrivingFlight02 = Flight(airline: "All Time Travel",callsign: "Buch02", departure: jfkIntl, arrival: buchField, size: .medium, numPassengers: 12)
 
-departureBoard.addFlight(flight: departingFlight)
+departureBoard.addFlight(flight: departingFlight) //class method appends flight to flight array
 departureBoard.addFlight(flight: arrivingFlight01)
 departureBoard.addFlight(flight: arrivingFlight02)
 //departureBoard.departFlight(flight: departingFlight) //uncommenting this will make it so there are no departing flights since there's only 1 instantiated
@@ -219,7 +221,7 @@ func listFlights(departing: Bool, departureBoard: DepartureBoard) {
             
         }
     }
-    print("\n")
+    print()
 }
 
 listFlights(departing: false, departureBoard: departureBoard)

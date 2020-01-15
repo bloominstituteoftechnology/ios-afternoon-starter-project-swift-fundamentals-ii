@@ -65,6 +65,13 @@ class DepartureBoard{
 
 
 
+let calendar = Calendar.current
+var timeZone = TimeZone(abbreviation: "PDT")
+let flightTimeComponents = DateComponents(calendar: calendar, timeZone: timeZone, month: 1, day: 4, hour: 14, minute: 30)
+
+
+
+
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:

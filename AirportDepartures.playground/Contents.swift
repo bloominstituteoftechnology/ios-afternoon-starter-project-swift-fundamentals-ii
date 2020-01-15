@@ -44,11 +44,9 @@ struct Flight {
 
 class DepartureBoard{
     var departureFlights: Flight
-    var currentAirport: String = "JFK Airport"
     
-    init(departureFlight: Flight, currentAirport: String) {
+    init(departureFlight: Flight) {
         self.departureFlights = departureFlight
-        self.currentAirport = currentAirport
     }
 }
 
@@ -85,7 +83,10 @@ var flight789 = Flight(flightStatus: .Cancelled,
                        departureTime: nil,
                        terminal: nil)
 
-
+var departureBoardJFK: [DepartureBoard] = []
+departureBoardJFK.append(DepartureBoard(departureFlight: flight123))
+departureBoardJFK.append(DepartureBoard(departureFlight: flight456))
+departureBoardJFK.append(DepartureBoard(departureFlight: flight789))
 
 
 
@@ -99,7 +100,11 @@ var flight789 = Flight(flightStatus: .Cancelled,
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
-
+func printDepartures (departureBoard: DepartureBoard){
+    
+    
+    
+}
 
 
 

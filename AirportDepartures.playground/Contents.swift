@@ -17,15 +17,15 @@ import UIKit
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
 
-enum FlightStatus {
-    case EnRouteOnTime
-    case EnRouteDelayed
-    case EnRouteAheadOfSchedule
-    case ScheduledOnTime
-    case ScheduledDelayed
-    case LandedOnTime
-    case LandedDelayed
-    case Cancelled
+enum FlightStatus: String {
+    case EnRouteOnTime = "On time and en route"
+    case EnRouteDelayed = "iDelayed and en route"
+    case EnRouteAheadOfSchedule = "En route and ahead of schedule"
+    case ScheduledOnTime = "On time as scheduled"
+    case ScheduledDelayed = "Delayed"
+    case LandedOnTime = "Landed on time"
+    case LandedDelayed = "Delayed, and has landed"
+    case Cancelled = "Cancelled"
     }
 
 struct AirportDestArrival {
@@ -100,12 +100,17 @@ departureBoardJFK.append(DepartureBoard(departureFlight: flight789))
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
-func printDepartures (departureBoard: DepartureBoard){
-    
-    
-    
-}
-
+func printDepartures (departureBoard: [DepartureBoard]){
+    for flights in departureBoardJFK{
+        if let departureTime = flights.departureFlights.departureTime,
+            let terminal = flights.departureFlights.terminal{
+            print("Flight Numner: \(flights.departureFlights.flightNumber) Arriving from: \(flights.departureFlights.arrivalCity.cityCode)/\(flights.departureFlights.arrivalCity.cityName) Destination: \(flights.departureFlights.destinationCity.cityCode)/\(flights.departureFlights.destinationCity.cityName) Flight Status: \(flights.departureFlights.flightStatus.rawValue) Departing at: \(departureTime) From: \(terminal)")
+        }else {
+            print("Your flight was cancelled. Please see the Service Desk")
+        }
+    }
+    }
+printDepartures(departureBoard: departureBoardJFK)
 
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil

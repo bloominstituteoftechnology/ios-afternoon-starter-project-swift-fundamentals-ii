@@ -38,7 +38,7 @@ struct Flight {
     var destinationCity: AirportDestArrival
     var arrivalCity: AirportDestArrival
     let flightNumber: String
-    var departureTime: Date?
+    var departureTime: DateComponents?
     var terminal: String?
 }
 
@@ -65,19 +65,18 @@ class DepartureBoard{
 
 let calendar = Calendar.current
 var timeZone = TimeZone(abbreviation: "EST")
-let flightTimeComponents = DateComponents(calendar: calendar, timeZone: timeZone, month: 1, day: 3, hour: 10, minute: 30)
 
 var flight123 = Flight(flightStatus: .ScheduledOnTime,
                        destinationCity: AirportDestArrival(cityName: "Los Angeles", cityCode: "Lax"),
                        arrivalCity: AirportDestArrival(cityName: "McCarran International", cityCode:"LAS"),
                        flightNumber: "LM123",
-                       departureTime: Date(),
+                       departureTime: DateComponents(calendar: calendar, timeZone: timeZone, year: 2020, month: 1, day: 3, hour: 13, minute: 0),
                        terminal: "Terminal 4")
 var flight456 = Flight(flightStatus: .EnRouteOnTime,
                        destinationCity: AirportDestArrival(cityName: "Miami International", cityCode: "MIA"),
                        arrivalCity: AirportDestArrival(cityName: "John F Kennedy International", cityCode: "JFK"),
                        flightNumber: "MF456",
-                       departureTime: Date(),
+                       departureTime: DateComponents(calendar: calendar, timeZone: timeZone, year: 2020, month: 1, day: 3, hour: 8, minute: 30),
                        terminal: "Terminal 5")
 var flight789 = Flight(flightStatus: .Cancelled,
                        destinationCity: AirportDestArrival(cityName: "Dallas/Fort Worth International", cityCode: "DFW"),
@@ -85,7 +84,6 @@ var flight789 = Flight(flightStatus: .Cancelled,
                        flightNumber: "MD789",
                        departureTime: nil,
                        terminal: nil)
-
 
 
 

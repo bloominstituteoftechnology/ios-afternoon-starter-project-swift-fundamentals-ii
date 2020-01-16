@@ -16,7 +16,41 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
+enum FlightStatus: String {
+    case EnRoute = "En Route"
+    case Scheduled = "Scheduled"
+    case Canceled = "Canceled"
+    case Delayed = "Delayed"
+    case Landed = "Landed"
+}
 
+
+struct Airport {
+    let name: String
+    let location: String
+}
+
+struct Flight {
+    let airline: String
+    let departureTime: Date?
+    let terminal: String?
+    let flightStatus: FlightStatus
+}
+
+class DepartureBoard {
+    var flights: [Flight]
+    let airport: Airport
+    
+    init(flights: [Flight], airport: Airport) {
+        self.airport = airport
+        self.flights = flights
+    }
+        func flightAlert() {
+            for flights in DepartureBoard.flights {
+                
+        }
+    }
+}
 
 
 //: ## 2. Create 3 flights and add them to a departure board
@@ -29,9 +63,15 @@ import UIKit
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
+var jfkDepartureBoard = DepartureBoard(flights: [], airport: Airport(name: "JFK", location: "New York"))
 
+let flightOne = Flight(airline: "JetBlue Airways", departureTime: Date(), terminal: "5", flightStatus: .Landed)
+let flightTwo = Flight(airline: "Silk Way West", departureTime: nil, terminal: nil, flightStatus: .Scheduled)
+let flightThree = Flight(airline: "Qatar Airways", departureTime: Date(), terminal: "5", flightStatus: .Landed)
 
-
+jfkDepartureBoard.flights.append(flightOne)
+jfkDepartureBoard.flights.append(flightTwo)
+jfkDepartureBoard.flights.append(flightThree)
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:
@@ -40,10 +80,12 @@ import UIKit
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
-
-
-
-
+func printDepartures(departureBoard: DepartureBoard) {
+    for Flight in departureBoard.flights {
+        print(Flight)
+    }
+}
+printDepartures(departureBoard: jfkDepartureBoard)
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
 //:
@@ -58,7 +100,21 @@ import UIKit
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
+func printDepartures2(departureBoard: DepartureBoard) {
+    for flight in departureBoard.flights {
+        var unwrappedDepartureTimeString = ""
+        if let unwrappedDepartureTime = flight.departureTime {
+            unwrappedDepartureTimeString = "\(unwrappedDepartureTime)"
+        }
+        var unwrappedTerminalString = ""
+        if let unwrappedTerminal = flight.terminal {
+            unwrappedTerminalString = "\(unwrappedTerminal)"
+}
+        print("Airline: \(flight.airline), Departure Time: \(unwrappedDepartureTimeString), Terminal: \(unwrappedTerminalString) Flight Status: \(flight.flightStatus)")
+    }
+}
 
+printDepartures2(departureBoard: jfkDepartureBoard)
 
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.

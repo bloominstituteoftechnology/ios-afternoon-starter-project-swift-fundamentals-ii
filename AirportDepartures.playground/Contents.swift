@@ -16,9 +16,50 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
+enum FlightStatus: String {
+    case enRoute = "En Route"
+    case scheduled = "Scheduled"
+    case canceled = "Canceled"
+    case delayed = "Delayed"
+    case boarding = "Boarding"
+    
+}
 
+struct Airport {
+    let destination = "Los Angels"
+    let arrival = "KDKI"
+}
 
+struct Flight {
+    var departureTime: Date?
+    var terminal: String?
+    var airline: String
+    var status: FlightStatus
+    var destination: String
+    
+}
 
+class DepartureBoard {
+    var departureFlight: [Flight] = []
+    var currentAirport: Airport
+    
+    init(departureFlight: [Flight], currentAirport: Airport) {
+        self.departureFlight = departureFlight
+        self.currentAirport = currentAirport
+    }
+}
+
+func alertPassengers() {
+    for flight in  {
+        switch flight.FlightStatus {
+            
+        case .EnRoute:
+            print("This flight is on route")
+            
+            
+        }
+    }
+}
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -29,6 +70,16 @@ import UIKit
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
+let flight1 = Flight(departureTime: nil, terminal: "3", airline: "delta", status: .canceled, destination: "Mexico")
+let flight2 = Flight(departureTime: Date(), terminal: nil, airline: "SW Airlines", status: .boarding, destination: "Italy")
+let flight3 = Flight(departureTime: Date(), terminal: "9", airline: "American Airlines", status: .delayed, destination: "Alaska")
+
+let jfk = Airport()
+
+let currentDepartureBoard = DepartureBoard(departureFlight: [], currentAirport: jfk )
+
+currentDepartureBoard.departureFlight.append(contentsOf: [flight1, flight2, flight3])
+print(currentDepartureBoard.departureFlight)
 
 
 
@@ -40,10 +91,13 @@ import UIKit
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
+func printDepartures(departureBoard: DepartureBoard) {
+    for currentDepartureBoard in departureBoard.departureFlight {
+    print(currentDepartureBoard)
+    }
+}
 
-
-
-
+printDepartures(departureBoard: currentDepartureBoard)
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
 //:
@@ -58,8 +112,13 @@ import UIKit
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
-
-
+func printDepartures2(departureBoard: DepartureBoard ) {
+    let flights = [flight1, flight2, flight3]
+    for flight in flights {
+        print("\(flight)")
+    
+   }
+}
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
@@ -75,9 +134,6 @@ import UIKit
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
-
-
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`

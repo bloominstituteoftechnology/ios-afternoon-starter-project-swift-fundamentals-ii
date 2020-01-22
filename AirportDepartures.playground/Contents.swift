@@ -16,8 +16,39 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
+enum FlightStatus: String {
+    case enRoute
+    case scheduled
+    case canceled
+    case delayed
+}
 
+struct Airport {
+    let Destination: String
+}
 
+struct Flight {
+    let flight: String
+    let leaveDate: String?
+    let arriveDate: String?
+    let terminal: Int?
+    let status: FlightStatus
+}
+
+class DepartureBoard {
+    let flights: Flight
+    let airports: Airport
+    var departures: [Flight]
+    
+    init(flights: Flight, airports: Airport) {
+        self.flights = flights
+        self.airports = airports
+        self.departures = []
+    }
+    func add(flight: Flight){
+        departures.append(flight)
+    }
+}
 
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
@@ -29,7 +60,14 @@ import UIKit
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
+//let flight0 = Flight(flight: "AA2896", leaveDate: "03/01/2020", arriveDate: "03/03/2020", terminal: 8, status: .enRoute)
 
+
+//let flight1 = DepartureBoard(flights: .init(flight: "AA2896", leaveDate: "03/01/2020", arriveDate: "03/03/2020", terminal: 8, status: .enRoute), airports: .init(Destination: "GEO"))
+//
+//let flight2 = DepartureBoard(flights: .init(flight: "QF12", leaveDate: "04/01/2020", arriveDate: "04/03/2020", terminal: 8, status: .delayed), airports: .init(Destination: "LAX"))
+//
+//let flight3 = DepartureBoard(flights: .init(flight: "AA2652", leaveDate: "05/01/2020", arriveDate: "05/03/2020", terminal: nil, status: .canceled), airports: .init(Destination: "SFO"))
 
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
@@ -40,7 +78,6 @@ import UIKit
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
-
 
 
 

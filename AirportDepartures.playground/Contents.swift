@@ -99,6 +99,10 @@ func printDepartures(departureBoard: DepartureBoard) {
 printDepartures(departureBoard: newDepartureBoard)
 
 
+
+
+
+
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
 //:
@@ -114,9 +118,32 @@ printDepartures(departureBoard: newDepartureBoard)
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
 func printDepartures2(departureBoard: DepartureBoard) {
-    print(departureBoard.departureFlights)
+    for flight in departureBoard.departureFlights {
+           
+           var departureString: String = ""
+           if let departureTime = flight.departureTime {
+               departureString = "\(departureTime)"
+               
+               // Stretch goal
+               
+               let dateFormatter = DateFormatter()
+               dateFormatter.dateStyle = .none
+               dateFormatter.timeStyle = .short
+               departureString = "\(dateFormatter.string(from: departureTime))"
+               
+           }
+           
+           var terminalString: String = ""
+           if let terminal = flight.terminal {
+               terminalString = terminal
+           }
+           
+        print("Destination: \(flight.destination.city) Terminal: \(flight.terminal) Flight Status: \(flight.flightStatus) Departure Time: \(flight.departureTime)")
+       }
+
 }
 
+print(newDepartureBoard.departureFlights)
 
 
 
@@ -129,24 +156,34 @@ func printDepartures2(departureBoard: DepartureBoard) {
 
 
 
+    func alertPassengers() {
+        for flight in departureFlights {
+            
+            var timeString = "TBD"
+            if let time = flight.departureTime {
+                timeString = "\(time)"
+            }
+            var terminalString = "TBD"
+            if let terminal = flight.terminal {
+                terminalString = terminal
+            }
+            
+            switch flight.status {
+            case .canceled:
+                print("We're sorry your flight to \(flight.destination.city) was canceled, here is a $500 voucher")
+            case .scheduled:
+                print("Your flight to \(flight.destination.city) is scheduled to depart at \(timeString) from terminal: \(terminalString)")
+            case .boarding:
+                print("Your flight is boarding, please head to terminal: \(terminalString) immediately. The doors are closing soon.")
+            case .en_route:
+                print("Enjoy your flight!")
+            case .delayed:
+                print("Your flight has been delayed, please see one of the flight staff to so they can assist you.")
+            }
+        }
+    }
+    
 
-
-
-
-//: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
-//: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
-//:
-//: b. If the flight is scheduled print out: "Your flight to \(city) is scheduled to depart at \(time) from terminal: \(terminal)"
-//:
-//: c. If their flight is boarding print out: "Your flight is boarding, please head to terminal: \(terminal) immediately. The doors are closing soon."
-//:
-//: d. If the `departureTime` or `terminal` are optional, use "TBD" instead of a blank String
-//:
-//: e. If you have any other cases to handle please print out appropriate messages
-//:
-//: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
-//:
-//: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 
 
 
@@ -177,6 +214,11 @@ func printDepartures2(departureBoard: DepartureBoard) {
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+    let total = (Double(checkedBags) * 25 + Double(distance) * 0.1) * Double(travelers)
+    return total
+}
 
+print(calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3))
 
 

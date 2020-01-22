@@ -17,6 +17,19 @@ import UIKit
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
 
+enum FlightStatus {
+    case enRoute
+    case scheduled
+    case canceled
+    case delayed
+    case landed
+    case diverted
+}
+
+struct Airport {
+
+}
+
 
 
 //: ## 2. Create 3 flights and add them to a departure board

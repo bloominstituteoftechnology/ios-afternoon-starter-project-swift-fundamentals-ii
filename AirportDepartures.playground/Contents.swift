@@ -64,6 +64,18 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
+let flight1 = Flight(craftName: "Boing 777", terminal: "A", passangerNumber: "E8798", isCheckedIn: true, seatNumber: "B3", departureTime: nil, status: .cancelled)
+
+let flight2 = Flight(craftName: "Boing 222", terminal: nil, passangerNumber: "R456", isCheckedIn: true, seatNumber: "D17", departureTime: Date(), status: .enRoute)
+
+let flight3 = Flight(craftName: "Boing 345", terminal: "C", passangerNumber: "FR55", isCheckedIn: true, seatNumber: "F33", departureTime: DateComponents(year: 1985, month: 10, day: 25, hour: 8, minute: 00, second: 00).date, status: .scheduled)
+
+let bangorAirport = Airport(name: "Bangor Airport", address: "12 street, Bangor ME, 04041", phoneNumber: "207-485-8899", gates: "12", numberOfEmployees: 12_099, numberOfPlanes: 2_000)
+
+let departureBoard = DepartureBoard(currentAirport: bangorAirport)
+departureBoard.flights.append(flight1)
+departureBoard.flights.append(flight2)
+departureBoard.flights.append(flight3)
 
 
 

@@ -17,6 +17,40 @@ import UIKit
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
 
+enum FlightStatus: String {
+    case enroute
+    case scheduled
+    case canceled
+    case delayed
+    case ontime
+    case boarding
+}
+
+
+struct DestinationAirport {
+    var name: String
+    var location: String
+}
+
+struct Flight {
+    var destination: String
+    var airline: String
+    var flight: String
+    var departureTime: String?
+    var terminal: String?
+    var flightStatus: FlightStatus
+}
+
+class DepartureBoard {
+    var currentAirport: String
+    var flights: [Flight]
+    
+    init(currentAirport: String) {
+        self.currentAirport = currentAirport
+        self.flights = []
+    }
+    
+}
 
 
 //: ## 2. Create 3 flights and add them to a departure board
@@ -30,6 +64,18 @@ import UIKit
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
 
+let losAngelesFlight = Flight(destination: "Los Angeles", airline: "Qantas", flight: "QF12", departureTime: "2020-01-21 06:00 pm", terminal: "8", flightStatus: .ontime)
+
+
+let manchesterFlight = Flight(destination: "Manchester", airline: "Virgin Atlantic", flight: "VS128", departureTime: nil, terminal: "4", flightStatus: .canceled)
+
+let dallasFlight = Flight(destination: "Dallas", airline: "Delta Air Lines", flight: "DL347", departureTime: "2020-01-21 06:20 pm", terminal: nil, flightStatus: .delayed)
+
+
+let currentDepartureBoard = DepartureBoard(currentAirport: "JFK Airport")
+currentDepartureBoard.flights.append(losAngelesFlight)
+currentDepartureBoard.flights.append(manchesterFlight)
+currentDepartureBoard.flights.append(dallasFlight)
 
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
@@ -40,6 +86,15 @@ import UIKit
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
+
+func printDepartures() {
+    for flight in currentDepartureBoard.flights {
+        print("Destination: \(flight.destination) Airline: \(flight.airline) Flight: \(flight.flight) Departure Time: \(flight.departureTime) Terminal: \(flight.terminal) Status: \(flight.flightStatus.rawValue)")
+    }
+}
+
+printDepartures()
+
 
 
 
@@ -60,6 +115,14 @@ import UIKit
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
 
 
+for flight in currentDepartureBoard.flights {
+    if let unwrappedDepartureTime = flight.departureTime {
+        print("Destination: \(flight.destination) Airline: \(flight.airline) Flight: \(flight.flight) Departure Time: \(unwrappedDepartureTime) Terminal: \(flight.terminal) Status: \(flight.flightStatus)")
+    } else if flight.departureTime == nil {
+        print("Destination: \(flight.destination) Airline: \(flight.airline) Flight: \(flight.flight) Departure Time:  Terminal: \(flight.terminal) Status: \(flight.flightStatus)")
+    }    
+}
+
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
@@ -76,7 +139,19 @@ import UIKit
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 
-
+//for flight in currentDepartureBoard.flights {
+//    switch flight {
+//    case FlightStatus.canceled:
+//        print("We're sorry. Your flight to \(flight.destination) was cancaled, here is a $500 voucher.")
+//    case FlightStatus.scheduled:
+//        print("Your flight to \(flight.destination) is scheduled to depart at \(flight.departureTime) from terminal: \(flight.terminal)")
+//    case FlightStatus.boarding:
+//        print("Your flight is boarding, please head to terminal: \(flight.terminal) immediately. The doors are closing soon.")
+//    }
+//
+//
+//}
+//
 
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination

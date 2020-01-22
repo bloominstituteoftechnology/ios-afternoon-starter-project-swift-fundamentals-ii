@@ -18,13 +18,13 @@ import UIKit
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
 /*1*/
 /*1a.*/
-enum FlightStatus {
-    case enRouteDelayed =
-    case scheduled
-    case enRouteOnTime
-    case canceled
-    case landedOnTime
-    case landedDelayed
+enum FlightStatus: String {
+    case enRouteDelayed = "En Route - Delayed"
+    case scheduled = "Scheduled"
+    case enRouteOnTime = "En Route - On Time"
+    case canceled = "Canceled"
+    case landedOnTime = "Landed - On Time"
+    case landedDelayed = "Landed - Delayed"
 }
 
 /*1b.*/
@@ -36,7 +36,7 @@ struct Airport {
 
 /*1cde.*/
 struct Flight {
-    var destination: String
+    var destination: Airport
     var airline: String
     var flightNumber: String
     var depatureTime: Date?
@@ -53,7 +53,7 @@ class DepartureBoard {
     
     init(city: String, abbreviation: String) { // We could name these variables anything, but we chose city and abbriviation.
         self.flights = [] //in the init, you are actually initializing instances of the properties.
-        self.airport = Airport(city: city, abbreviation: abbreviation) // here we initalized a new instance of "airport." We didn't
+        self.airport = Airport(city: city, abbreviation: abbreviation) // here we initalized a new instance of "airport."
     }
 }
 
@@ -64,9 +64,9 @@ c. Make one of the flights .canceled with a nil departure time
 d. Make one of the flights have a nil terminal because it has not been decided yet.
 e. Stretch: Look at the API for DateComponents for creating a specific time */
 
-var flight1 = Flight(destination: "LAX", airline: "Jet Blue", flightNumber: "G101", depatureTime: nil, terminal: nil, status: .canceled)
-var flight2 = Flight(destination: "ONT", airline: "Delta", flightNumber: "B9", depatureTime: Date(), terminal: "8", status: .enRouteOnTime)
-var flight3 = Flight(destination: "VIE", airline: "United Airlines", flightNumber: "F22", depatureTime: Date(), terminal: "5", status: .landedOnTime)
+var flight1 = Flight(destination: Airport(city: "Los Angeles", abbreviation: "LAX"), airline: "Jet Blue", flightNumber: "G101", depatureTime: nil, terminal: nil, status: .canceled)
+var flight2 = Flight(destination: Airport(city: "Ontario", abbreviation: "ONT"), airline: "Delta", flightNumber: "B9", depatureTime: Date(), terminal: "8", status: .enRouteOnTime)
+var flight3 = Flight(destination: Airport(city: "Vienna", abbreviation: "VIE"), airline: "United Airlines", flightNumber: "F22", depatureTime: Date(), terminal: "5", status: .landedOnTime)
 
 let departureBoard = DepartureBoard(city: "Los Angeles", abbreviation: "LAX")
 //We create an instance of DepartureBoard in order to append to it.
@@ -82,25 +82,12 @@ departureBoard.flights.append(flight3)
  d. Print out the current DepartureBoard you created using the funciton.*/
 
 func printDeparture(departureBoard: DepartureBoard) {
-    for departure in departureBoard.flights {
-        print("\(departure.flights.rawValue)")
+    for flight in departureBoard.flights {
+        print(flight.destination.abbreviation, flight.destination.city, flight.airline, flight.flightNumber, flight.depatureTime, flight.terminal, flight.status.rawValue)
     }
 }
-//: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
-//: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
-//:
-//: b. Use optional binding to unwrap any optional values, use string interpolation to turn a non-optional date into a String
-//:
-//: c. Call the new or udpated function. It should not print `Optional(2019-05-30 17:09:20 +0000)` for departureTime or for the Terminal.
-//:
-//: d. Stretch: Format the time string so it displays only the time using a [`DateFormatter`](https://developer.apple.com/documentation/foundation/dateformatter) look at the `dateStyle` (none), `timeStyle` (short) and the `string(from:)` method
-//:
-//: e. Your output should look like:
-//:
-//:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
-//:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
-//:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
 
+printDeparture(departureBoard: departureBoard)
 
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.

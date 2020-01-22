@@ -51,6 +51,40 @@ class DepartureBoard {
         self.currentAirport = currentAirport
     }
     
+    func alertPassengers() {
+         var departureTime: String
+         var terminal: String
+         
+         for flight in flights {
+             if let departTime = flight.departureTime {
+                 let formatter = DateFormatter()
+                 formatter.dateFormat = "MM-dd-yyyy HH:mm:ss"
+                 formatter.dateStyle = .short
+                 formatter.timeStyle = .short
+                 let dateString = formatter.string(from: departTime)
+                 departureTime = dateString
+             } else {
+                 departureTime = "TBD"
+             }
+             if let term = flight.terminal {
+                 terminal = term
+             } else {
+                 terminal = "TBD"
+             }
+            
+             switch flight.status {
+             case .enRoute:
+                 print("Your flight is boarding, please head to terminal: \(terminal) immediately. The doors are closing soon.")
+             case .delayed:
+                 print("We are sorry but your flight is delayed at this time.")
+             case .cancelled:
+                 print("We're sorry your flight was canceled, here is a $500 voucher")
+             case .scheduled:
+                 print("Your flight is scheduled to depart at \(departureTime) from terminal: \(terminal)")
+             
+             }
+         }
+     }
 }
 
 
@@ -153,7 +187,7 @@ printDepartures2(departureBoard: departureBoard)
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 
-
+departureBoard.alertPassengers()
 
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination

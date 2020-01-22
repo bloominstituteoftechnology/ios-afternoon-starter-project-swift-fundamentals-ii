@@ -16,9 +16,34 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
+enum flightStatus {
+    case EnRoute
+    case Scheduled
+    case Canceled
+    case Delayed
+    case Landed
+}
 
+struct Airport {
+    var destination: String
+}
 
+struct Flight {
+    var flightName: String
+    var airline: String
+    var departureTime: Date?
+    var terminal: String?
+}
 
+class DepartureBoard {
+    var flight: [Flight]
+    var airport: String
+    
+    init(flight: [Flight], airport: String) {
+        self.flight = []
+        self.airport = airport
+    }
+}
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -29,6 +54,17 @@ import UIKit
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
+
+//var flight1 = DepartureBoard.init(flight: [Flight(flightName: "AA2896", airline: "American Airlines", departureTime: Date(), terminal: nil)], airport: "JFK Airport")
+//var flight2 = DepartureBoard.init(flight: [Flight(flightName: "QF12", airline: "Qantas", departureTime: nil, terminal: nil)], airport: "JFK Airport")
+//var flight3 = DepartureBoard(flight: [Flight (flightName: "AY5747", airline: "Finnair", departureTime: Date(), terminal: "8")], airport: "JFK Airport")
+
+// There should be a way to add "JFK Airport" as an initializer. How would I do that? Should I change the Airport Struct?
+
+var flight1 = Flight(flightName: "AA2896", airline: "American Airlines", departureTime: Date(), terminal: nil)
+var flight2 = Flight(flightName: "QF12", airline: "Qantas", departureTime: nil, terminal: nil)
+var flight3 = Flight(flightName: "AY5747", airline: "Finnair", departureTime: Date(), terminal: "8")
+
 
 
 

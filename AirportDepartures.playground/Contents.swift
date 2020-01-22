@@ -89,6 +89,41 @@ func printDeparture(departureBoard: DepartureBoard) {
 
 printDeparture(departureBoard: departureBoard)
 
+/*4. Make a second function to print print an empty string if the departureTime is nil
+a. Createa new printDepartures2(departureBoard:) or modify the previous function
+b. Use optional binding to unwrap any optional values, use string interpolation to turn a non-optional date into a String
+c. Call the new or udpated function. It should not print Optional(2019-05-30 17:09:20 +0000) for departureTime or for the Terminal.
+d. Stretch: Format the time string so it displays only the time using a DateFormatter look at the dateStyle (none), timeStyle (short) and the string(from:) method
+e. Your output should look like:
+Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time: Terminal: 4 Status: Canceled
+Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal: Status: Scheduled
+Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled*/
+
+func printDepartures2(departureBoard: DepartureBoard) {
+
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .none
+    dateFormatter.timeStyle = .short
+
+    for flight in departureBoard.flights {
+        print(flight.destination.abbreviation, flight.destination.city, flight.airline, flight.flightNumber)
+        if let departureTime = flight.depatureTime {
+            print(dateFormatter.string(from: departureTime))
+        } else {
+            print("See Flight Status")
+        }
+        if let terminal = flight.terminal {
+            print(terminal)
+        } else {
+            print("TBD")
+        }
+        print(flight.status.rawValue)
+    }
+}
+
+printDepartures2(departureBoard: departureBoard)
+
+// Needs work on the formatting.
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"

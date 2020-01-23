@@ -17,20 +17,38 @@ import UIKit
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
 
-enum FlightStatus {
-    case enRoute
-    case scheduled
+enum FlightStatus: String {
     case canceled
     case delayed
-    case landed
     case diverted
+    case enRoute
+    case landed
+    case scheduled
 }
 
 struct Airport {
-
+    let city: String
+    let code: String
 }
 
+struct Flight {
+    let destination: Airport
+    let airline: String
+    let flightNumber: String
+    var departureTime: Date?
+    let terminal: String?
+    var status: FlightStatus
+}
 
+class DepartureBoard {
+    var departureFlights: [Flight]
+    var currentAirport: Airport
+
+    init(currentAirport: Airport) {
+        self.currentAirport = currentAirport
+        self.departureFlights = []
+    }
+}
 
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
@@ -43,7 +61,18 @@ struct Airport {
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
 
+let chicago = Airport(city: "Chicago", code: "ORD")
+let portOfSpain = Airport(city: "Port of Spain", code: "POS")
+let taipei = Airport(city: "Taipei", code: "TPE")
 
+let flight1 = Flight(destination: chicago, airline: "Qatar Airways", flightNumber: "QR8185", departureTime: Date(), terminal: nil, status: .scheduled)
+let flight2 = Flight(destination: portOfSpain, airline: "Caribbean Airlines", flightNumber: "BW551", departureTime: Date(), terminal: "4", status: .delayed)
+let flight3 = Flight(destination: taipei, airline: "EVA Air", flightNumber: "BR31", departureTime: nil, terminal: "1", status: .canceled)
+
+let seoul = Airport(city: "Seoul", code: "ICN")
+
+let departureBoard = DepartureBoard(currentAirport: seoul)
+departureBoard.departureFlights.append(contentsOf: [flight1, flight2, flight3])
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
@@ -54,8 +83,17 @@ struct Airport {
 //:
 //: d. Print out the current DepartureBoard you created using the function
 
+func printDepartures(departureBoard: DepartureBoard) {
+    for flight in departureBoard.departureFlights {
+        var departureString: String = "---"
+        if let departureTime = flight.departureTime {
+            departureString = "\(departureTime)"
+        }
+        print("Destination: \(flight.destination.city) (\(flight.destination.code)), Airline: \(flight.airline), Flight: \(flight.flightNumber), Departure: \(departureString), Terminal: \(flight.terminal ?? ""), Status: \(flight.status)")
+    }
+}
 
-
+printDepartures(departureBoard: departureBoard)
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function

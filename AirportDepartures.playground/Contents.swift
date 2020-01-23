@@ -19,16 +19,14 @@ import UIKit
 /*1*/
 /*1a.*/
 enum FlightStatus: String {
-    case enRouteDelayed = "En Route - Delayed"
     case scheduled = "Scheduled"
-    case enRouteOnTime = "En Route - On Time"
     case canceled = "Canceled"
-    case landedOnTime = "Landed - On Time"
-    case landedDelayed = "Landed - Delayed"
+    case boarding = "Boarding"
+    case enRouteOnTime = "En Route - On Time"
+    case enRouteDelayed = "En Route - Delayed"
 }
 
 /*1b.*/
-//Am I meant to only have "Destination" and Arrival" variables here?
 struct Airport {
     let city: String
     let abbreviation: String
@@ -39,7 +37,7 @@ struct Flight {
     var destination: Airport
     var airline: String
     var flightNumber: String
-    var depatureTime: Date?
+    var departureTime: Date?
     var terminal: String?
     var status: FlightStatus
     
@@ -52,7 +50,7 @@ class DepartureBoard {
     var airport: Airport
     
     init(city: String, abbreviation: String) { // We could name these variables anything, but we chose city and abbriviation.
-        self.flights = [] //in the init, you are actually initializing instances of the properties.
+        self.flights = [] //in the init, you are actually initializing an instance of the properties.
         self.airport = Airport(city: city, abbreviation: abbreviation) // here we initalized a new instance of "airport."
     }
 }
@@ -64,9 +62,9 @@ c. Make one of the flights .canceled with a nil departure time
 d. Make one of the flights have a nil terminal because it has not been decided yet.
 e. Stretch: Look at the API for DateComponents for creating a specific time */
 
-var flight1 = Flight(destination: Airport(city: "Los Angeles", abbreviation: "LAX"), airline: "Jet Blue", flightNumber: "G101", depatureTime: nil, terminal: nil, status: .canceled)
-var flight2 = Flight(destination: Airport(city: "Ontario", abbreviation: "ONT"), airline: "Delta", flightNumber: "B9", depatureTime: Date(), terminal: "8", status: .enRouteOnTime)
-var flight3 = Flight(destination: Airport(city: "Vienna", abbreviation: "VIE"), airline: "United Airlines", flightNumber: "F22", depatureTime: Date(), terminal: "5", status: .landedOnTime)
+var flight1 = Flight(destination: Airport(city: "Los Angeles", abbreviation: "LAX"), airline: "Jet Blue", flightNumber: "G101", departureTime: nil, terminal: nil, status: .canceled)
+var flight2 = Flight(destination: Airport(city: "Ontario", abbreviation: "ONT"), airline: "Delta", flightNumber: "B9", departureTime: Date(), terminal: "8", status: .boarding)
+var flight3 = Flight(destination: Airport(city: "Vienna", abbreviation: "VIE"), airline: "United Airlines", flightNumber: "F22", departureTime: Date(), terminal: "5", status: .scheduled)
 
 let departureBoard = DepartureBoard(city: "Los Angeles", abbreviation: "LAX")
 //We create an instance of DepartureBoard in order to append to it.
@@ -83,14 +81,14 @@ departureBoard.flights.append(flight3)
 
 func printDeparture(departureBoard: DepartureBoard) {
     for flight in departureBoard.flights {
-        print(flight.destination.abbreviation, flight.destination.city, flight.airline, flight.flightNumber, flight.depatureTime, flight.terminal, flight.status.rawValue)
+        print(flight.destination.abbreviation, flight.destination.city, flight.airline, flight.flightNumber, flight.departureTime, flight.terminal, flight.status.rawValue)
     }
 }
 
 printDeparture(departureBoard: departureBoard)
 
-/*4. Make a second function to print print an empty string if the departureTime is nil
-a. Createa new printDepartures2(departureBoard:) or modify the previous function
+/*4. Make a second function to print an empty string if the departureTime is nil
+a. Create a new printDepartures2(departureBoard:) or modify the previous function
 b. Use optional binding to unwrap any optional values, use string interpolation to turn a non-optional date into a String
 c. Call the new or udpated function. It should not print Optional(2019-05-30 17:09:20 +0000) for departureTime or for the Terminal.
 d. Stretch: Format the time string so it displays only the time using a DateFormatter look at the dateStyle (none), timeStyle (short) and the string(from:) method
@@ -98,7 +96,7 @@ e. Your output should look like:
 Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time: Terminal: 4 Status: Canceled
 Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal: Status: Scheduled
 Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled*/
-
+            
 func printDepartures2(departureBoard: DepartureBoard) {
 
     let dateFormatter = DateFormatter()
@@ -107,10 +105,10 @@ func printDepartures2(departureBoard: DepartureBoard) {
 
     for flight in departureBoard.flights {
         print(flight.destination.abbreviation, flight.destination.city, flight.airline, flight.flightNumber)
-        if let departureTime = flight.depatureTime {
+        if let departureTime = flight.departureTime {
             print(dateFormatter.string(from: departureTime))
         } else {
-            print("See Flight Status")
+            print("TBD")
         }
         if let terminal = flight.terminal {
             print(terminal)
@@ -140,8 +138,47 @@ printDepartures2(departureBoard: departureBoard)
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 
+func alertMessage(departureBoard: DepartureBoard) {
+    for flight in departureBoard.flights {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .none
+        dateFormatter.timeStyle = .short
+        
+        var time: String = ""
+        if flight.departureTime != nil {
+            time = dateFormatter.string(from: flight.departureTime!)
+        } else {
+            time = "TBD"
+        }
+        
+        var terminal: String = ""
+        if flight.terminal != nil {
+            terminal = flight.terminal!
+        } else {
+            terminal = "TBD. Please see the nearest information desk for more details"
+        }
+        
+        switch flight.status {
+        case .canceled:
+            print("We're sorry- your flight to \(flight.destination.city) was canceled. Here is a $500 voucher.")
+        case .scheduled:
+            print("Your flight to \(flight.destination.city) is scheduled to depart at \(time) from Terminal: \(terminal).")
+        case .boarding:
+            print("Your flight is boarding. Please head to Terminal: \(terminal). Doors are closing soon.")
+        case .enRouteDelayed:
+            print("Your flight is en route but you will be arriving at \(flight.destination.city) later than expected. We apologize for the delay.")
+        case .enRouteOnTime:
+            print("Yor flight is en route and will be arriving at \(flight.destination.city) on schedule.")
+            
+        }
+    }
+}
+
+alertMessage(departureBoard: departureBoard)
 
 
+
+// I can see that this code is redundant and therefore not best practices. But the way number 4 is phrased asks us to use optional binding instead of using a guard let. And it asks us to do it within the print2 function. Then to be able to access it again inside of this switch statement, I need to have it somewhere outside of the print2 function. May as well just repeat it here.
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`
@@ -160,6 +197,19 @@ printDepartures2(departureBoard: departureBoard)
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+    return ((Double(checkedBags) * 25.0) + ((Double(distance) * 0.10) * Double(travelers)))
+}
 
+let price = calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3) as NSNumber
+
+
+let numberFormatter = NumberFormatter()
+numberFormatter.numberStyle = .currency
+if let formattedPrice = numberFormatter.string(from: price) {
+    print(formattedPrice)
+}
+
+// Sloppy but functional!
 
 

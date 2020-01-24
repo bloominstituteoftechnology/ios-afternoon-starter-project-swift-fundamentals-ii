@@ -21,6 +21,7 @@ enum FlightStatus: String {
     case scheduled
     case canceled
     case delayed
+    case boarding
 }
 
 struct Airport {
@@ -28,7 +29,7 @@ struct Airport {
 }
 
 struct Flight {
-    var destination: String
+    var destination: Airport
     var flightNo: String
     var airline: String
     var departTime: Date?
@@ -38,9 +39,9 @@ struct Flight {
 
 class DepartureBoard {
     var flights: [Flight]
-    let airports: String
+    let airports: Airport
     
-    init(airports: String) {
+    init(airports: Airport) {
         self.flights = []
         self.airports = airports
     }
@@ -59,21 +60,25 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-let today = Date()
+let today: Date? = Date()
 let format = DateFormatter()
 format.dateStyle = .medium
-print(format.string(from: today))
 
-let flight1 = Flight(destination: "LAX", flightNo: "89ABS", airline: "Delta", departTime: Date(), terminal: nil, status: .canceled)
+print(format.string(from: today!))
 
-let flight2 = Flight(destination: "SFO", flightNo: "ACS903", airline: "American Airlines", departTime: Date(), terminal: "6", status: .enRoute)
+let airport = Airport(city: "Dallas")
 
-let flight3 = Flight(destination: "GEO", flightNo: "AGD983", airline: "Jet Blue", departTime: Date(), terminal: "2", status: .delayed)
+let departureArray = DepartureBoard(airports: airport)
 
-let departureArray = DepartureBoard(airports: "SFO")
-departureArray .flights.append(flight1)
-departureArray .flights.append(flight2)
-departureArray .flights.append(flight3)
+let flight1 = Flight(destination: Airport(city: "Dallas"), flightNo: "89ABS", airline: "Delta", departTime: today, terminal: nil, status: .canceled)
+
+let flight2 = Flight(destination: Airport(city: "Gridley"), flightNo: "ACS903", airline: "American Airlines", departTime: today, terminal: "6", status: .enRoute)
+
+let flight3 = Flight(destination: Airport(city: "Sacramento"), flightNo: "AGD983", airline: "Jet Blue", departTime: today, terminal: "2", status: .delayed)
+
+departureArray.flights.append(flight1)
+departureArray.flights.append(flight2)
+departureArray.flights.append(flight3)
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:
@@ -108,6 +113,14 @@ printDepartures(departureArray: departureArray)
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
 
 
+func printDepartures2(departureArray: DepartureBoard) {
+    if let departures1 = today{
+        for flight in departureArray.flights {
+        print("Destination: \(flight.destination), Airline: \(flight.airline), Departs: \(String(describing: departures1)), FlightNo: \(flight.flightNo), FlightStatus: \(flight.status)")
+    }
+    }
+}
+printDepartures2(departureArray: departureArray)
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
@@ -124,7 +137,19 @@ printDepartures(departureArray: departureArray)
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 
-
+        for flights in departureArray.flights{
+            if flights.status == .canceled {
+                print("We're sorry your flight to \(flights.destination) was canceled, here is a $500 voucher.")
+            }
+            else if (flights.status == .scheduled) && (flights.departTime != nil) && (flights.terminal != nil){
+                print("Your flight to \(flights.destination) is scheduled to depart at \(String(describing: flights.departTime)) from terminal: \(String(describing: flights.terminal))")
+            }
+            else if (flights.status == .boarding) {
+                print("Your flight is boarding, please head to terminal: \(String(describing: flights.terminal)) immediately. The doors are closing soon.")
+            }else{
+                print("Your flight to \(flights.destination) is scheduled to depart at TBD from terminal: TBD")
+        }
+}
 
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
@@ -145,5 +170,16 @@ printDepartures(departureArray: departureArray)
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
 
+var costPerBag = 25.00
+var costPerMile = 0.10
 
+
+func calcFare(checkedBags: Double, distance: Double, travelers: Int) -> Double {
+    let ticketCost = (checkedBags * costPerBag) + (distance * costPerMile)
+    let totalCost = ticketCost * Double(travelers)
+    return totalCost
+}
+
+print(calcFare(checkedBags: 2, distance: 2000, travelers: 3))
+print(calcFare(checkedBags: 9, distance: 5000, travelers: 10))
 

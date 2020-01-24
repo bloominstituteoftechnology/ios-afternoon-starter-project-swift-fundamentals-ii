@@ -183,3 +183,4 @@ func calcFare(checkedBags: Double, distance: Double, travelers: Int) -> Double {
 print(calcFare(checkedBags: 2, distance: 2000, travelers: 3))
 print(calcFare(checkedBags: 9, distance: 5000, travelers: 10))
 
+//finished

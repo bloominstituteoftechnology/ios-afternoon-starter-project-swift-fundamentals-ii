@@ -29,10 +29,10 @@ enum FlightStatus: String {
 struct Airport {
     let city: String
     let abbreviation: String
+    var destination: String
 }
 
 struct Flight {
-    var destination: String
     var flightNo: String
     var airline: String
     var departTime: Date?
@@ -42,12 +42,16 @@ struct Flight {
 
 class DepartureBoard {
     var flights: [Flight]
-    var airport: String
+    var airport: [Airport]
     
     init(Airport: String) {
-        self.airport = Airport
+        self.airport = []
         self.flights = []
     }
+    
+    func alertPassengers() {
+        print("Passenger alert")
+}
 }
 
 
@@ -67,21 +71,21 @@ format.dateStyle = .medium
 print(format.string(from: today))
 
 
-let flight1 = Flight(destination: "LAX",
+let flight1 = Flight(
                      flightNo: "9K101",
                      airline: "Cape Air",
                      departTime: Date(),
                      terminal: nil,
                      flightStatus: .landed)
 
-let flight2 = Flight(destination: "ONT",
+let flight2 = Flight(
                      flightNo: "B65921",
                      airline: "JetBlue",
                      departTime: Date(),
                      terminal: "5",
                      flightStatus: .enRoute)
 
-let flight3 = Flight(destination: "VIA",
+let flight3 = Flight(
                      flightNo: "KE82",
                      airline: "Korean Air",
                      departTime: nil,
@@ -105,7 +109,7 @@ departureBoard.flights.append(flight3)
 func printDepartures(departureBoard: DepartureBoard) {
     //for in loop to iterate over each departure
     for flight in departureBoard.flights {
-        print("Destination: \(flight.destination), Airline: \(flight.airline), Departs: \(String(describing: flight.departTime)), FlightNo: \(flight.flightNo), FlightStatus: \(flight.flightStatus)")
+        print("Airline: \(flight.airline), Departs: \(String(describing: flight.departTime)), FlightNo: \(flight.flightNo), FlightStatus: \(flight.flightStatus)")
     }
 }
 
@@ -125,7 +129,19 @@ printDepartures(departureBoard: departureBoard)
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
+func printDepartures2(departureBoard: DepartureBoard) {
+    //for in loop to iterate over each departure
+    for flight in departureBoard.flights {
+        
+        if flight.departTime != nil, flight.terminal != nil {
+            print("Airline: \(flight.airline), Departs: \(String(describing: flight.departTime)), FlightNo: \(flight.flightNo), FlightStatus: \(flight.flightStatus)")
+        } else {
+            print("Airline: \(flight.airline), Departs: \(" ")), FlightNo: \(flight.flightNo), FlightStatus: \(flight.flightStatus)")
+        }
+}
+}
 
+printDepartures(departureBoard: departureBoard)
 
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
@@ -142,9 +158,19 @@ printDepartures(departureBoard: departureBoard)
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
-
-
+for flight in departureBoard.flights {
+    switch flight.flightStatus {
+        case .canceled:
+            print("We're sorry your flight to \(flight.terminal) was canceled, here is a $500 voucher")
+        case .scheduled:
+            print("Your flight to \(flight.airline) is scheduled to depart at \(flight.departTime) from terminal: \(flight.terminal)")
+        case .boarding:
+            print("Your flight is boarding, please head to terminal: \(flight.terminal) immediately. The doors are closing soon.")
+        default:
+            print("Please check the departure board for your flight status.")
+    }
+}
+departureBoard.alertPassengers()
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`

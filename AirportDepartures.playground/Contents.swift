@@ -24,30 +24,29 @@ enum FlightStatus: String {
 }
 
 struct Airport {
-    let Destination: String
+    let city: String
 }
 
 struct Flight {
-    let flight: String
-    let leaveDate: String?
-    let arriveDate: String?
-    let terminal: Int?
-    let status: FlightStatus
+    var destination: String
+    var flightNo: String
+    var airline: String
+    var departTime: Date?
+    var terminal: String?
+    var status: FlightStatus
 }
 
 class DepartureBoard {
-    let flights: Flight
-    let airports: Airport
-    var departures: [Flight]
+    var flights: [Flight]
+    let airports: String
     
-    init(flights: Flight, airports: Airport) {
-        self.flights = flights
+    init(airports: String) {
+        self.flights = []
         self.airports = airports
-        self.departures = []
     }
-    func add(flight: Flight){
-        departures.append(flight)
-    }
+//    func add(flight: Flight){
+//        departures.append(flight)
+//    }
 }
 
 //: ## 2. Create 3 flights and add them to a departure board
@@ -60,16 +59,21 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-//let flight0 = Flight(flight: "AA2896", leaveDate: "03/01/2020", arriveDate: "03/03/2020", terminal: 8, status: .enRoute)
+let today = Date()
+let format = DateFormatter()
+format.dateStyle = .medium
+print(format.string(from: today))
 
+let flight1 = Flight(destination: "LAX", flightNo: "89ABS", airline: "Delta", departTime: Date(), terminal: nil, status: .canceled)
 
-//let flight1 = DepartureBoard(flights: .init(flight: "AA2896", leaveDate: "03/01/2020", arriveDate: "03/03/2020", terminal: 8, status: .enRoute), airports: .init(Destination: "GEO"))
-//
-//let flight2 = DepartureBoard(flights: .init(flight: "QF12", leaveDate: "04/01/2020", arriveDate: "04/03/2020", terminal: 8, status: .delayed), airports: .init(Destination: "LAX"))
-//
-//let flight3 = DepartureBoard(flights: .init(flight: "AA2652", leaveDate: "05/01/2020", arriveDate: "05/03/2020", terminal: nil, status: .canceled), airports: .init(Destination: "SFO"))
+let flight2 = Flight(destination: "SFO", flightNo: "ACS903", airline: "American Airlines", departTime: Date(), terminal: "6", status: .enRoute)
 
+let flight3 = Flight(destination: "GEO", flightNo: "AGD983", airline: "Jet Blue", departTime: Date(), terminal: "2", status: .delayed)
 
+let departureArray = DepartureBoard(airports: "SFO")
+departureArray .flights.append(flight1)
+departureArray .flights.append(flight2)
+departureArray .flights.append(flight3)
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:
@@ -78,7 +82,14 @@ class DepartureBoard {
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
+func printDepartures(departureArray: DepartureBoard) {
+//for in loop to iterate over each departure
+for flight in departureArray.flights {
+print("Destination: \(flight.destination), Airline: \(flight.airline), Departs: \(String(describing: flight.departTime)), FlightNo: \(flight.flightNo), FlightStatus: \(flight.status)")
+}
+}
 
+printDepartures(departureArray: departureArray)
 
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil

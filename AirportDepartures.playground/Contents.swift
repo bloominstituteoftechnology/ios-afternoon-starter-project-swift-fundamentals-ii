@@ -224,13 +224,14 @@ let formatter = NumberFormatter()
 formatter.numberStyle = .currency
 
 // var calc = calcFare(checkedBags: 10, distance: 1000, travelers: 1)
+// if let calc is only available in the scope below, not necessary to create a var calc above
 
 if let calc = formatter.string(from: NSNumber(value: calcFare(checkedBags: 10, distance: 1000, travelers: 1))) {
     print(calc)
 }
 
 
- /*
+ /* Works, but with the bang operator (!)
 
 print(formatter.string(from: NSNumber(value: calcFare(checkedBags: 3, distance: 2000, travelers: 2)))!)
 print(formatter.string(from: NSNumber(value: calcFare(checkedBags: 4, distance: 200, travelers: 4)))!)

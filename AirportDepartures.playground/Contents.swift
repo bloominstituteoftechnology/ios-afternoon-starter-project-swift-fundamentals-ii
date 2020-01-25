@@ -1,4 +1,5 @@
 import UIKit
+import Foundation
 
 
 //: ## 1. Create custom types to represent an Airport Departures display
@@ -159,16 +160,23 @@ printDepartures(departureBoard: departureBoard)
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 for flight in departureBoard.flights {
+    
+    if flight.terminal == nil {
+        print("Please go to the nearest infomation desk for flight status.")
+    } else {
+        
     switch flight.flightStatus {
+    
         case .canceled:
-            print("We're sorry your flight to \(flight.terminal) was canceled, here is a $500 voucher")
+            print("We're sorry your flight to \(String(describing: flight.terminal)) was canceled, here is a $500 voucher")
         case .scheduled:
-            print("Your flight to \(flight.airline) is scheduled to depart at \(flight.departTime) from terminal: \(flight.terminal)")
+            print("Your flight to \(flight.airline) is scheduled to depart at \(String(describing: flight.departTime)) from terminal: \(String(describing: flight.terminal))")
         case .boarding:
-            print("Your flight is boarding, please head to terminal: \(flight.terminal) immediately. The doors are closing soon.")
+            print("Your flight is boarding, please head to terminal: \(String(describing: flight.terminal)) immediately. The doors are closing soon.")
         default:
             print("Please check the departure board for your flight status.")
     }
+}
 }
 departureBoard.alertPassengers()
 
@@ -192,12 +200,20 @@ departureBoard.alertPassengers()
 var costPerBag = 25.00
 var costPerMile = 0.10
 
-
 func calcFare(checkedBags: Double, distance: Double, travelers: Int) -> Double {
+    
     let ticketCost = (checkedBags * costPerBag) + (distance * costPerMile)
     let totalFare = ticketCost * Double(travelers)
-    return totalFare
-}
 
-print(calcFare(checkedBags: 10, distance: 1000, travelers: 5))
-print(calcFare(checkedBags: 4, distance: 3000, travelers: 2))
+    return totalFare
+
+}
+ 
+let formatter = NumberFormatter()
+formatter.numberStyle = .currency
+
+print(formatter.string(from: NSNumber(value: calcFare(checkedBags: 10, distance: 1000, travelers: 1)))!)
+print(formatter.string(from: NSNumber(value: calcFare(checkedBags: 3, distance: 2000, travelers: 2)))!)
+print(formatter.string(from: NSNumber(value: calcFare(checkedBags: 4, distance: 200, travelers: 4)))!)
+
+

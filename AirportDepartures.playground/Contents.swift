@@ -29,7 +29,6 @@ enum FlightStatus: String {
 
 struct Airport {
     let city: String
-    let abbreviation: String
     var destination: String
 }
 
@@ -43,10 +42,10 @@ struct Flight {
 
 class DepartureBoard {
     var flights: [Flight]
-    var airport: [Airport]
+    var airport: Airport
     
-    init(Airport: String) {
-        self.airport = []
+    init(city: String, destination: Airport) {
+        self.airport = destination
         self.flights = []
     }
     
@@ -54,6 +53,11 @@ class DepartureBoard {
         print("Passenger alert")
 }
 }
+
+let airport1 = Airport(city: "Los Angeles", destination: "BOS")
+let airport2 = Airport(city: "Boston", destination: "LAX")
+let airport3 = Airport(city: "New York", destination: "TUC")
+
 
 
 //: ## 2. Create 3 flights and add them to a departure board
@@ -93,7 +97,7 @@ let flight3 = Flight(
                      terminal: nil,
                      flightStatus: .canceled)
 
-let departureBoard = DepartureBoard(Airport: "LAX")
+let departureBoard = DepartureBoard(city: "Los Angeles", destination: airport1)
 departureBoard.flights.append(flight1)
 departureBoard.flights.append(flight2)
 departureBoard.flights.append(flight3)
@@ -134,11 +138,18 @@ func printDepartures2(departureBoard: DepartureBoard) {
     //for in loop to iterate over each departure
     for flight in departureBoard.flights {
         
+        if let flightDepart = flight.departTime {
+            print("Airline: \(flight.airline), Departs: \(String(describing: flight.departTime)), FlightNo: \(flight.flightNo), FlightStatus: \(flight.flightStatus)")
+        } else {
+             print("Airline: \(flight.airline), Departs: \(" ")), FlightNo: \(flight.flightNo), FlightStatus: \(flight.flightStatus)")
+        }
+        /*
         if flight.departTime != nil, flight.terminal != nil {
             print("Airline: \(flight.airline), Departs: \(String(describing: flight.departTime)), FlightNo: \(flight.flightNo), FlightStatus: \(flight.flightStatus)")
         } else {
             print("Airline: \(flight.airline), Departs: \(" ")), FlightNo: \(flight.flightNo), FlightStatus: \(flight.flightStatus)")
-        }
+        } */
+        return
 }
 }
 
@@ -212,8 +223,16 @@ func calcFare(checkedBags: Double, distance: Double, travelers: Int) -> Double {
 let formatter = NumberFormatter()
 formatter.numberStyle = .currency
 
-print(formatter.string(from: NSNumber(value: calcFare(checkedBags: 10, distance: 1000, travelers: 1)))!)
+// var calc = calcFare(checkedBags: 10, distance: 1000, travelers: 1)
+
+if let calc = formatter.string(from: NSNumber(value: calcFare(checkedBags: 10, distance: 1000, travelers: 1))) {
+    print(calc)
+}
+
+
+ /*
+
 print(formatter.string(from: NSNumber(value: calcFare(checkedBags: 3, distance: 2000, travelers: 2)))!)
 print(formatter.string(from: NSNumber(value: calcFare(checkedBags: 4, distance: 200, travelers: 4)))!)
 
-
+*/

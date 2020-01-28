@@ -16,12 +16,12 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
-enum flightStatus {
-    case EnRoute
-    case Scheduled
-    case Canceled
-    case Delayed
-    case Landed
+enum flightStatus: String {
+    case EnRoute = "En Route"
+    case Scheduled = "Scheduled"
+    case Canceled = "Canceled"
+    case Delayed = "Delayed"
+    case Landed = "Landed"
 }
 
 struct Airport {
@@ -102,8 +102,6 @@ func printDepartures(departureBoard: DepartureBoard) {
 
 printDepartures(departureBoard: departureBoard)
 
-// Not done with question 3. Keep working on it!
-
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
 //:
@@ -119,6 +117,22 @@ printDepartures(departureBoard: departureBoard)
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 
+func alertPassenger(printDepartures: DepartureBoard) {
+for flight in departureBoard.flights {
+    switch flight.flightStatus {
+    case flightStatus.Canceled:
+        print("We're sorry your flight to \(flight.destination) was canceled, here is a $500 voucher")
+    case flightStatus.Scheduled:
+        print("Your flight to \(flight.destination) is scheduled to depart at \(Date()) from terminal \(flight.terminal ?? "8")")
+    case flightStatus.EnRoute:
+        print("Your flight is boarding, please head to terminal \(flight.terminal ?? "8") immediately")
+    case flightStatus.Delayed:
+        print("Flight \(flight.flightName) has been delayed due to severe weather conditions.")
+    case flightStatus.Landed:
+        print("Flight \(flight.flightName) has successfully landed. Please go to designated terminal to pick up your luggage")
+        }
+    }
+}
 
 
 
@@ -141,4 +155,18 @@ printDepartures(departureBoard: departureBoard)
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
 
 
+var ticketCosts: Double = 250
+var travelers = 5
+var bags: Double = 25
+var eachMile: Double = 0.10
 
+func calculateAirfair(checkedBags: Double, distance: Double, travelers: Double) -> Double {
+    
+    var totalPrice: Double = 0
+    
+    totalPrice = bags * travelers + ticketCosts * travelers + eachMile * distance
+    
+    return totalPrice
+}
+
+calculateAirfair(checkedBags: 5, distance: 3000, travelers: 6)

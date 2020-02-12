@@ -17,23 +17,22 @@ import UIKit
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
 enum FlightStatus: String {
-    case EnRoute = "En Route"
-    case Scheduled = "Scheduled"
-    case Canceled = "Canceled"
-    case Delayed = "Delayed"
+    case enRoute = "En Route"
+    case scheduled = "Scheduled"
+    case canceled = "Canceled"
+    case delayed = "Delayed"
+    case onTime = "On Time"
 }
 
 struct Airport {
-    var name: String
     var location: String
     var airportCode: String
-    
 }
 
 struct Flight {
     var airline: String
     var flightNumber: String
-    var destination: String
+    var destination: Airport
     var departure: Date?
     var terminal: String?
     var status: FlightStatus
@@ -41,11 +40,11 @@ struct Flight {
 }
 
 class DepartureBoard {
-    var airport: Airport
-    var departureFlight: [Flight] = []
+    var currentAirport: Airport
+    var departureFlight: [Flight]
     
-    init(airport: Airport, departureFlight: [Flight]) {
-    self.airport = airport
+    init(location: String, airportCode: String) {
+    self.currentAirport = Airport(location: location, airportCode: airportCode)
     self.departureFlight = []
   }
 }
@@ -61,7 +60,18 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
+let airport1 = Airport(location: "Salt Lake City, UT", airportCode: "SLC")
+let airport2 = Airport(location: "Boston, MA", airportCode: "BOS")
+let airport3 = Airport(location: "Phoenix, AZ", airportCode: "PHX")
 
+
+let flight1 = Flight(airline: "Delta", flightNumber: "DL23546", destination: airport2, departure: Date(), terminal: "5", status: .onTime)
+let flight2 = Flight(airline: "SouthWest", flightNumber: "SW56798", destination: airport1, departure: nil, terminal: "2", status: .canceled)
+let flight3 = Flight(airline: "JetBlue", flightNumber: "JB96042", destination: airport3, departure: Date(), terminal: nil, status: .scheduled)
+
+var currentDepatureBoard = DepartureBoard(location: "New York City, NY", airportCode: "JFK")
+
+currentDepatureBoard.departureFlight.append(flight1)
 
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`

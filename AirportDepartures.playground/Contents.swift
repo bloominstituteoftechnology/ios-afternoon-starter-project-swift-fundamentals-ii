@@ -52,7 +52,6 @@ class DepartureBoard {
     func alertPassengers() {
         for flight in flights {
             switch flight.flightStatus {
-                
             case .EnRoute:
                 print("This flight is on route")
             case .Scheduled:

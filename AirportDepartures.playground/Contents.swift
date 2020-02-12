@@ -27,12 +27,13 @@ enum FlightStatus: String {
     case delayed = "Delayed"
 }
 
-enum Airline {
-    case unknown
-    case American
-    case Southwest
-    case United
-    case Spirit
+// ICAO airline designator
+enum Airline: String {
+    case unknown = "Unknown"
+    case AAL = "American"
+    case SWA = "Southwest"
+    case UAL = "United"
+    case NKS = "Spirit"
 }
 
 struct Airport {
@@ -72,20 +73,20 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-var aFlight = Flight(airline: .American, status: .arrived, flightNumber: "617",
+var aFlight = Flight(airline: .AAL, status: .arrived, flightNumber: "617",
                      departure: Airport(airport: "JFK", time: Date(), terminal: "A"),
                      arrival: Airport(airport: "BOS", time: Date(), terminal: "5"))
 var theBoard = DepartureBoard([aFlight])
 
 // Canceled flight
-aFlight = Flight(airline: .United, status: .canceled, flightNumber: "415",
+aFlight = Flight(airline: .UAL, status: .canceled, flightNumber: "415",
                  departure: Airport(airport: "JFK", time: nil, terminal: nil),
                  arrival: Airport(airport: "SFO", time: nil, terminal: nil))
 
 theBoard.addFlight(aFlight)
 
 // Enroute and no terminal yet
-aFlight = Flight(airline: .Southwest, status: .enroute, flightNumber: "408",
+aFlight = Flight(airline: .SWA, status: .enroute, flightNumber: "408",
                  departure: Airport(airport: "JFK", time: Date(), terminal: "B"),
                  arrival: Airport(airport: "SJC", time: Date(), terminal: nil))
 
@@ -102,7 +103,11 @@ theBoard.addFlight(aFlight)
 func printDepartures(_ departureBoard: DepartureBoard) {
     print("Destination\tAirline\tFlight\tDeparture\tTerminal\tStatus")
     for flight in departureBoard.flights {
-        print("\(flight.arrival.airport)\t\(flight.airline)\t\(flight.flightNumber)\t\(flight.departure.time ?? Date())\t\(String(describing: flight.departure.terminal))\t\(flight.status)")
+        let terminal = flight.departure.terminal ?? "?"
+        let status = flight.status.rawValue
+        let airline = flight.airline.rawValue
+        let time = flight.departure.time?.description ?? "N/A"
+        print("\(flight.arrival.airport)\t\(airline)\t\(flight.flightNumber)\t\(time)\t\(terminal)\t\(status)")
     }
 }
 

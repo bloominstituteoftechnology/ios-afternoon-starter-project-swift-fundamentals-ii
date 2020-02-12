@@ -16,15 +16,15 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
-enum FlightStatus {
-    case unknown
-    case scheduled
-    case departed
-    case enroute
-    case landed
-    case arrived
-    case canceled
-    case delayed
+enum FlightStatus: String {
+    case unknown = "Unknown"
+    case scheduled = "Scheduled"
+    case departed = "Departed"
+    case enroute = "En Route"
+    case landed = "Landed"
+    case arrived = "Arrived"
+    case canceled = "Canceled"
+    case delayed = "Delayed"
 }
 
 enum Airline {
@@ -73,21 +73,21 @@ class DepartureBoard {
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
 var aFlight = Flight(airline: .American, status: .arrived, flightNumber: "617",
-                     departure: Airport(airport: "BOS", time: Date(), terminal: "A"),
-                     arrival: Airport(airport: "JFK", time: Date(), terminal: "5"))
+                     departure: Airport(airport: "JFK", time: Date(), terminal: "A"),
+                     arrival: Airport(airport: "BOS", time: Date(), terminal: "5"))
 var theBoard = DepartureBoard([aFlight])
 
 // Canceled flight
 aFlight = Flight(airline: .United, status: .canceled, flightNumber: "415",
-                 departure: Airport(airport: "SFO", time: nil, terminal: nil),
-                 arrival: Airport(airport: "JFK", time: nil, terminal: nil))
+                 departure: Airport(airport: "JFK", time: nil, terminal: nil),
+                 arrival: Airport(airport: "SFO", time: nil, terminal: nil))
 
 theBoard.addFlight(aFlight)
 
 // Enroute and no terminal yet
 aFlight = Flight(airline: .Southwest, status: .enroute, flightNumber: "408",
-                 departure: Airport(airport: "SJC", time: Date(), terminal: "B"),
-                 arrival: Airport(airport: "JFK", time: Date(), terminal: nil))
+                 departure: Airport(airport: "JFK", time: Date(), terminal: "B"),
+                 arrival: Airport(airport: "SJC", time: Date(), terminal: nil))
 
 theBoard.addFlight(aFlight)
 
@@ -102,7 +102,7 @@ theBoard.addFlight(aFlight)
 func printDepartures(_ departureBoard: DepartureBoard) {
     print("Destination\tAirline\tFlight\tDeparture\tTerminal\tStatus")
     for flight in departureBoard.flights {
-        print("\(flight.departure.airport)\t\(flight.airline)\t\(flight.flightNumber)\t\(flight.arrival.time)\t\(flight.arrival.terminal)\t\(flight.status)")
+        print("\(flight.arrival.airport)\t\(flight.airline)\t\(flight.flightNumber)\t\(flight.departure.time ?? Date())\t\(String(describing: flight.departure.terminal))\t\(flight.status)")
     }
 }
 

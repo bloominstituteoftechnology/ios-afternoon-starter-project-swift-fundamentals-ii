@@ -293,4 +293,5 @@ let airfare = calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3) // 
 
 let formatter = NumberFormatter()
 formatter.numberStyle = .currency
-//formatter.string(from: NSNumber(airfare))
+let cost = formatter.string(from: airfare as NSNumber)
+print("Total ticket cost = \(cost!)")

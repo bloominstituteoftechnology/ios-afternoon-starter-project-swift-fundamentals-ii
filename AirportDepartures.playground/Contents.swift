@@ -100,13 +100,25 @@ theBoard.addFlight(aFlight)
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
+func saneTime(_ dateToFormat: Date?) -> String {
+    guard let date = dateToFormat else {
+        return "N/A"
+    }
+
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "h:mm a"
+    let result = dateFormatter.string(from: date)
+    
+    return result
+}
+
 func printDepartures(_ departureBoard: DepartureBoard) {
     print("Destination\tAirline\tFlight\tDeparture\tTerminal\tStatus")
     for flight in departureBoard.flights {
         let terminal = flight.departure.terminal ?? "?"
         let status = flight.status.rawValue
         let airline = flight.airline.rawValue
-        let time = flight.departure.time?.description ?? "N/A"
+        let time = saneTime(flight.departure.time)
         print("\(flight.arrival.airport)\t\(airline)\t\(flight.flightNumber)\t\(time)\t\(terminal)\t\(status)")
     }
 }

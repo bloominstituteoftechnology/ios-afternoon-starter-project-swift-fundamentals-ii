@@ -82,8 +82,20 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
+var dateComponents = DateComponents()
+dateComponents.year = 2020
+dateComponents.month = 2
+dateComponents.day = 12
+dateComponents.timeZone = TimeZone(abbreviation: "PST")
+dateComponents.hour = 10
+dateComponents.minute = 00
+
+// Create date from components
+let userCalendar = Calendar.current // user calendar
+var departureTime = userCalendar.date(from: dateComponents)
+
 var aFlight = Flight(airline: .AAL, status: .arrived, flightNumber: "617",
-                     departure: Airport(airport: .JFK, time: Date(), terminal: "A"),
+                     departure: Airport(airport: .JFK, time: departureTime, terminal: "A"),
                      arrival: Airport(airport: .BOS, time: Date(), terminal: "5"))
 var theBoard = DepartureBoard([aFlight])
 
@@ -94,9 +106,13 @@ aFlight = Flight(airline: .UAL, status: .canceled, flightNumber: "415",
 
 theBoard.addFlight(aFlight)
 
+dateComponents.hour = 11
+dateComponents.minute = 11
+departureTime = userCalendar.date(from: dateComponents)
+
 // Enroute and no terminal yet
 aFlight = Flight(airline: .SWA, status: .enroute, flightNumber: "408",
-                 departure: Airport(airport: .JFK, time: Date(), terminal: "B"),
+                 departure: Airport(airport: .JFK, time: departureTime, terminal: "B"),
                  arrival: Airport(airport: .SJC, time: Date(), terminal: nil))
 
 theBoard.addFlight(aFlight)
@@ -161,7 +177,7 @@ func printDepartures2(_ departureBoard: DepartureBoard) {
 
     for flight in departureBoard.flights {
         let airport = flight.arrival.airport.rawValue
-        let terminal = flight.departure.terminal ?? "?"
+        let terminal = flight.departure.terminal ?? "TBD"
         let status = flight.status.rawValue
         let airline = flight.airline.rawValue
         let time = saneTime(flight.departure.time)

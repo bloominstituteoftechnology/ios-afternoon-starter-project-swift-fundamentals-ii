@@ -16,7 +16,7 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
-enum FlightStatus {
+enum FlightStatus: String {
     case route
     case scheduled
     case canceled
@@ -30,25 +30,22 @@ struct Airport {
 struct Flight {
     var departure: Date?
     var terminal: String?
+    var airlines: String
+    var flight: String
 }
 
 class DepartureBoard {
-    var departureFlight: String
+    var departures: [Flight]
     var currentAirport: String
-    var flights: [Flight]
+    let alertPassengers: String
     
-    init(departureFlight: String, currentAirport: String, flights: [Flight]) {
-        self.departureFlight = departureFlight
+    init(departures: [Flight], currentAirport: String) {
+        self.departures = departures
         self.currentAirport = currentAirport
-        self.flights = flights
-    }
-    
-    func addFlights(newFlight: Flight) {
-        flights.append(newFlight)
+        
     }
     
 }
-
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -59,9 +56,14 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
+let myFlight2: Flight = Flight(departure: nil, terminal: "nil", airlines: "Delta", flight: "CR1293")
+let myNewFlight: Flight = Flight(departure: Date(), terminal: "A", airlines: "Southwest", flight: "HR2020")
+let myFlight3: Flight = Flight(departure: Date(), terminal: "C", airlines: "American Airline", flight: "SR8922")
 
-
-
+let myDepartureBoard = DepartureBoard(departures: [], currentAirport: "CVG")
+myDepartureBoard.departures.append(myNewFlight)
+myDepartureBoard.departures.append(myFlight2)
+myDepartureBoard.departures.append(myFlight3)
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:
@@ -70,8 +72,17 @@ class DepartureBoard {
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
+func printDepartures(myDepartureBoard: String) {
+    
+    for _ in myDepartureBoard {
+        print("These are the departures \(myDepartureBoard)")
+    }
+}
 
-
+//if let unwrappedDate = Date {
+//    print(unwrappedDate)
+//}
+print(printDepartures)
 
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
@@ -105,7 +116,17 @@ class DepartureBoard {
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
+switch DepartureBoard {
+case canceled:
+    print("We're sorry your flight to (city) was canceled, here is a $500 voucher")
+    
+case scheduled:
+    print("Your flight to (city) is scheduled to depart at (time) from terminal: (terminal)")
+case boarding:
+    print("Your flight is boarding, please head to terminal: (terminal) immediately. The doors are closing soon.")
+default:
+    print("May I see your ticket for your flight?")
+}
 
 
 
@@ -126,6 +147,12 @@ class DepartureBoard {
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
-
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+    checkedBags = 25
+    distance = 0.10
+    
+    travelers * checkedBags * distance
+    
+}
 
 

@@ -27,43 +27,21 @@ enum FlightStatus: String {
 }
 
 struct Airport {
-    var destination: String //where the flight is traveling to
-    var arrival: String //where the plane has entered a terminal for a scheduled depature
+    let cityName: String
+    let cityCode: String
 }
 
 struct Flight {
-    var date: Date? // the date and time the flight is scheduled to depart
-    var terminal: String? // the terminal or gate the flight is departing from
-    var flightNumber: String? //the tail number of the flight in order to track it
-    var airlineName: String? //the name of the airline carrier
-    var currentFlightStatus: FlightStatus
-}
-
-//class DepartureBoard {
-//    var departureFlights: String //current flights scheduled to leave organized by first out; use tail number
-//    var currentAirport: String //where the flight is currently located
-//
-//
-//    init(departureFlights: String, currentAirport: String) {
-//        self.departureFlights = departureFlights
-//        self.currentAirport = currentAirport
-//    }
-//
-//}
-
-struct DateComponents {
-    var timeZone: TimeZone? = nil
-    var calendar: Calendar? = nil
+    let destination: Airport
+    let airline: String
+    let flightNumber: String
+    let departureTime: Date
+    let terminal: String
+    let status: FlightStatus
 }
 
 class DepartureBoard {
-    var departureFlights: [Airport]
-    var flightInformation: [Flight]
-    
-    init(departureFlights: Airport, flightInformation: Flight) {
-        self.departureFlights = []
-        self.flightInformation = []
-    }
+
 }
 
 
@@ -77,11 +55,11 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-var myFlight = DepartureBoard(departureFlights: .init(destination: "Los Angeles", arrival: "Philadelphia"), flightInformation: .init(date: Date(), terminal: "C4", flightNumber: "KL642", airlineName: "American Airlines", currentFlightStatus: .onTime))
-
-var canceledFlight = DepartureBoard(departureFlights: .init(destination: "Paris", arrival: "New York"), flightInformation: .init(date: nil, terminal: nil, flightNumber: nil, airlineName: "Air France", currentFlightStatus: .canceled))
-
-var landedFlight = DepartureBoard(departureFlights: .init(destination: "Phoenix", arrival: "Seattle"), flightInformation: .init(date: Date(), terminal: nil, flightNumber: "MU4544", airlineName: "Delta Airlines", currentFlightStatus: .landed))
+//var myFlight = DepartureBoard(departureFlights: .init(destination: "Los Angeles", arrival: "Philadelphia"), flightInformation: .init(date: Date(), terminal: "C4", flightNumber: "KL642", airlineName: "American Airlines", currentFlightStatus: .onTime))
+//
+//var canceledFlight = DepartureBoard(departureFlights: .init(destination: "Paris", arrival: "New York"), flightInformation: .init(date: nil, terminal: nil, flightNumber: nil, airlineName: "Air France", currentFlightStatus: .canceled))
+//
+//var landedFlight = DepartureBoard(departureFlights: .init(destination: "Phoenix", arrival: "Seattle"), flightInformation: .init(date: Date(), terminal: nil, flightNumber: "MU4544", airlineName: "Delta Airlines", currentFlightStatus: .landed))
 
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`

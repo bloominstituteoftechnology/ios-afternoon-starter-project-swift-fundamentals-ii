@@ -177,3 +177,13 @@ func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double
 }
 calculateAirfare(checkedBags: 5, distance: 20, travelers: 1)
 
+// Stretch Goals
+
+let numberFormatter = NumberFormatter()
+func convertDoubleToCurrency(amount: Double)->String{
+    let numberFormatter = NumberFormatter()
+    numberFormatter.numberStyle = .currency
+    numberFormatter.currencyCode = "USD"
+    return numberFormatter.string(from: NSNumber(value: amount))!
+}
+print(convertDoubleToCurrency(amount: calculateAirfare(checkedBags: 5, distance: 20, travelers: 1)))

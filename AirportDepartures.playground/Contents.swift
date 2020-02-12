@@ -100,26 +100,18 @@ theBoard.addFlight(aFlight)
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
-func saneTime(_ dateToFormat: Date?) -> String {
-    guard let date = dateToFormat else {
-        return "N/A"
-    }
-
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "h:mm a"
-    let result = dateFormatter.string(from: date)
-    
-    return result
-}
+print("")
+print("Step 3")
+print("")
 
 func printDepartures(_ departureBoard: DepartureBoard) {
     print("Destination\tAirline\tFlight\tDeparture\tTerminal\tStatus")
     for flight in departureBoard.flights {
-        let terminal = flight.departure.terminal ?? "?"
+        let terminal = flight.departure.terminal
         let status = flight.status.rawValue
         let airline = flight.airline.rawValue
-        let time = saneTime(flight.departure.time)
-        print("\(flight.arrival.airport)\t\(airline)\t\(flight.flightNumber)\t\(time)\t\(terminal)\t\(status)")
+        let time = flight.departure.time?.description
+        print("\(flight.arrival.airport)\t\(airline)\t\(flight.flightNumber)\t\(String(describing: time))\t\(String(describing: terminal))\t\(status)")
     }
 }
 
@@ -139,7 +131,40 @@ printDepartures(theBoard)
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
+print("")
+print("Step 4")
+print("")
 
+func saneTime(_ dateToFormat: Date?) -> String {
+    guard let date = dateToFormat else {
+        return "N/A"
+    }
+
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "h:mm a"
+    let result = dateFormatter.string(from: date)
+    
+    return result
+}
+
+func printDepartures2(_ departureBoard: DepartureBoard) {
+
+    for flight in departureBoard.flights {
+        let terminal = flight.departure.terminal ?? "?"
+        let status = flight.status.rawValue
+        let airline = flight.airline.rawValue
+        let time = saneTime(flight.departure.time)
+        
+        print("Destination: \(flight.arrival.airport)", terminator: " ")
+        print("Airline: \(airline)", terminator: " ")
+        print("Flight: \(flight.flightNumber)", terminator: " ")
+        print("Departure Time: \(time)", terminator: " ")
+        print("Terminal: \(terminal)", terminator: " ")
+        print("Status: \(status)")
+    }
+}
+
+printDepartures2(theBoard)
 
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.

@@ -37,8 +37,16 @@ enum Airline: String {
     case NKS = "Spirit"
 }
 
+// IATA airport code
+enum AirportIataCode: String {
+    case BOS = "Logan International Airport"
+    case JFK = "John F. Kennedy International Airport"
+    case SFO = "San Francisco International Airport"
+    case SJC = "San Jose International Airport"
+}
+
 struct Airport {
-    var airport: String
+    var airport: AirportIataCode
     var time: Date?
     var terminal: String?
 }
@@ -75,21 +83,21 @@ class DepartureBoard {
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
 var aFlight = Flight(airline: .AAL, status: .arrived, flightNumber: "617",
-                     departure: Airport(airport: "JFK", time: Date(), terminal: "A"),
-                     arrival: Airport(airport: "BOS", time: Date(), terminal: "5"))
+                     departure: Airport(airport: .JFK, time: Date(), terminal: "A"),
+                     arrival: Airport(airport: .BOS, time: Date(), terminal: "5"))
 var theBoard = DepartureBoard([aFlight])
 
 // Canceled flight
 aFlight = Flight(airline: .UAL, status: .canceled, flightNumber: "415",
-                 departure: Airport(airport: "JFK", time: nil, terminal: nil),
-                 arrival: Airport(airport: "SFO", time: nil, terminal: nil))
+                 departure: Airport(airport: .JFK, time: nil, terminal: nil),
+                    arrival: Airport(airport: .SFO, time: nil, terminal: nil))
 
 theBoard.addFlight(aFlight)
 
 // Enroute and no terminal yet
 aFlight = Flight(airline: .SWA, status: .enroute, flightNumber: "408",
-                 departure: Airport(airport: "JFK", time: Date(), terminal: "B"),
-                 arrival: Airport(airport: "SJC", time: Date(), terminal: nil))
+                 departure: Airport(airport: .JFK, time: Date(), terminal: "B"),
+                 arrival: Airport(airport: .SJC, time: Date(), terminal: nil))
 
 theBoard.addFlight(aFlight)
 
@@ -108,11 +116,12 @@ print("")
 func printDepartures(_ departureBoard: DepartureBoard) {
     print("Destination\tAirline\tFlight\tDeparture\tTerminal\tStatus")
     for flight in departureBoard.flights {
+        let airport = flight.arrival.airport.rawValue
         let terminal = flight.departure.terminal
         let status = flight.status.rawValue
         let airline = flight.airline.rawValue
         let time = flight.departure.time?.description
-        print("\(flight.arrival.airport)\t\(airline)\t\(flight.flightNumber)\t\(String(describing: time))\t\(String(describing: terminal))\t\(status)")
+        print("\(airport)\t\(airline)\t\(flight.flightNumber)\t\(String(describing: time))\t\(String(describing: terminal))\t\(status)")
     }
 }
 
@@ -151,12 +160,13 @@ func saneTime(_ dateToFormat: Date?) -> String {
 func printDepartures2(_ departureBoard: DepartureBoard) {
 
     for flight in departureBoard.flights {
+        let airport = flight.arrival.airport.rawValue
         let terminal = flight.departure.terminal ?? "?"
         let status = flight.status.rawValue
         let airline = flight.airline.rawValue
         let time = saneTime(flight.departure.time)
         
-        print("Destination: \(flight.arrival.airport)", terminator: " ")
+        print("Destination: \(airport)", terminator: " ")
         print("Airline: \(airline)", terminator: " ")
         print("Flight: \(flight.flightNumber)", terminator: " ")
         print("Departure Time: \(time)", terminator: " ")
@@ -193,28 +203,41 @@ extension DepartureBoard {
         for flight in flights {
             let terminal = flight.departure.terminal ?? "TBD"
 
+            var supplimentalMsg = ""
+            if terminal == "" {
+                supplimentalMsg = " See the nearest information desk for more details."
+            }
+            
             switch flight.status {
             case .unknown:
-                msg = ""
+                let flightNumber = flight.flightNumber
+                let airport = flight.arrival.airport.rawValue
+                msg = "No flight status available for flight \(flightNumber) to \(airport)"
             case .scheduled:
                 let time = saneTime(flight.departure.time)
-                msg = "Your flight to \(flight.arrival.airport) is scheduled to depart at \(time) from terminal:\(terminal)"
+                let airport = flight.arrival.airport.rawValue
+                msg = "Your flight to \(airport) is scheduled to depart at \(time) from terminal:\(terminal)"
             case .boarding:
                 msg = "Your flight is boarding, please head to terminal: \(terminal) immediately. The doors are closing soon."
             case .departed:
-                msg = ""
+                let airport = flight.arrival.airport.rawValue
+                msg = "Your flight to \(airport) has departed."
             case .enroute:
-                msg = ""
+                let airport = flight.arrival.airport.rawValue
+                let time = saneTime(flight.arrival.time)
+                msg = "Your flight will arrive at \(airport) at \(time)"
             case .landed:
-                msg = ""
+                msg = "Your arrival terminal is \(terminal)"
             case .arrived:
-                msg = ""
+                msg = "Your have arrived at terminal \(terminal)"
             case .canceled:
-                msg = "We're sorry your flight to \(flight.arrival.airport) was canceled, here is a $500 voucher"
+                let airport = flight.arrival.airport.rawValue
+                msg = "We're sorry your flight to \(airport) was canceled, here is a $500 voucher"
             case .delayed:
-                msg = ""
+                let airport = flight.arrival.airport.rawValue
+                msg = "Your flight \(airport) is delayed."
             }
-            print(msg)
+            print(msg + supplimentalMsg)
         }
     }
 }
@@ -250,4 +273,8 @@ func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double
     return finalCost
 }
 
-calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3) // $750
+let airfare = calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3) // $750
+
+let formatter = NumberFormatter()
+formatter.numberStyle = .currency
+//formatter.string(from: NSNumber(airfare))

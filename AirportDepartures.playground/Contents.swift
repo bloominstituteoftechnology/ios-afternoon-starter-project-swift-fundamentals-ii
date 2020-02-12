@@ -191,7 +191,7 @@ extension DepartureBoard {
         var msg: String
         
         for flight in flights {
-            let terminal = flight.departure.terminal ?? "?"
+            let terminal = flight.departure.terminal ?? "TBD"
 
             switch flight.status {
             case .unknown:

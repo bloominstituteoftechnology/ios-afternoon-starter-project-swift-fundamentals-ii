@@ -20,38 +20,43 @@ enum FlightStatus {
     case unknown
     case scheduled
     case departed
-    case enRoute
+    case enroute
     case landed
     case arrived
     case canceled
     case delayed
 }
 
-enum Direction {
-    case unknown
-    case destination
-    case arrival
-}
-
 enum Airline {
     case unknown
     case American
-    case SouthWest
+    case Southwest
     case United
     case Spirit
 }
-struct Flight {
+
+struct Airport {
     var airport: String
-    var airline: Airline
-    var type: Direction
-    var flightNumber: String
     var time: Date?
     var terminal: String?
+}
+
+struct Flight {
+    var airline: Airline
     var status: FlightStatus
+    var flightNumber: String
+
+    var departure: Airport
+    var arrival: Airport
 }
 
 class DepartureBoard {
     var flights: [Flight]
+
+    func addFlight(_ flight: Flight)
+    {
+        flights.append(flight)
+    }
     
     init(_ flights: [Flight]) {
         self.flights = flights
@@ -67,11 +72,24 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-var flight1 = Flight(airport: "SFO", airline: .American, type: .arrival, flightNumber: "415", time: Date(), terminal: "5", status: .arrived)
-var flight2 = Flight(airport: "BOS", airline: .United, type: .arrival, flightNumber: "404", time: nil, terminal: nil, status: .canceled)
-var flight3 = Flight(airport: "SJC", airline: .SouthWest, type: .arrival, flightNumber: "408", time: Date(), terminal: nil, status: .enRoute)
+var aFlight = Flight(airline: .American, status: .arrived, flightNumber: "617",
+                     departure: Airport(airport: "BOS", time: Date(), terminal: "A"),
+                     arrival: Airport(airport: "JFK", time: Date(), terminal: "5"))
+var theBoard = DepartureBoard([aFlight])
 
-var theBoard = DepartureBoard([flight1, flight2, flight3])
+// Canceled flight
+aFlight = Flight(airline: .United, status: .canceled, flightNumber: "415",
+                 departure: Airport(airport: "SFO", time: nil, terminal: nil),
+                 arrival: Airport(airport: "JFK", time: nil, terminal: nil))
+
+theBoard.addFlight(aFlight)
+
+// Enroute and no terminal yet
+aFlight = Flight(airline: .Southwest, status: .enroute, flightNumber: "408",
+                 departure: Airport(airport: "SJC", time: Date(), terminal: "B"),
+                 arrival: Airport(airport: "JFK", time: Date(), terminal: nil))
+
+theBoard.addFlight(aFlight)
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
@@ -84,7 +102,7 @@ var theBoard = DepartureBoard([flight1, flight2, flight3])
 func printDepartures(_ departureBoard: DepartureBoard) {
     print("Destination\tAirline\tFlight\tDeparture\tTerminal\tStatus")
     for flight in departureBoard.flights {
-        print("\(flight.airport)\t\(flight.airline)\t\(flight.flightNumber)\t\(flight.time)\t\(flight.terminal)\t\(flight.status)")
+        print("\(flight.departure.airport)\t\(flight.airline)\t\(flight.flightNumber)\t\(flight.arrival.time)\t\(flight.arrival.terminal)\t\(flight.status)")
     }
 }
 

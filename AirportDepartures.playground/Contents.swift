@@ -19,6 +19,7 @@ import UIKit
 enum FlightStatus: String {
     case unknown = "Unknown"
     case scheduled = "Scheduled"
+    case boarding = "Boarding"
     case departed = "Departed"
     case enroute = "En Route"
     case landed = "Landed"
@@ -137,7 +138,7 @@ print("")
 
 func saneTime(_ dateToFormat: Date?) -> String {
     guard let date = dateToFormat else {
-        return "N/A"
+        return "TBD"
     }
 
     let dateFormatter = DateFormatter()
@@ -181,9 +182,44 @@ printDepartures2(theBoard)
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
+print("")
+print("Step 5")
+print("")
 
+extension DepartureBoard {
+    func alertPassengers() {
+        var msg: String
+        
+        for flight in flights {
+            let terminal = flight.departure.terminal ?? "?"
 
+            switch flight.status {
+            case .unknown:
+                msg = ""
+            case .scheduled:
+                let time = saneTime(flight.departure.time)
+                msg = "Your flight to \(flight.arrival.airport) is scheduled to depart at \(time) from terminal:\(terminal)"
+            case .boarding:
+                msg = "Your flight is boarding, please head to terminal: \(terminal) immediately. The doors are closing soon."
+            case .departed:
+                msg = ""
+            case .enroute:
+                msg = ""
+            case .landed:
+                msg = ""
+            case .arrived:
+                msg = ""
+            case .canceled:
+                msg = "We're sorry your flight to \(flight.arrival.airport) was canceled, here is a $500 voucher"
+            case .delayed:
+                msg = ""
+            }
+            print(msg)
+        }
+    }
+}
 
+theBoard.alertPassengers()
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`

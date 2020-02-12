@@ -218,7 +218,7 @@ func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> String
     let formatter = NumberFormatter()
     formatter.numberStyle = .currency
     
-    return formatter.string(for: total)!
+    return formatter.string(for: total) ?? ""
 }
 
 print("\n")

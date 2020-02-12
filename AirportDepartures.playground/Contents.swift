@@ -93,8 +93,8 @@ let date1 = DateComponents(calendar: .current, timeZone: .current, year: 2020, m
 let currentAirpot = Airport(currentAirport: "CLT")
 
 let flight1 = Flight(airline: "American Airlines", destination: "TLH", flightNumber: "B59", date: Date(), terminal: "A4", status: .enRoute)
-let flight2 = Flight(airline: "Hawaiian Airlines", destination: "NYC", flightNumber: "B59", date: date1.date, terminal: nil, status: .scheduled)
-let flight3 = Flight(airline: "American Airlines", destination: "CDA", flightNumber: "B59", date: nil, terminal: "C2", status: .canceled)
+let flight2 = Flight(airline: "Hawaiian Airlines", destination: "NYC", flightNumber: "A13", date: date1.date, terminal: nil, status: .scheduled)
+let flight3 = Flight(airline: "American Airlines", destination: "CDA", flightNumber: "CE9", date: nil, terminal: "C2", status: .canceled)
 
 let board = DepartureBoard(currentAirport: currentAirpot, departureFlights: [flight1, flight2, flight3])
 

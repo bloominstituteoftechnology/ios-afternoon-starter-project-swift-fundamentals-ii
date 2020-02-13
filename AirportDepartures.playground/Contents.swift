@@ -47,6 +47,35 @@ class DepartureBoard {
     self.currentAirport = Airport(location: location, airportCode: airportCode)
     self.departureFlight = []
   }
+    
+    func alertPassengers() {
+        for flight in departureFlight {
+            
+            var timeString = "TBD"
+            if let time = flight.departure {
+                timeString = "\(time)"
+            }
+            var terminalString = "TBD"
+            if let terminal = flight.terminal {
+                terminalString = terminal
+            }
+            
+            switch flight.status {
+            case .canceled:
+                print("We're sorry you flight to \(flight.destination.location) was canceled, here is a $500 voucher")
+            case .scheduled:
+                print("Your flight to \(flight.destination.location) is scheduled to depart at \(timeString) from terminal: \(terminalString)")
+            case .onTime:
+                print("Your flight is boarding, please head to the terminal: \(terminalString)")
+            case .delayed:
+                print("Your flight has been delayed, please direct your attention to the departure board for updated information.")
+            case .enRoute:
+                print("Thank you for flying with \(flight.airline)")
+            }
+        }
+    }
+    
+    
 }
 
 
@@ -72,6 +101,8 @@ let flight3 = Flight(airline: "JetBlue", flightNumber: "JB96042", destination: a
 var currentDepatureBoard = DepartureBoard(location: "New York City, NY", airportCode: "JFK")
 
 currentDepatureBoard.departureFlight.append(flight1)
+currentDepatureBoard.departureFlight.append(flight2)
+currentDepatureBoard.departureFlight.append(flight3)
 
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
@@ -85,9 +116,12 @@ currentDepatureBoard.departureFlight.append(flight1)
 func printDepartures(departureBoard: DepartureBoard ) {
     
     for flight in departureBoard.departureFlight {
+
         if let unwrappedDeparture = flight.departure {
-            print(unwrappedDeparture)
+            let date = "\(unwrappedDeparture)"
+            print(date)
         }
+
         if let unwrappedTerminal = flight.terminal {
             print(unwrappedTerminal)
         }
@@ -97,6 +131,7 @@ func printDepartures(departureBoard: DepartureBoard ) {
     }
 }
 printDepartures(departureBoard: currentDepatureBoard)
+
 
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
@@ -130,7 +165,7 @@ printDepartures(departureBoard: currentDepatureBoard)
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
+currentDepatureBoard.alertPassengers()
 
 
 
@@ -151,6 +186,10 @@ printDepartures(departureBoard: currentDepatureBoard)
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+    let totalAirfare = (Double(checkedBags) * 25 + Double(distance) * 0.1) * Double(travelers)
+    return totalAirfare
+}
 
-
+print(calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3))
 

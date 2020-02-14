@@ -17,10 +17,10 @@ import UIKit
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
 enum FlightStatus: String {
-    case boarding
-    case scheduled
-    case canceled
-    case delayed
+    case boarding = "Boarding"
+    case scheduled = "Scheduled"
+    case canceled = "Canceled"
+    case delayed = "Delayed"
 }
 
 struct Airport {
@@ -62,7 +62,7 @@ class DepartureBoard {
     }
 }
 
-
+// how do you print a function that is within a class? ex: func alertPassengers
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -73,12 +73,22 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-let myFlight4: Airport = Airport(destination: "Ohio")
+let Airport1: Airport = Airport(destination: "Ohio")
+let Airport2: Airport = Airport(destination: "Wisconsin")
+let Airport3: Airport = Airport(destination: "Minnesota")
 
 
-let myFlight1: Flight = Flight(departure: Date(), terminal: "A4", airlines: "Southwest", flight: "HR2020", status: .boarding)
+let myFlight1: Flight = Flight(departure: Date(),
+                               terminal: "A4",
+                               airlines: "Southwest",
+                               flight: "HR2020",
+                               status: .boarding)
 
-let myFlight2: Flight = Flight(departure: nil, terminal: nil, airlines: "Delta", flight: "CR1293", status: .canceled)
+let myFlight2: Flight = Flight(departure: nil,
+                               terminal: nil,
+                               airlines: "Delta",
+                               flight: "CR1293",
+                               status: .canceled)
 
 let myFlight3: Flight = Flight(departure: Date(), terminal: "C15", airlines: "American Airline", flight: "SR8922", status: .scheduled)
 
@@ -86,6 +96,12 @@ let myDepartureBoard = DepartureBoard(departures: [], currentAirport: [])
 myDepartureBoard.departures.append(myFlight1)
 myDepartureBoard.departures.append(myFlight2)
 myDepartureBoard.departures.append(myFlight3)
+
+myDepartureBoard.currentAirport.append(Airport1)
+myDepartureBoard.currentAirport.append(Airport2)
+myDepartureBoard.currentAirport.append(Airport3)
+
+
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:
@@ -96,20 +112,19 @@ myDepartureBoard.departures.append(myFlight3)
 //: d. Print out the current DepartureBoard you created using the function
 func printDepartures(departureBoard: DepartureBoard) {
     
-   
+    
     
     for departure in departureBoard.departures {
-         if let unwrappedTerminal = departure.terminal {
-               print(" \(unwrappedTerminal)")
-           }
-           
-           if let unwrappedDate = departure.departure {
-               print(" \(unwrappedDate)")
-           }
-        print(" Your destination is \(departure.airlines)")
+        if let unwrappedTerminal = departure.terminal, let unwrappedDate = departure.departure {
+            
+            print(" Airline: \(departure.airlines), Flight Number: \(departure.flight), Departure Time: \(unwrappedDate), Terminal: \(unwrappedTerminal), Flight Status: \(departure.status)")
+        }
+        
     }
-
+    
 }
+
+
 
 printDepartures(departureBoard: myDepartureBoard)
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
@@ -177,6 +192,6 @@ func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double
     return results
 }
 
-print(calculateAirfare(checkedBags: 1, distance: 2, travelers: 3))
+print(calculateAirfare(checkedBags: 2, distance: 200, travelers: 2))
 
 

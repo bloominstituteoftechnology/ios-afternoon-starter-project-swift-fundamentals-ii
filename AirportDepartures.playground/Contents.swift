@@ -1,6 +1,5 @@
 import UIKit
 
-
 //: ## 1. Create custom types to represent an Airport Departures display
 //: ![Airport Departures](matthew-smith-5934-unsplash.jpg)
 //: Look at data from [Departures at JFK Airport in NYC](https://www.airport-jfk.com/departures.php) for reference.
@@ -24,18 +23,17 @@ enum FlightStatus: String {
 }
 
 struct Airport {
-    var airportName: String
-    var airlineName: String
+    let destination: String
+    let arrival: String
 }
 
 struct Flight {
-    var departure: Airport
+    var departure: String
     var airline: String
-    var flight: String
+    var flight: Int
     var flightStatus: FlightStatus
     var departureTime: Date?
     var terminal: String?
-    var status: String
 }
 
 class DepartureBoard {
@@ -46,17 +44,18 @@ class DepartureBoard {
     
     init(airportName: String, location: String) {
         self.newFlight = []
-        self.departureAirport = Airport(airportName: airportName, airlineName: location)
+        self.departureAirport = Airport(destination: airportName, arrival: location)
     }
+    
     //: part 5
     func alertPassengers() -> String {
-        switch newFlight.flightStatus {
+        switch  {
         case .canceled:
-            print("We're sorry your flight to \(.location) was canceled, here is a $500 voucher")
+            print("We're sorry your flight to \() was canceled, here is a $500 voucher")
         case .scheduled:
-            print("Your flight to \(.location) is scheduled to depart at (time) from terminal: (terminal)")
+            print("Your flight to \() is scheduled to depart at (time) from terminal: (terminal)")
         case .boarding:
-            print("Your flight is boarding, please head to terminal: \(newFlight.terminal) immediately. The doors are closing soon.")
+            print("Your flight is boarding, please head to terminal: \() immediately. The doors are closing soon.")
         case .enRoute:
             print("your flight is en route.")
         case .delayed:
@@ -75,20 +74,18 @@ class DepartureBoard {
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
 
-let DUB = Airport(airportName: "Dublin", airlineName: "Aer Lingus")
-let OSL = Airport(airportName: "Oslo", airlineName: "norwegian air")
-let MCI = Airport(airportName: "Kansas City", airlineName: "Southwest")
+let DUB = Flight(departure: "Dublin", airline: "Aer Lingus", flight: 333, flightStatus: .scheduled, departureTime: Date(), terminal: "D")
+let OSL = Flight(departure: "Oslo", airline: "Norwegian", flight: 638, flightStatus: .enRoute, departureTime: Date(), terminal: "E")
+let MCI = Flight(departure: "Kansas City", airline: "Southwest", flight: 449, flightStatus: .scheduled, departureTime: Date(), terminal: "B")
 
 var JFK = DepartureBoard(airportName: "JFK", location: "New York")
 
-let hvar = Flight(departure: DUB, airline: "Aer Lingus", flight: "889", flightStatus: .scheduled, departureTime: nil, terminal: "C", status: "on time")
+let hvar = Flight(departure: "Prague", airline: "Eurowings", flight: 338, flightStatus: .canceled, departureTime: nil, terminal: "D")
 
-let kcy = Flight(departure: MCI, airline: "Southwest", flight: "662", flightStatus: .delayed, departureTime: Date(), terminal: "D", status: "late")
-
-let nor = Flight(departure: OSL, airline: "norwegian air", flight: "254", flightStatus: .enRoute, departureTime: Date(), terminal: "E", status: "on time")
+let nor = Flight(departure: "Wichita", airline: "Southwest", flight: 998, flightStatus: .delayed, departureTime: Date(), terminal: nil)
 
 JFK.newFlight.append(hvar)
-JFK.newFlight.append(kcy)
+
 JFK.newFlight.append(nor)
 
 print(JFK.newFlight)
@@ -102,10 +99,10 @@ print(JFK.newFlight)
 //:
 //: d. Print out the current DepartureBoard you created using the function
 func printDepartures(departureBoard: DepartureBoard) {
-    for flight in departureBoard.newFlight {
-        print(flight.flightStatus.rawValue)
+    for _ in departureBoard.newFlight {
+        print()
     }
-}
+} 
 
 printDepartures(departureBoard: JFK)
 
@@ -151,8 +148,6 @@ printDepartures2(departureBoard: JFK)
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 
 
-let ICT = DepartureBoard(airportName: "ICT", location: "Wichita")
-DepartureBoard.alertPassengers(MCI)
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`
 //:

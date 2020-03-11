@@ -16,6 +16,14 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
+// MARK: - Date Formatting
+let dateFormatter = DateFormatter()
+dateFormatter.dateFormat = "h:mm a"
+
+func formatDate(_ date: Date) -> String {
+    dateFormatter.string(from: date)
+}
+
 enum FlightStatus: String {
     case enRoute = "En Route"
     case scheduled = "Scheduled"
@@ -50,7 +58,7 @@ class DepartureBoard {
             case .canceled:
                 print("We're sorry your flight to \(flight.destination) was canceled, here is a $500 voucher")
             case .scheduled:
-                print("Your flight to \(flight.destination) is scheduled to depart at \(flight.departureTime) from terminal: \(flight.terminal ?? "See help desk for terminal")")
+                print("Your flight to \(flight.destination) is scheduled to depart at \(formatDate(flight.departureTime)) from terminal: \(flight.terminal ?? "See help desk for terminal")")
             case .boarding:
                 print("Your flight is boarding, please head to terminal: \(flight.terminal ?? "See help desk for terminal") immediately. The doors are closing soon.")
             default:
@@ -112,7 +120,7 @@ func printDepartures2(departureBoard: DepartureBoard) {
     for flight in departureBoard.departureFlights {
         
         
-        print("Destination: \(flight.destination), Flight Number: \(flight.number), Departure Time: \(flight.departureTime), Terminal: \(flight.terminal ?? "Not Assigned"), Status: \(flight.flightStatus)")
+        print("Destination: \(flight.destination), Flight Number: \(flight.number), Departure Time: \(formatDate(flight.departureTime)), Terminal: \(flight.terminal ?? "Not Assigned"), Status: \(flight.flightStatus)")
     }
 }
 
@@ -149,13 +157,19 @@ departureBoard1.alertPassengers(departureBoard: departureBoard1)
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
-func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
-    let baggageCost = Double(checkedBags) * 25.0
-    let distanceCost = Double(distance) * 0.10
-    let ticketCost = baggageCost + distanceCost
-    let total = ticketCost * Double(travelers)
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> String {
+    let total = ((Double(checkedBags) * 25.0) + (Double(distance) * 0.1)) * (Double(travelers))
     
-    return total
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .currency
+    
+    guard let formattedNumber = formatter.string(for: total) else { return "Error in converting currency" }
+
+    return formattedNumber
 }
 
-calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)
+print(calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3))
+
+
+
+

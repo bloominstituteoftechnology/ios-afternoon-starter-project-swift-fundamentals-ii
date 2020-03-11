@@ -119,7 +119,6 @@ printDepartures(departureBoard: departureBoard1)
 func printDepartures2(departureBoard: DepartureBoard) {
     for flight in departureBoard.departureFlights {
         
-        
         print("Destination: \(flight.destination), Flight Number: \(flight.number), Departure Time: \(formatDate(flight.departureTime)), Terminal: \(flight.terminal ?? "Not Assigned"), Status: \(flight.flightStatus)")
     }
 }

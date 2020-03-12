@@ -238,7 +238,7 @@ func calculateAirfare( checkedBags: Int, distance: Int, travelers: Int) -> Doubl
     let numberFormatter = NumberFormatter()
     numberFormatter.numberStyle = .currency
 
-    numberFormatter.string(from:NSNumber(value: total))  // NSNumber is used for format from double to string  ??
+    numberFormatter.string(from:NSNumber(value: total)) 
     return  total
 }
 

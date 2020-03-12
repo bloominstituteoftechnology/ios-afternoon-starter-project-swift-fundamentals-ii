@@ -16,6 +16,8 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
+let userCalendar = Calendar.current
+
 enum FlightStatus {
     case enRoute
     case scheduled
@@ -23,6 +25,7 @@ enum FlightStatus {
     case cancelled
     case boarding
 }
+
 
 struct Airport {
     var destination: String
@@ -50,11 +53,6 @@ class DepartureBoard{
     self.currentAirport = currentAirport
         
     
-        func statusAlert(status: FlightStatus) {
-            var status =
-            
-            
-        }
         
         
 }
@@ -83,6 +81,9 @@ var allFlights = [Flight]()
 var departureBoard = DepartureBoard(departureFlights: allFlights, currentAirport: "My Airport")
 
 
+struct DateComponents {
+    let flightDate = Date()
+}
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
@@ -126,9 +127,9 @@ func printDepartures2(departureBoard: DepartureBoard) {
     
 printDepartures2(departureBoard: departureBoard)
 
-//let dateFormatter = DateFormatter()
-//
-//print("Destination")
+//class DateFormatter : Formatter {
+//    var dateStyle: DateFormatter.Style { get set }
+//}
 
 
 
@@ -147,9 +148,24 @@ printDepartures2(departureBoard: departureBoard)
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
+func alertStatus(of status: FlightStatus) {
 
+switch status {
+    
+case .enRoute:
+    print("We're sorry your flight to Cleveland is cancelled. We're going to give you 500 dollars for some reason")
+case .scheduled:
+    print("Your flight to (city) is scheduled to depart at 5:30 from terminal: 5")
+case .delayed:
+    print("Sorry your flight is delayed")
+case .cancelled:
+    print("your flight is cancelled")
+case .boarding:
+    print("Your Flight is boarding")
+}
+}
 
-
+alertStatus(of: FlightStatus.delayed)
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`
 //:
@@ -167,11 +183,30 @@ printDepartures2(departureBoard: departureBoard)
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
-//func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
-//    let bagCost = 25
-//    let mileage = 0.10
-//
-//
+
+
+
+
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+    
+    let doubleDistance = Double(distance)
+    let doubleTravelers = Double(travelers)
+    let doubleBags = Double(checkedBags)
+    
+    let iForgotToDoThis = doubleDistance * 0.10
+    let pricePerTraveler = doubleTravelers + doubleBags
+    
+    let totalAirFare =  pricePerTraveler * (doubleBags + iForgotToDoThis + doubleTravelers)
+    return totalAirFare
+    
+}
+
+calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)
+
+
+
+    
+
 
 
 

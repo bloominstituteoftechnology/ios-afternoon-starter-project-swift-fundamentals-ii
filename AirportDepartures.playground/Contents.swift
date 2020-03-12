@@ -168,9 +168,7 @@ func alertPassengers() {
         case.enroute:
             print("Hope you're enjoying your flight to \(myDepartureBoard.flights[n].airportDestination)!")
         case.scheduled:
-            print("Your flight to \(myDepartureBoard.flights[n].airportDestination) is scheduled to depart at \(myDepartureBoard.flights[n].departureTime ?? "TBD")")
-        default:
-            break
+            print("Your flight to \(myDepartureBoard.flights[n].airportDestination) is scheduled to depart at \(myDepartureBoard.flights[n].departureTime ?? Date())")
         }
         }
 }
@@ -208,7 +206,7 @@ func calculateAirfare (checkedBags: Int, distance: Int, Travelers: Int) -> Strin
     return currencyAirfare
 }
     
-print(calculateAirfare(checkedBags: 3, distance: 1000, Travelers: 2))
+calculateAirfare(checkedBags: 3, distance: 1000, Travelers: 2)
 
 
 

@@ -18,7 +18,7 @@ import UIKit
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
 enum FlightStatus: String {
     case enroute = "Enroute"
-    case scheduled = "Schedule"
+    case scheduled = "Scheduled"
     case canceled = "Cancelled"
     case delayed = "Delayed"
 }
@@ -61,6 +61,7 @@ class DepartureBoard {
 let flightOne = Flight(departureTime: Date(), departureTerminal: 2, airline: "Delta", flightNumber: 2377, airportDestination: "London", flightStatus: .canceled)
 let flightTwo = Flight(departureTime: Date(), departureTerminal: nil, airline: "Delta", flightNumber: 5644, airportDestination: "Berlin", flightStatus: .enroute)
 let flightThree = Flight(departureTime: Date(), departureTerminal: 7, airline: "Delta", flightNumber: 4443, airportDestination: "Tokyo", flightStatus: .enroute)
+let flightFour = Flight(departureTime: Date(), departureTerminal: 6, airline: "United Airlines", flightNumber: 3334, airportDestination: "Colombia", flightStatus: .scheduled)
 
 var flightsArray = [flightOne]
 
@@ -78,6 +79,7 @@ myDepartureBoard.airports.append(contentsOf: airportsArrayNew)
 
 myDepartureBoard.flights.append(flightTwo)
 myDepartureBoard.flights.append(flightThree)
+myDepartureBoard.flights.append(flightFour)
 
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
@@ -162,13 +164,13 @@ func alertPassengers() {
         let flightAlert = myDepartureBoard.flights[n].flightStatus
         switch flightAlert {
         case.canceled:
-            print("We're sorry your flight to \(myDepartureBoard.flights[n].airportDestination) was canceled, here is a $500 voucher")
+            print("We're sorry your flight to \(myDepartureBoard.flights[n].airportDestination) was canceled, here is a $500 voucher.")
         case.delayed:
-            print("Your flight to \(myDepartureBoard.flights[n].airportDestination) is delayed")
+            print("Your flight to \(myDepartureBoard.flights[n].airportDestination) is delayed.")
         case.enroute:
             print("Hope you're enjoying your flight to \(myDepartureBoard.flights[n].airportDestination)!")
         case.scheduled:
-            print("Your flight to \(myDepartureBoard.flights[n].airportDestination) is scheduled to depart at \(myDepartureBoard.flights[n].departureTime ?? Date())")
+            print("Your flight to \(myDepartureBoard.flights[n].airportDestination) is scheduled to depart at \(myDepartureBoard.flights[n].departureTime ?? Date()).")
         }
         }
 }

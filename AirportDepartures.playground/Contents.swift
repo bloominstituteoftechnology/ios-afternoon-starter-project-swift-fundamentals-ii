@@ -28,7 +28,7 @@ struct Airport {
     let destination: String
 }
 
-let myAirport = Airport(destination: "Charlotte")
+
 
 struct Flight {
     let arrival: String
@@ -48,6 +48,21 @@ class DepartureBoard{
         self.flights = flights
         self.currentAirport = currentAirport
     }
+
+    func alertPassengers(departureBoard:DepartureBoard){
+        for flight in departureBoard.flights {
+        switch FlightStatus.RawValue() {
+        case FlightStatus.RawValue("Canceled"):
+            print("We're sorry your flight to \(flight.arrival) was canceled, here is a $500 voucher.")
+        case FlightStatus.RawValue("Scheduled"):
+            print("Your flight to \(flight.arrival) is scheduled to depart at \(String(describing: flight.departure)) from terminal: \(flight.terminal ?? " ")")
+        case FlightStatus.RawValue("Boarding"):
+            print("Your flight is boarding, please head to terminal: \(flight.terminal ?? " ") immediately. The doors are closing soon.")
+        default:
+            print("Error Found")
+        }
+    }
+}
 }
 
 
@@ -66,7 +81,9 @@ let flight1 = Flight(arrival: "Tokyo", airlines: "American Airlines", flightNumb
 let flight2 = Flight(arrival: "Los Angelos", airlines: "British Airways", flightNumber: "BA4720", departure: nil, terminal: "8", flightStatus: .Canceled)
 let flight3 = Flight(arrival: "Chicago", airlines: "Delta", flightNumber: "DL5117", departure: Date() , terminal: nil, flightStatus: .Scheduled)
 
-let allFlights = [flight1, flight2, flight3]
+    var allFlights = [flight1, flight2, flight3]
+
+let myAirport = Airport(destination: "Charlotte")
 
 let myDepartureBoard = DepartureBoard(flights: allFlights, currentAirport: myAirport)
 
@@ -86,9 +103,7 @@ func printDepartures(departureBoard: DepartureBoard) {
         print(flight)
     }
 }
-
-
-
+printDepartures(departureBoard: myDepartureBoard)
 
 
 
@@ -108,16 +123,10 @@ func printDepartures(departureBoard: DepartureBoard) {
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
 func printDepartures2(departureBoard: DepartureBoard) {
     for flight in departureBoard.flights {
-        if flight.departure != nil {
-            print(Date())
-        }
-        else {
-            print(" ")
-        }
-    }
+        print("Destination: \(flight.arrival) Airline: \(flight.airlines) Departure Time: \(String(describing: flight.departure)) Terminal: \(flight.terminal ?? " ") Status: \(flight.flightStatus)")
 }
-
-
+printDepartures2(departureBoard: myDepartureBoard)
+    }
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
 //:
@@ -132,16 +141,9 @@ func printDepartures2(departureBoard: DepartureBoard) {
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-switch FlightStatus.RawValue() {
-case "Canceled":
-    print("We're sorry your flight to \(myDepartureBoard.flights) was canceld, here is a $500 voucher.")
-case "Scheduled":
-    print("Your flight to \(myDepartureBoard.flights) is scheduled to depart at \(myDepartureBoard.flights) from terminal: (terminal)")
-case "Boarding":
-    print("Your flight is boarding, please head to terminal: \(myDepartureBoard.flights) immediately. The doors are closing soon.")
-default:
-    break
-}
+myDepartureBoard.alertPassengers(departureBoard: myDepartureBoard)
+
+    
 
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
@@ -162,12 +164,8 @@ default:
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
 func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
-    let bags = checkedBags * 25
-    let miles = distance * 0.10
-    let people = travelers * 166
-    let airfare = bags + miles + people
-    return(Double(airfare))
-
-print(calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3))
-}
+    let price = (Double(checkedBags * 25) + Double(distance) * 0.10) * Double(travelers)
+    return(price)
+   }
+calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)
 

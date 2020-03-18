@@ -17,8 +17,36 @@ import UIKit
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
 
+enum FlightStatus {
+    case enRoute
+    case scheduled
+    case canceled
+    case delayed
+    case arrived
+}
 
+struct Airport {
+    var destination: String
+}
 
+struct Flight {
+    var flightNumber: String
+    var airline: String
+    var destination: Airport
+    var departureTime: Date?
+    var flightStatus: FlightStatus
+    var terminal: String?
+}
+
+class DepartureBoard {
+    var flight: [Flight]
+    var currentAirport: String
+    
+    init(currentAirport: String) {
+        self.flight = []
+        self.currentAirport = currentAirport
+    }
+}
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -29,6 +57,26 @@ import UIKit
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
+let flight1 = Flight(flightNumber: "VA6659",
+                             airline: "Virgin Australia",
+                             destination: .init(destination: "Los Angeles"),
+                             departureTime: nil,
+                             flightStatus: .canceled,
+                             terminal: "4")
+
+let flight2 = Flight(flightNumber: "QF12",
+                             airline: "Qantas",
+                             destination: .init(destination: "Los Angeles"),
+                             departureTime: Date(),
+                             flightStatus: .delayed,
+                             terminal: nil)
+
+let flight3 = Flight(flightNumber: "BA4270",
+                             airline: "British Airways",
+                             destination: .init(destination: "Madrid"),
+                             departureTime: Date(),
+                             flightStatus: .enRoute,
+                             terminal: "7")
 
 
 

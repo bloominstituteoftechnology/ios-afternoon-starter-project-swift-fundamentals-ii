@@ -129,8 +129,24 @@ printDepartures(departureBoard: currentDepartureBoard)
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
-
+func alertPassengers() {
+    for currentDepartureBoard in currentDepartureBoard.departures {
+        let flightAlert = currentDepartureBoard.status
+        switch flightAlert {
+        case .canceled:
+            print("We're sorry your flight to \(currentDepartureBoard.destination) was canceled, here is a $500 voucher.")
+        case .scheduled:
+            print("Your flight to \(currentDepartureBoard.destination) is scheduled to depart at \(currentDepartureBoard.departureTime ?? Date()) for terminal\(String(describing: currentDepartureBoard.terminal)).")
+        case .boarding:
+            print("Your flight to \(currentDepartureBoard.destination) is now boarding.")
+        case .delayed:
+            print("Your fight to \(currentDepartureBoard.destination) is delayed please stand by for updated time.")
+        case.enRoute:
+            print("Enjoy your flight to \(currentDepartureBoard.destination)")
+        }
+    }
+}
+alertPassengers()
 
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
@@ -150,6 +166,19 @@ printDepartures(departureBoard: currentDepartureBoard)
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+    let bagCost = Double(checkedBags) * 25.00
+    let mileCost = Double(distance) * 0.10
+    let passengersCost = Double(travelers) * 750
+    
+    let totalAirfare = bagCost + mileCost + passengersCost
+    
+    let numberFormatter = NumberFormatter()
+    numberFormatter.numberStyle = .currency
+    
+    let currencyAirfare = totalAirfare
+    
+    return currencyAirfare
+}
 
-
-
+calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)

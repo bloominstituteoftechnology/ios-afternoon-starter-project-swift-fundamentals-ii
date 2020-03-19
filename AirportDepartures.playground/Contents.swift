@@ -34,13 +34,15 @@ struct Flight {
     var terminal: String?
     var flightStatus: FlightStatus
     var destination: Airport
+    var airline: String
     
-    init(departureTime: Date, destination: Airport, terminal: String? = nil, flightStatus: FlightStatus = .scheduled, flightNumber: String) {
+    init(departureTime: Date, destination: Airport, terminal: String? = nil, flightStatus: FlightStatus = .scheduled, flightNumber: String, airline: String) {
         self.departureTime = departureTime
         self.terminal = terminal
         self.flightStatus = flightStatus
         self.destination = destination
         self.flightNumber = flightNumber
+        self.airline = airlilne
     }
 }
 
@@ -67,9 +69,9 @@ var xiningAirport = Airport(name: "Xining Airport", departure: false, arrival: t
 var someAirport = Airport(name: "Airport in Nowhere", departure: false, arrival: true)
 var newYorkAirport = Airport(name: "New York Airport", departure: false, arrival: true)
 
-var flightToXining = Flight(departureTime: Date(), destination: xiningAirport, flightNumber: "90I8YG")
-var morningFlight = Flight(departureTime: Date(), destination: someAirport, flightNumber: "TNI74G")
-var afternoonFlightToNewYork = Flight(departureTime: Date(), destination: newYorkAirport, flightNumber: "HR64H7")
+var flightToXining = Flight(departureTime: Date(), destination: xiningAirport, flightNumber: "90I8YG", airline: "Asia Air")
+var morningFlight = Flight(departureTime: Date(), destination: someAirport, flightNumber: "TNI74G", "Special Airline")
+var afternoonFlightToNewYork = Flight(departureTime: Date(), destination: newYorkAirport, flightNumber: "HR64H7", "Alaska Airlines")
 
 var seattleAirport = Airport(name: "Seattle Airport", departure: true, arrival: false)
 
@@ -100,8 +102,6 @@ afternoonFlightToNewYork.terminal = "8C"
 //: d. Print out the current DepartureBoard you created using the function
 func printDepartures(departureBoard: DepartureBoard) {
     
-    print("Destination      Flight      Departure       Terminal        Status")
-    
     for flight in departureBoard.departureFlights {
         
         let terminal: String
@@ -117,6 +117,13 @@ func printDepartures(departureBoard: DepartureBoard) {
         } else {
             print("\(flight.destination.name)\t\t\(flight.flightNumber)\t\t\(flight.departureTime!)\t\t\(terminal)\t\t\(flight.flightStatus)")
         }
+        
+        print("Destination: " + flight.destination +
+            " Airline: " + flight.airline +
+            " Flight: " + flight.flightNumber +
+            " Departure Time: " +
+            " Terminal: " +
+            " Status: " + flight.flightStatus)
     }
 }
 

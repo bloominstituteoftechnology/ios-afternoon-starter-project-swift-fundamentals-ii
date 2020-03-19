@@ -33,16 +33,16 @@ struct Flight {
     var departureTime: Date?
     var terminal: String?
     var flightStatus: FlightStatus
-    var destination: Airport
+    var destination: String
     var airline: String
     
-    init(departureTime: Date, destination: Airport, terminal: String? = nil, flightStatus: FlightStatus = .scheduled, flightNumber: String, airline: String) {
+    init(departureTime: Date?, destination: String, terminal: String? = nil, flightStatus: FlightStatus = .scheduled, flightNumber: String, airline: String) {
         self.departureTime = departureTime
         self.terminal = terminal
         self.flightStatus = flightStatus
         self.destination = destination
         self.flightNumber = flightNumber
-        self.airline = airlilne
+        self.airline = airline
     }
 }
 
@@ -65,13 +65,9 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-var xiningAirport = Airport(name: "Xining Airport", departure: false, arrival: true)
-var someAirport = Airport(name: "Airport in Nowhere", departure: false, arrival: true)
-var newYorkAirport = Airport(name: "New York Airport", departure: false, arrival: true)
-
-var flightToXining = Flight(departureTime: Date(), destination: xiningAirport, flightNumber: "90I8YG", airline: "Asia Air")
-var morningFlight = Flight(departureTime: Date(), destination: someAirport, flightNumber: "TNI74G", "Special Airline")
-var afternoonFlightToNewYork = Flight(departureTime: Date(), destination: newYorkAirport, flightNumber: "HR64H7", "Alaska Airlines")
+var flightToXining = Flight(departureTime: nil, destination: "Xining", terminal: "6B", flightStatus: .canceled, flightNumber: "MU 67834", airline: "China Eastern")
+var morningFlight = Flight(departureTime: Date(), destination: "Somewhere", terminal: nil, flightStatus: .scheduled, flightNumber: "LE 89637", airline: "Special Air")
+var afternoonFlightToNewYork = Flight(departureTime: Date(), destination: "New York", terminal: "14D", flightStatus: .scheduled, flightNumber: "AA 83583", airline: "Alaska Airlines")
 
 var seattleAirport = Airport(name: "Seattle Airport", departure: true, arrival: false)
 
@@ -81,17 +77,6 @@ var seattleAirportDepartureBoard = DepartureBoard(currentAirport: seattleAirport
 seattleAirportDepartureBoard.departureFlights.append(flightToXining)
 seattleAirportDepartureBoard.departureFlights.append(morningFlight)
 seattleAirportDepartureBoard.departureFlights.append(afternoonFlightToNewYork)
-
-// Flight cancelled
-afternoonFlightToNewYork.departureTime = nil
-afternoonFlightToNewYork.flightStatus = .canceled
-
-// Terminal not decided yet
-flightToXining.terminal = nil
-
-// Known terminals
-morningFlight.terminal = "4B"
-afternoonFlightToNewYork.terminal = "8C"
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:
@@ -104,26 +89,29 @@ func printDepartures(departureBoard: DepartureBoard) {
     
     for flight in departureBoard.departureFlights {
         
-        let terminal: String
+        var flightInformationString = "Destination: "
+        flightInformationString += flight.destination
         
+        flightInformationString += " Airline: "
+        flightInformationString += flight.airline
+        
+        flightInformationString += " Flight: "
+        flightInformationString += flight.flightNumber
+        
+        flightInformationString += " Departure Time: "
+        if flight.departureTime != nil {
+            flightInformationString += String(flight.departureTime!)
+        }
+        
+        flightInformationString += " Terminal: "
         if flight.terminal != nil {
-            terminal = flight.terminal!
-        } else {
-            terminal = "TBA"
+            flightInformationString += flight.terminal!
         }
         
-        if flight.flightStatus == .canceled {
-            print("\(flight.destination.name)\t\t\(flight.flightNumber)\t\t---\t\t\(terminal)\t\t\(flight.flightStatus)")
-        } else {
-            print("\(flight.destination.name)\t\t\(flight.flightNumber)\t\t\(flight.departureTime!)\t\t\(terminal)\t\t\(flight.flightStatus)")
-        }
+        flightInformationString += " Status: "
+        flightInformationString += flight.flightStatus.rawValue
         
-        print("Destination: " + flight.destination +
-            " Airline: " + flight.airline +
-            " Flight: " + flight.flightNumber +
-            " Departure Time: " +
-            " Terminal: " +
-            " Status: " + flight.flightStatus)
+        print(flightInformationString)
     }
 }
 

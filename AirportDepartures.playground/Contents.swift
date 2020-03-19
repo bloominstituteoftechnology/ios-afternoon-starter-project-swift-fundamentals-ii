@@ -86,6 +86,10 @@ afternoonFlightToNewYork.flightStatus = .canceled
 
 // Terminal not decided yet
 flightToXining.terminal = nil
+
+// Known terminals
+morningFlight.terminal = "4B"
+afternoonFlightToNewYork.terminal = "8C"
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:
@@ -109,9 +113,9 @@ func printDepartures(departureBoard: DepartureBoard) {
         }
         
         if flight.flightStatus == .canceled {
-            print("\(flight.destination)\t\t\(flight.flightNumber)\t\t---\t\t\(terminal)\t\t\(flight.flightStatus)")
+            print("\(flight.destination.name)\t\t\(flight.flightNumber)\t\t---\t\t\(terminal)\t\t\(flight.flightStatus)")
         } else {
-            print("\(flight.destination)\t\t\(flight.flightNumber)\t\t\(flight.departureTime!)\t\t\(terminal)\t\t\(flight.flightStatus)")
+            print("\(flight.destination.name)\t\t\(flight.flightNumber)\t\t\(flight.departureTime!)\t\t\(terminal)\t\t\(flight.flightStatus)")
         }
     }
 }

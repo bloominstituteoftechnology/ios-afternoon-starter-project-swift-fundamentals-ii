@@ -54,6 +54,31 @@ class DepartureBoard {
         self.currentAirport = currentAirport
         self.departureFlights = departureFlights
     }
+    
+    func alertPassengers() {
+        for flight in departureFlights {
+            if let terminal = flight.terminal {
+                switch flight.flightStatus {
+                case .canceled:
+                    print("We're sorry your flight to \(flight.destination) was canceled, here is a $500 voucher")
+                case .scheduled:
+                    if let departureTime = flight.departureTime {
+                        print("Your flight to \(flight.destination) is scheduled to depart at \(departureTime) from terminal: \(terminal)")
+                    } else {
+                        print("Your flight to \(flight.destination) is scheduled for a TBD time. To find out more vitist the nearest information desk.")
+                    }
+                case .boarding:
+                    print("Your flight is boarding, please head to terminal: \(terminal) immediately. The doors are closing soon.")
+                case .enRoute:
+                    print("Your flight is En Route to \(flight.destination).")
+                case .delayed:
+                    print("Your flight had been delayed. For more details about your flight please see the nearest information desk.")
+                }
+            } else {
+                print("Your flight hasn't been assigned a terminal. For more details please see the nearest information desk.")
+            }
+        }
+    }
 }
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
@@ -99,8 +124,8 @@ func printDepartures(departureBoard: DepartureBoard) {
         flightInformationString += flight.flightNumber
         
         flightInformationString += " Departure Time: "
-        if flight.departureTime != nil {
-            flightInformationString += String(flight.departureTime!)
+        if let flightTime = flight.departureTime {
+            flightInformationString += "\(flightTime)"
         }
         
         flightInformationString += " Terminal: "
@@ -148,10 +173,7 @@ printDepartures(departureBoard: seattleAirportDepartureBoard)
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
-
-
-
+seattleAirportDepartureBoard.alertPassengers()
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`
 //:
@@ -169,6 +191,16 @@ printDepartures(departureBoard: seattleAirportDepartureBoard)
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+    var totalPrice: Double = 0
+    
+    totalPrice += Double(distance) * 0.10
+    totalPrice += Double(checkedBags) * 25
+    totalPrice *= Double(travelers)
+    
+    return totalPrice
+}
 
-
-
+print("A 2000 mile flight with two bags for three travelers costs a total of $\(calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3))")
+print("A 3000 mile flight with four bags for six travelers costs a total of $\(calculateAirfare(checkedBags: 4, distance: 3000, travelers: 6))")
+print("A 8000 mile flight with eight bags for two travelers costs a total of $\(calculateAirfare(checkedBags: 8, distance: 8000, travelers: 2))")

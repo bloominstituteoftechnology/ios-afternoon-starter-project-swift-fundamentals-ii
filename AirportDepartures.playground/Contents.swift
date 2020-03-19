@@ -23,21 +23,24 @@ enum FlightStatus: String {
 }
 
 struct Airport {
-    let destination: Bool
+    let name: String
+    let departure: Bool
     let arrival: Bool
 }
 
 struct Flight {
+    var flightNumber: String
     var departureTime: Date?
     var terminal: String?
     var flightStatus: FlightStatus
     var destination: Airport
     
-    init(departureTime: Date, destination: Airport, terminal: String? = nil, flightStatus: FlightStatus = .scheduled) {
+    init(departureTime: Date, destination: Airport, terminal: String? = nil, flightStatus: FlightStatus = .scheduled, flightNumber: String) {
         self.departureTime = departureTime
         self.terminal = terminal
         self.flightStatus = flightStatus
         self.destination = destination
+        self.flightNumber = flightNumber
     }
 }
 
@@ -60,15 +63,15 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-var xiningAirport = Airport(destination: true, arrival: false)
-var someAirport = Airport(destination: true, arrival: false)
-var newYorkAirport = Airport(destination: true, arrival: false)
+var xiningAirport = Airport(name: "Xining Airport", departure: false, arrival: true)
+var someAirport = Airport(name: "Airport in Nowhere", departure: false, arrival: true)
+var newYorkAirport = Airport(name: "New York Airport", departure: false, arrival: true)
 
-var flightToXining = Flight(departureTime: Date(), destination: xiningAirport)
-var morningFlight = Flight(departureTime: Date(), destination: someAirport)
-var afternoonFlightToNewYork = Flight(departureTime: Date(), destination: newYorkAirport)
+var flightToXining = Flight(departureTime: Date(), destination: xiningAirport, flightNumber: "90I8YG")
+var morningFlight = Flight(departureTime: Date(), destination: someAirport, flightNumber: "TNI74G")
+var afternoonFlightToNewYork = Flight(departureTime: Date(), destination: newYorkAirport, flightNumber: "HR64H7")
 
-var seattleAirport = Airport(destination: false, arrival: true)
+var seattleAirport = Airport(name: "Seattle Airport", departure: true, arrival: false)
 
 var seattleAirportDepartureBoard = DepartureBoard(currentAirport: seattleAirport)
 
@@ -79,6 +82,7 @@ seattleAirportDepartureBoard.departureFlights.append(afternoonFlightToNewYork)
 
 // Flight cancelled
 afternoonFlightToNewYork.departureTime = nil
+afternoonFlightToNewYork.flightStatus = .canceled
 
 // Terminal not decided yet
 flightToXining.terminal = nil
@@ -91,12 +95,28 @@ flightToXining.terminal = nil
 //:
 //: d. Print out the current DepartureBoard you created using the function
 func printDepartures(departureBoard: DepartureBoard) {
+    
+    print("Destination      Flight      Departure       Terminal        Status")
+    
     for flight in departureBoard.departureFlights {
-        print("Flight to: \(flight.destination)   Departure Time: \()    Terminal: \()   Status: \()")
+        
+        let terminal: String
+        
+        if flight.terminal != nil {
+            terminal = flight.terminal!
+        } else {
+            terminal = "TBA"
+        }
+        
+        if flight.flightStatus == .canceled {
+            print("\(flight.destination)\t\t\(flight.flightNumber)\t\t---\t\t\(terminal)\t\t\(flight.flightStatus)")
+        } else {
+            print("\(flight.destination)\t\t\(flight.flightNumber)\t\t\(flight.departureTime!)\t\t\(terminal)\t\t\(flight.flightStatus)")
+        }
     }
 }
 
-
+printDepartures(departureBoard: seattleAirportDepartureBoard)
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function

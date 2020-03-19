@@ -47,8 +47,26 @@ class DepartureBoard {
     init(currentAirport: String) {
         self.Flights = []
         self.currentAirport = currentAirport
+        
     }
-}
+        
+        func alertPassenger() {
+            for flight in Flights {
+                switch flight.flightStatus {
+                case .canceled:
+                    print("We're sorry your flight to \(flight.destination) was canceled, here is a $500 voucher")
+                case .scheduled:
+                    print("Your flight to \(flight.destination) is scheduled to depart at \(String(describing: flight.departureTime)) from terminal: \(String(describing: flight.terminal))")
+                case .arrived:
+                    print("Your flight has arrived")
+                case .delayed:
+                    print("We apologize, your flight \(flight.flightNumber) has been delayed.")
+                case .enRoute:
+                    print("Flight \(flight.flightNumber) is en route to \(flight.destination)")
+                }
+            }
+        }
+    }
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -86,6 +104,7 @@ let flight3 = Flight(flightNumber: "BA4270",
                              terminal: "7")
 
 let flightBoard = DepartureBoard(currentAirport: "JFK Airport")
+
 flightBoard.Flights.append(flight1)
 flightBoard.Flights.append(flight2)
 flightBoard.Flights.append(flight3)
@@ -101,8 +120,9 @@ flightBoard.Flights.append(flight3)
 //: d. Print out the current DepartureBoard you created using the function
 
 func printDepartures(departureBoard: DepartureBoard) {
+    
     for flight in flightBoard.Flights {
-        print(flight.flightNumber, flight.airline, flight.destination, flight.departureTime ?? "TBD", flight.flightStatus, flight.terminal ?? "TBD")
+        print(flight.flightNumber, flight.airline, flight.destination, flight.departureTime ?? "TBD", flight.flightStatus.rawValue, flight.terminal ?? "TBD")
 //        print(flight)
     }
 }
@@ -125,9 +145,13 @@ printDepartures(departureBoard: flightBoard)
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
 
 func printDepartures2(departureBoard: DepartureBoard) {
+    
     for flight in flightBoard.Flights {
-        if let date = Date?() {
-            
+        if case flight.departureTime = flight.departureTime  {
+            let departureTime = "6:00 PM"
+            print("Destination: \(flight.destination): \(flight.airline): \(flight.flightNumber): \(departureTime): \(flight.flightStatus)")
+        } else {
+            print(" ")
         }
     }
 }
@@ -148,8 +172,7 @@ printDepartures2(departureBoard: flightBoard)
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 
-
-
+flightBoard.alertPassenger()
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`
@@ -169,5 +192,14 @@ printDepartures2(departureBoard: flightBoard)
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
 
+func calculateAirfair(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+    let costPerBag: Double = 25 * Double(checkedBags)
+    let costPerMile: Double = 0.10 * Double(distance)
+    let ticketCost: Double = 250 * Double(travelers)
+    
+    let airFairCost = Double(costPerBag) + Double(costPerMile) + Double(ticketCost)
+    
+    return (airFairCost)
+}
 
-
+calculateAirfair(checkedBags: 5, distance: 1300, travelers: 4)

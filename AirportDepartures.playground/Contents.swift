@@ -145,8 +145,8 @@ func printDepartures2(departureBoard: DepartureBoard){
         }
         
         print("Destination: \(departure.destinationAirport.name) Airline: \(departure.airline) Flight: \(departure.flightNumber) Departure Time: \(stringDepartureTime) Terminal: \(stringTerminal) Status: \(departure.status)")
-    
     }
+    print("\n")
 }
 
 printDepartures2(departureBoard: myDepartureBoard)
@@ -200,14 +200,4 @@ calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)
 
 
 
-//func calculateMileageReimbursement(miles: Int?, dollarPerMile: Double?) -> Double? {
-//    guard let miles = miles, miles >= 0, let dollarPerMile = dollarPerMile, dollarPerMile >= 0 else{
-//        return nil
-//    }
-//
-//    let reimbursedMiles = Double(miles) * dollarPerMile
-//    print("You drove \(miles) miles and the rate per mile is \(dollarPerMile). You will be reimbursed: \(reimbursedMiles)")
-//    return reimbursedMiles
-//}
-//
-//calculateMileageReimbursement(miles: 5, dollarPerMile: 10.50)
+

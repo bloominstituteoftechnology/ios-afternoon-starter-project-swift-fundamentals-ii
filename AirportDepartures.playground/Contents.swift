@@ -111,7 +111,6 @@ seattleAirportDepartureBoard.departureFlights.append(afternoonFlightToNewYork)
 //:
 //: d. Print out the current DepartureBoard you created using the function
 func printDepartures(departureBoard: DepartureBoard) {
-    
     for flight in departureBoard.departureFlights {
         
         var flightInformationString = "Destination: "

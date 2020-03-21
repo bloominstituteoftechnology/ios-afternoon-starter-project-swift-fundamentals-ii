@@ -47,18 +47,30 @@ class departureBoard {
         self.currentAirport = currentAirport
     }
         func alertPassengers() {
+                
         for flight in departureFlights {
+            
+            var timeString = "TBD"
+            if let time = flight.departureTime {
+                timeString = "\(time)"
+            }
+            
+            var terminalString = "TBD"
+            if let terminal = flight.terminal {
+                terminalString = "\(terminal)"
+            }
+            
             switch flight.flightStatus {
             case .enRoute:
                 print("Your flight is en route.")
             case .scheduled:
-                print("Your flight to \(flight.destination) is scheduled to depart at \(String(describing: flight.departureTime)) from terminal: \(String(describing: flight.terminal))")
+                print("Your flight to \(flight.destination) is scheduled to depart at \(timeString) from terminal: \(terminalString)")
             case .canceled:
                 print("We're sorry your flight to \(flight.destination) was canceled, here is a $500 voucher")
             case .delayed:
                 print("Your flight has been delayed.")
             case .boarding:
-                print("Your flight is boarding, please head to terminal: \(String(describing: flight.terminal)) immediately. The doors are closing soon.")
+                print("Your flight is boarding, please head to terminal: \(terminalString) immediately. The doors are closing soon.")
             }
         }
     }
@@ -97,8 +109,19 @@ currentFlights.departureFlights.append(SFO)
 func printDepartures(departureBoard: departureBoard) {
     
     for departures in departureBoard.departureFlights {
+        var departureString: String = ""
+        if let departureTime = departures.departureTime {
+            departureString = "\(departureTime)"
+            
+        }
         
-        print("Destination: \(departures.destination) Airline: \(departures.airline) Flight Number: \(departures.flightNumber) Departure Time: \(String(describing: departures.departureTime)) Terminal: \(departures.terminal ?? "4") Status: \(departures.flightStatus.rawValue)")
+        var terminalString: String = ""
+        if let terminal = departures.terminal {
+            terminalString = "\(terminal)"
+    
+        }
+            
+        print("Destination: \(departures.destination) Airline: \(departures.airline) Flight Number: \(departures.flightNumber) Departure Time: \(departureString) Terminal: \(terminalString) Status: \(departures.flightStatus.rawValue)")
     }
 }
 
@@ -164,4 +187,4 @@ func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double
     return(totalCost)
 }
 
-calculateAirfare(checkedBags: 5, distance: 5, travelers: 5)
+calculateAirfare(checkedBags: 1, distance: 875, travelers: 2)

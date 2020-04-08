@@ -22,8 +22,9 @@ enum FlightStatus: String {
 struct Airport {
     var planes: Int
     var staff: Int
-    var bathrooms:
+    var bathrooms: Int
     var shops: Int
+    var terminal: String?
 }
 
 
@@ -34,6 +35,7 @@ struct Flight {
     var passengers: Int
     var wings: Int
     var windows: Int
+    var date: String?
 }
 
 

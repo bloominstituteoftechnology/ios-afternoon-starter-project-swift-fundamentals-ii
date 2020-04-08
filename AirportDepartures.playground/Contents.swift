@@ -17,6 +17,61 @@ import UIKit
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
 
+enum FlightStatus: String {
+    
+    case enRoute = "enRoute"
+    case scheduled = "Scheduled"
+    case delayed = "Delayed"
+    case cancelled = "Cancelled"
+    case boarding = "Boarding"
+}
+
+struct Airport {
+    
+    var destination: String
+}
+
+struct Flight {
+    
+    var departureTime: Date?
+    var terminal: String?
+    var status: FlightStatus
+    var destination: String
+    var flightNumber: String
+    
+}
+
+class DepartureBoard {
+    
+    var departureFlights: [Flight]
+    let currentAirport: String
+    
+    func alertStatus(status: FlightStatus) {
+        
+        switch status {
+            
+        case .enRoute:
+            print("We're sorry your flight to Cleveland is cancelled. Here is a $500 Voucher")
+            
+        case .scheduled:
+            print("Your flight to is scheduled to depart at 5:30 from terminal: 5")
+            
+        case .delayed:
+            print("Sorry your flight is delayed")
+            
+        case .cancelled:
+            print("your flight is cancelled")
+            
+        case .boarding:
+            print("Your Flight is boarding")
+        }
+    }
+    
+    init(departureFlights: [Flight], currentAirport: String) {
+        self.departureFlights = departureFlights
+        self.currentAirport = currentAirport
+    }
+}
 
 
 //: ## 2. Create 3 flights and add them to a departure board
@@ -31,6 +86,17 @@ import UIKit
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
 
 
+let flight1 = Flight(departureTime: Date(), terminal: "5", status: .enRoute, destination: "LAX", flightNumber: "ABC123")
+let flight2 = Flight(departureTime: Date(), terminal: nil, status: .enRoute, destination: "JHT", flightNumber: "JKYE")
+let flight3 = Flight(departureTime: nil, terminal: "11", status: .cancelled, destination: "CTT", flightNumber: "459KJ")
+
+var allFlights: [Flight] = []
+allFlights.append(flight1)
+allFlights.append(flight2)
+allFlights.append(flight3)
+
+
+var myDepartureBoard = DepartureBoard(departureFlights: allFlights, currentAirport: "My Airport")
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
@@ -40,10 +106,17 @@ import UIKit
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
-
-
-
-
+func printDepartures(departureBoard: DepartureBoard) {
+    
+    var depBoard: [Flight] = []
+    
+    for flights in [myDepartureBoard.departureFlights] {
+        depBoard.append(contentsOf: flights)
+        print(depBoard)
+    }
+}
+printDepartures(departureBoard: myDepartureBoard)
+    
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
 //:
@@ -58,9 +131,26 @@ import UIKit
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
-
-
-
+func printDepartures2(departureBoard: DepartureBoard) {
+    
+    for flights in myDepartureBoard.departureFlights {
+        
+        var departure: String = ""
+        
+        if let departureTime = flights.departureTime {
+            departure = "\(departureTime)"
+        }
+        
+        var terminalString: String = ""
+        
+        if let terminal = flights.terminal {
+            terminalString = "\(terminal)"
+        }
+        print("Destination: \(flights.destination): \(flights.flightNumber), Departure Time: \(departure), Terminal: \(terminalString), Status: \(flights.status)")
+    }
+    
+}
+printDepartures2(departureBoard: myDepartureBoard)
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
 //:
@@ -76,7 +166,9 @@ import UIKit
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 
+// Calling above function
 
+myDepartureBoard.alertStatus(status: .delayed)
 
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
@@ -96,6 +188,36 @@ import UIKit
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+
+
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+    
+  
+    
+    let doubleDistance = Double(distance)
+    let doubleTravelers = Double(travelers)
+    let doubleBags = Double(checkedBags)
+    
+    let distanceinMiles = doubleDistance * 0.10
+    let pricePerTraveler = doubleTravelers + doubleBags
+    
+    let totalAirFare =  pricePerTraveler * (doubleBags + distanceinMiles + doubleTravelers)
+    return totalAirFare
+    
+}
+
+print(calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3))
+
+
+
+// Stretch
+
+var currencyFormatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .currency
+    return formatter
+}()
+
 
 
 

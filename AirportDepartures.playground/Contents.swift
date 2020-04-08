@@ -64,8 +64,8 @@ let screwTheAirlineIndustry = DepartureBoard(flights: flightsList, currentAirpor
 //:
 //: d. Print out the current DepartureBoard you created using the function
 func printDepartures() {
-    for _ in flightsList {
-        print(rawValue.FlightStatus)
+    for flight in flightsList {
+        print(flight.flightStatus.rawValue)
         
     }
 }

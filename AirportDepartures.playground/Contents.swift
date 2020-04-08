@@ -18,14 +18,13 @@ import UIKit
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
 let userCalendar = Calendar.current
 
-enum FlightStatus {
-    case enRoute
-    case scheduled
-    case delayed
-    case cancelled
-    case boarding
+enum FlightStatus: String {
+    case enRoute = "enRoute"
+    case scheduled = "Scheduled"
+    case delayed = "Delayed"
+    case cancelled = "Cancelled"
+    case boarding = "Boarding"
 }
-
 
 struct Airport {
     var destination: String
@@ -37,27 +36,15 @@ struct Flight {
     var status: FlightStatus
 }
 
-enum DepartureFlights {
-    case AY4165
-    case AA2809
-    case B61669
-    case JL3
-}
-
 class DepartureBoard{
     var departureFlights: [Flight]
     let currentAirport: String
     
     init(departureFlights: [Flight], currentAirport: String) {
-    self.departureFlights = departureFlights
-    self.currentAirport = currentAirport
-        
-    
-        
-        
+        self.departureFlights = departureFlights
+        self.currentAirport = currentAirport
+    }
 }
-}
-        
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -74,16 +61,13 @@ let flight1 = Flight(departureTime: Date(), terminal: "5", status: .enRoute)
 let flight2 = Flight(departureTime: Date(), terminal: nil, status: .enRoute)
 let flight3 = Flight(departureTime: nil, terminal: "11", status: .cancelled)
 
-var allFlights = [Flight]()
-//allFlights.append(flight1)
-//allFlights = [flight1, flight2, flight3]
+var allFlights: [Flight] = []
+allFlights.append(flight1)
+allFlights.append(flight2)
+allFlights.append(flight3)
 
-var departureBoard = DepartureBoard(departureFlights: allFlights, currentAirport: "My Airport")
 
-
-struct DateComponents {
-    let flightDate = Date()
-}
+var myDepartureBoard = DepartureBoard(departureFlights: allFlights, currentAirport: "My Airport")
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
@@ -94,14 +78,16 @@ struct DateComponents {
 //:
 //: d. Print out the current DepartureBoard you created using the function
 func printDepartures(departureBoard: DepartureBoard) {
-    for flight in departureBoard.departureFlights {
-        print(flight)
-    }
     
+    var depBoard: [Flight] = []
+    
+    for flights in [myDepartureBoard.departureFlights] {
+        depBoard.append(contentsOf: flights)
+        print(depBoard)
+    }
 }
-printDepartures(departureBoard: departureBoard)
-
-
+printDepartures(departureBoard: myDepartureBoard)
+    
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
 //:
@@ -117,21 +103,29 @@ printDepartures(departureBoard: departureBoard)
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
 func printDepartures2(departureBoard: DepartureBoard) {
-      for flight in departureBoard.departureFlights {
-    if let unwrappedDepartureTime = flight.departureTime {
-            print(".\(unwrappedDepartureTime)")
+    
+    for flights in myDepartureBoard.departureFlights {
+        if let unwrappedDepartureTime = flights.departureTime {
+            return unwrappedDepartureTime
+            
+            if let unwrappedTerminal = flights.terminal {
+                return unwrappedTerminal
+            } print("Destination: \(unwrappedDepartureTime)")
         }
-        }
-        
     }
     
-printDepartures2(departureBoard: departureBoard)
+    
+    
+    
+    
+    
+    
+//    for flights in [myDepartureBoard.departureFlights] {
+//        depBoard.append(contentsOf: allFlights)
+//        print(depBoard)
+    }
 
-//class DateFormatter : Formatter {
-//    var dateStyle: DateFormatter.Style { get set }
-//}
-
-
+    
 
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
@@ -149,20 +143,20 @@ printDepartures2(departureBoard: departureBoard)
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 func alertStatus(of status: FlightStatus) {
-
-switch status {
     
-case .enRoute:
-    print("We're sorry your flight to Cleveland is cancelled. We're going to give you 500 dollars for some reason")
-case .scheduled:
-    print("Your flight to (city) is scheduled to depart at 5:30 from terminal: 5")
-case .delayed:
-    print("Sorry your flight is delayed")
-case .cancelled:
-    print("your flight is cancelled")
-case .boarding:
-    print("Your Flight is boarding")
-}
+    switch status {
+        
+    case .enRoute:
+        print("We're sorry your flight to Cleveland is cancelled. We're going to give you 500 dollars for some reason")
+    case .scheduled:
+        print("Your flight to (city) is scheduled to depart at 5:30 from terminal: 5")
+    case .delayed:
+        print("Sorry your flight is delayed")
+    case .cancelled:
+        print("your flight is cancelled")
+    case .boarding:
+        print("Your Flight is boarding")
+    }
 }
 
 alertStatus(of: FlightStatus.delayed)
@@ -184,29 +178,19 @@ alertStatus(of: FlightStatus.delayed)
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
 
-
-
-
 func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
     
     let doubleDistance = Double(distance)
     let doubleTravelers = Double(travelers)
     let doubleBags = Double(checkedBags)
     
-    let iForgotToDoThis = doubleDistance * 0.10
+    let distanceinMiles = doubleDistance * 0.10
     let pricePerTraveler = doubleTravelers + doubleBags
     
-    let totalAirFare =  pricePerTraveler * (doubleBags + iForgotToDoThis + doubleTravelers)
+    let totalAirFare =  pricePerTraveler * (doubleBags + distanceinMiles + doubleTravelers)
     return totalAirFare
     
 }
 
-calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)
-
-
-
-    
-
-
-
+print(calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3))
 

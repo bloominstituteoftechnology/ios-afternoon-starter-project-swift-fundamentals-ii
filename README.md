@@ -61,8 +61,22 @@ init(pilots: Int, passengers: Int, wings: Int, windows: Int, date; String?) {
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
 
+class DepartureBoard {
+  var destination: String
+  var airline: String
+  var flight: String
+  var departure: String
 
+init(destination: String, airline: String, flight: String, departure: String) {
+  self.destination = destination
+  self.airline = airline
+  self.flight = flight
+  self.departure = departure
+}
 
+let flight1 = DepartureBoard(destination: "Baku", airline: "Silky Way West"', flight: "7L778", departure: "12:00PM")
+let flight2 = DepartureBoard(destination: "Cleveland", airline: "Delta Airline", flight:  "DL5850" , departure: "12:25PM")
+let flight3 = DepartureBoard(destination: "Cuncun", airline: "American Airlines", flight: "AA2681", departure: "12:25PM")
 
 
 //: ## 2. Create 3 flights and add them to a departure board
@@ -83,7 +97,7 @@ init(pilots: Int, passengers: Int, wings: Int, windows: Int, date; String?) {
 //:
 //: b. Use a `for in` loop to iterate over each departure
 //:
-//: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
+//: c. Make your `FlightStatus`f enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
 

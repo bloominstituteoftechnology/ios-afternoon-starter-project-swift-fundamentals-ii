@@ -34,6 +34,8 @@ struct Flight {
     var departureTime: Date?
     var terminal: String?
     var status: FlightStatus
+    var destination: String
+    var flightNumber: String
 }
 
 class DepartureBoard{
@@ -57,9 +59,9 @@ class DepartureBoard{
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
 
 
-let flight1 = Flight(departureTime: Date(), terminal: "5", status: .enRoute)
-let flight2 = Flight(departureTime: Date(), terminal: nil, status: .enRoute)
-let flight3 = Flight(departureTime: nil, terminal: "11", status: .cancelled)
+let flight1 = Flight(departureTime: Date(), terminal: "5", status: .enRoute, destination: "LAX", flightNumber: "ABC123")
+let flight2 = Flight(departureTime: Date(), terminal: nil, status: .enRoute, destination: "JHT", flightNumber: "JKYE")
+let flight3 = Flight(departureTime: nil, terminal: "11", status: .cancelled, destination: "CTT", flightNumber: "459KJ")
 
 var allFlights: [Flight] = []
 allFlights.append(flight1)
@@ -104,28 +106,19 @@ printDepartures(departureBoard: myDepartureBoard)
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
 func printDepartures2(departureBoard: DepartureBoard) {
     
+    
     for flights in myDepartureBoard.departureFlights {
-        if let unwrappedDepartureTime = flights.departureTime {
-            return unwrappedDepartureTime
-            
-            if let unwrappedTerminal = flights.terminal {
-                return unwrappedTerminal
-            } print("Destination: \(unwrappedDepartureTime)")
+        
+        guard let terminal = flights.terminal, let time = flights.departureTime
+         else {
+            return
+
         }
     }
+}
     
-    
-    
-    
-    
-    
-    
-//    for flights in [myDepartureBoard.departureFlights] {
-//        depBoard.append(contentsOf: allFlights)
-//        print(depBoard)
-    }
 
-    
+printDepartures2(departureBoard: myDepartureBoard)
 
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.

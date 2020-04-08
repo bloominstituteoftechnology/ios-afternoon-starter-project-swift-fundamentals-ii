@@ -25,6 +25,14 @@ struct Airport {
     var bathrooms: Int
     var shops: Int
     var terminal: String?
+
+init(planes: Int, staff: Int, bathrooms: Int, shops: Int, terminal: String?) {
+	self.planes =  planes
+	self.staff  = staff
+	self.bathrooms = bathrooms
+	self.shops = shops
+	self.terminal = terminal
+  }
 }
 
 
@@ -36,6 +44,14 @@ struct Flight {
     var wings: Int
     var windows: Int
     var date: String?
+
+init(pilots: Int, passengers: Int, wings: Int, windows: Int, date; String?) {
+	self.pilots = pilots
+	self.passengers = passengers
+	self.wings = wings
+	self.windows = windows
+	self.date = date
+  }
 }
 
 

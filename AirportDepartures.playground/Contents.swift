@@ -26,12 +26,18 @@ struct Airport {
     let destination: Bool
     let arrival: Bool
 }
-struct flight {
+struct Flight {
     let date: Date?
     let terminal: String?
+    let flightStatus: FlightStatus
 }
 class DepartureBoard {
-    
+    let flights: [Flight]
+    let currentAirport: Airport
+    init(flights: [Flight], currentAirport: Airport){
+        self.flights = flights
+        self.currentAirport = currentAirport
+    }
 }
 
 //: ## 2. Create 3 flights and add them to a departure board
@@ -44,9 +50,7 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-
-
-
+let screwTheAirlineIndustry = DepartureBoard(flights: <#T##[Flight]#>, currentAirport: )
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:

@@ -22,36 +22,49 @@ enum FlightStatus {
     case Delayed
     case Cancelled
 }
-let myFlightStatus: FlightStatus = .Scheduled
+let flightStatus: FlightStatus = .Scheduled
 
 struct Airport {
-    let destination: String = "Dallas"
+    let destination: Bool
+    let arrival: Bool
 }
 
 
 
 struct Flight {
-    let departureTime = Date()
-    let terminal: Int
+    var terminal: Int? = nil
+    var departureTime: Date?
+    let flightStatus: FlightStatus
     
 }
+//var terminal:Int? = nil
+//var date: Int? = nil
+
+
+
+
+
+
+
+
+class DepartureBoard {
+    let currentAirport: Airport
+    let flights: [Flight]
+    init(flights: [Flight], currentAirport:Airport) {
+        self.flights = flights
+        self.currentAirport = currentAirport
+}
+}
+
 
 var flights: [Flight] = []
 
-var flight1: Flight
-
-
-var terminal:String? = nil
-var date: Int? = nil
-
-class DepartureBoard {
-    let airport: [Airport]
-    let flights: [Flight]
-    init(flights: [Flight], airport:[Airport]) {
-        self.flights = flights
-        self.airport = airport
-}
-
+var flight1: Flight = Flight(terminal:8, departureTime: Date(), flightStatus:.Scheduled)
+var flight2: Flight = Flight(terminal:nil,departureTime:Date(),flightStatus: .enRoute)
+var flight3: Flight = Flight(terminal:4,departureTime:nil,flightStatus:.Cancelled)
+//added array of flights to struct Flight, cancelled  flight3 and put nil for departureTime, put nil for terminal flight since terminal
+// hasnt been set yet
+DepartureBoard.flights.append(flight1,flight2,flight3)
 
 
 //: ## 2. Create 3 flights and add them to a departure board

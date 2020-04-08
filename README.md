@@ -6,18 +6,6 @@ import UIKit
 //: Look at data from [Departures at JFK Airport in NYC](https://www.airport-jfk.com/departures.php) for reference.
 //:
 //: a. Use an `enum` type for the FlightStatus (En Route, Scheduled, Canceled, Delayed, etc.)
-//:
-//: b. Use a struct to represent an `Airport` (Destination or Arrival)
-//:
-//: c. Use a struct to represent a `Flight`.
-//:
-//: d. Use a `Date?` for the departure time since it may be canceled.
-//:
-//: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
-//:
-//: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
-
-
 
 
 enum FlightStatus: String {
@@ -26,6 +14,36 @@ enum FlightStatus: String {
     case canceled = "Canceled"
     case delayed = "Delayed"
 }
+
+
+//: b. Use a struct to represent an `Airport` (Destination or Arrival)
+
+
+struct Airport {
+    var planes: Int
+    var staff: Int
+    var bathrooms:
+    var shops: Int
+}
+
+
+//: c. Use a struct to represent a `Flight`.
+
+struct Flight {
+    var pilots: Int
+    var passengers: Int
+    var wings: Int
+    var windows: Int
+}
+
+
+//: d. Use a `Date?` for the departure time since it may be canceled.
+//:
+//: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
+//:
+//: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
+
+
 
 
 

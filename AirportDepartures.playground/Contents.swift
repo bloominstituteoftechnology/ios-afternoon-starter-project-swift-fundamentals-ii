@@ -32,7 +32,7 @@ struct Flight {
     
 }
 class DepartureBoard {
-    let flights: [Flight]
+    var flights: [Flight] = []
     let currentAirport: Airport
     init(flights: [Flight], currentAirport: Airport){
         self.flights = flights
@@ -53,8 +53,11 @@ class DepartureBoard {
 let flight93 = Flight(date: "12/25/20", terminal: nil , flightStatus: FlightStatus.scheduled)
 let flight111 = Flight(date: "12/24/20", terminal: "V", flightStatus: FlightStatus.enRoute)
 let flight13 = Flight(date: nil, terminal: nil, flightStatus: FlightStatus.canceled)
-let flightsList = [flight93, flight13, flight111]
-let screwTheAirlineIndustry = DepartureBoard(flights: flightsList, currentAirport: Airport.init(name: "JFK"))
+var flights: [Flight] = []
+flights.append(flight93)
+flights.append(flight13)
+flights.append(flight111)
+let screwTheAirlineIndustry = DepartureBoard(flights: flights, currentAirport: Airport.init(name: "JFK"))
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:
@@ -64,7 +67,7 @@ let screwTheAirlineIndustry = DepartureBoard(flights: flightsList, currentAirpor
 //:
 //: d. Print out the current DepartureBoard you created using the function
 func printDepartures() {
-    for flight in flightsList {
+    for flight in flights {
         print(flight.flightStatus.rawValue)
         
     }
@@ -85,7 +88,9 @@ printDepartures()
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
-
+func printDepartures2(){
+    
+}
 
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.

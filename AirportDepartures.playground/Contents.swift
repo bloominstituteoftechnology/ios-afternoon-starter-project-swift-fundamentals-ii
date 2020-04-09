@@ -155,6 +155,15 @@ airlineCompanyA.alertPassengers()
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
-
-
+func calculateAirfare(carryOns: Double, distance: Double, travelers: Double) -> Double {
+    let carryOnTotal = carryOns * 25
+    let distancePrice = distance * 0.1
+    let ticketCost = carryOnTotal + distancePrice
+    let totalTicketCost = ticketCost * travelers
+    print(totalTicketCost)
+    return totalTicketCost
+}
+calculateAirfare(carryOns: 13, distance: 500, travelers: 4.5)
+calculateAirfare(carryOns: 2, distance: 2000, travelers: 3)
+calculateAirfare(carryOns: 5, distance: 4997, travelers: 37)
 

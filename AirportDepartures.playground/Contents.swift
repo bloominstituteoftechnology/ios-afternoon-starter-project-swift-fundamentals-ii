@@ -19,7 +19,7 @@ import UIKit
 enum FlightStatus: String {
     case enRoute = "En Route"
     case scheduled = "Scheduled"
-    case canceled = "Canceled"
+    case canceled = "CANCELED"
     case delayed = "Delayed"
 }
 struct Airport {
@@ -29,7 +29,9 @@ struct Flight {
     let date: String?
     let terminal: String?
     let flightStatus: FlightStatus
-    
+    let destination: String
+    let name: String
+    let destinationDate: String?
 }
 class DepartureBoard {
     var flights: [Flight] = []
@@ -37,6 +39,24 @@ class DepartureBoard {
     init(flights: [Flight], currentAirport: Airport){
         self.flights = flights
         self.currentAirport = currentAirport
+    }
+    func alertPassengers() {
+        for flight in flights {
+            switch flight.flightStatus {
+            case FlightStatus.canceled:
+                print("We're sorry your flight to \(flight.destination) was canceled! Here's a $500 dollar voucher for your inconvenience!")
+            case FlightStatus.enRoute:
+                if let unwrappedDate = flight.date {
+                print("I'm sorry, but your flight to \(flight.destination) left on \(unwrappedDate)")
+                }
+            case FlightStatus.scheduled:
+                if let unwrappedDate = flight.date, let unwrappedTerminal = flight.terminal {
+                print("Your flight to \(flight.destination) is scheduled for \(unwrappedDate). Please head to terminal \(unwrappedTerminal).")
+                }
+            default:
+                print("Hi this is your app developer. Something went wrong somewhere.")
+            }
+        }
     }
 }
 
@@ -50,9 +70,9 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-let flight93 = Flight(date: "12/25/20", terminal: nil , flightStatus: FlightStatus.scheduled)
-let flight111 = Flight(date: "12/24/20", terminal: "V", flightStatus: FlightStatus.enRoute)
-let flight13 = Flight(date: nil, terminal: nil, flightStatus: FlightStatus.canceled)
+let flight93 = Flight(date: "12/25/20", terminal: "V" , flightStatus: FlightStatus.scheduled, destination: "Svalbard, Norway", name: "Flight 93", destinationDate: "12/26/20" )
+let flight111 = Flight(date: "12/24/20", terminal: nil, flightStatus: FlightStatus.enRoute, destination: "Rochester, New York", name: "Flight 111", destinationDate: "12/25/20")
+let flight13 = Flight(date: nil, terminal: nil, flightStatus: FlightStatus.canceled, destination: "Seattle, Washington", name: "Flight 13", destinationDate: nil)
 var flights: [Flight] = []
 flights.append(flight93)
 flights.append(flight13)
@@ -69,7 +89,6 @@ let airlineCompanyA = DepartureBoard(flights: flights, currentAirport: Airport.i
 func printDepartures() {
     for flight in flights {
         print(flight.flightStatus.rawValue)
-        
     }
 }
 printDepartures()
@@ -88,10 +107,18 @@ printDepartures()
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
-func printDepartures2(){
-    
+func printDepartures2() {
+    for flight in flights {
+        if let unwrappedTerminal = flight.terminal, let unwrappedDate = flight.date, let unwrappedDestinationDate = flight.destinationDate {
+            print("Destination: \(flight.destination)  Flight: \(flight.name) Departure Date: \(unwrappedDate) Terminal: \(unwrappedTerminal) Status: \(flight.flightStatus.rawValue) Destination Date: \(unwrappedDestinationDate)")
+        } else if flight.flightStatus == FlightStatus.enRoute, let unwrappedDate = flight.date, let unwrappedDestinationDate = flight.destinationDate {
+            print("Destination: \(flight.destination) Flight: \(flight.name) Departure Date: \(unwrappedDate) Terminal: Sorry, Already Gone Status: \(flight.flightStatus.rawValue) Destination Date: \(unwrappedDestinationDate)")
+        } else {
+            print("Destination: \(flight.destination) Flight: \(flight.name) Departure Date: TBD Terminal: TBD Status: \(flight.flightStatus.rawValue) Destination Date: TBD")
+        }
+    }
 }
-
+printDepartures2()
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
@@ -107,7 +134,7 @@ func printDepartures2(){
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
+airlineCompanyA.alertPassengers()
 
 
 

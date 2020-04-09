@@ -57,7 +57,7 @@ var flights: [Flight] = []
 flights.append(flight93)
 flights.append(flight13)
 flights.append(flight111)
-let screwTheAirlineIndustry = DepartureBoard(flights: flights, currentAirport: Airport.init(name: "JFK"))
+let airlineCompanyA = DepartureBoard(flights: flights, currentAirport: Airport.init(name: "JFK"))
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:

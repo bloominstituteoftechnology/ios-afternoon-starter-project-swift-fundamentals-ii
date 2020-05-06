@@ -33,7 +33,7 @@ struct Airport {
 }
 
 struct Flight {
-    let destination: [Airport]
+    let destination: String
     let airline: String
     let flightNumber: String
     let departure: Date?
@@ -63,11 +63,17 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-let flightOne = Flight(destination: "Baku (GYD)", airline: "Silk Way West", flightNumber: "7L778", departure: <#T##Date?#>, terminal: "", status: .scheduled)
+var flights = [Flight]()
 
-let flightTwo = Flight(destination: "Marana (MZJ)", airline: "Delta Air Lines", flightNumber: "DL9967", departure: <#T##Date?#>, terminal: 4, status: .enRouteOnTime)
+let flightOne = Flight(destination: "Baku (GYD)", airline: "Silk Way West", flightNumber: "7L778", departure: Date(), terminal: nil, status: .scheduled)
+flights.append(flightOne)
 
-let flightThree = Flight(destination: "Charlotte (CLT)", airline: "American Airlines", flightNumber: "AA388", departure: <#T##Date?#>, terminal: 8, status: .landedOnTime)
+let flightTwo = Flight(destination: "Marana (MZJ)", airline: "Delta Air Lines", flightNumber: "DL9967", departure: Date(), terminal: "4", status: .enRouteOnTime)
+flights.append(flightTwo)
+
+let flightThree = Flight(destination: "Charlotte (CLT)", airline: "American Airlines", flightNumber: "AA388", departure: nil, terminal: "8", status: .cancelled)
+flights.append(flightThree)
+
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:
@@ -76,8 +82,15 @@ let flightThree = Flight(destination: "Charlotte (CLT)", airline: "American Airl
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
+let flightStatus: FlightStatus
 
-
+func printDepartures(departureBoard: String) {
+    for _ in flights {
+        
+        print(flightStatus.rawValue)
+        
+    }
+}
 
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil

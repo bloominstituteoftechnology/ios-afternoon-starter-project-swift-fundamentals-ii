@@ -25,6 +25,19 @@ enum FLightStatus: String {
 }
 
 struct Airport {
+    let airportName: String
+    let destination: Bool
+    let arrival: Bool
+}
+
+struct Flight {
+    let flightNumber: String
+    let departureTime: Date?
+    let terminal: String?
+}
+
+
+class DepartureBoard {
     
 }
 

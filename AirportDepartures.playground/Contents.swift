@@ -1,6 +1,6 @@
 import UIKit
 
-// Ian Becker 
+// Ian Becker
 //: ## 1. Create custom types to represent an Airport Departures display
 //: ![Airport Departures](matthew-smith-5934-unsplash.jpg)
 //: Look at data from [Departures at JFK Airport in NYC](https://www.airport-jfk.com/departures.php) for reference.
@@ -17,8 +17,36 @@ import UIKit
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
 
+enum FlightStatus: String {
+    case scheduled = "Scheduled"
+    case enRoute = "enRoute"
+    case landed = "landed"
+    case canceled = "canceled"
+    case delayed = "delayed"
+}
 
+struct Airport {
+    let airport: String
+}
 
+struct Flight {
+    var destination: String
+    var airline: String
+    var status: FlightStatus
+    var flightNumber: String
+    var departureTime: Date?
+    var terminal: Int?
+}
+
+class DepartureBoard {
+    var departingFlights: [Flight]
+    var currentAirport: Airport
+    
+    init(departingFlights: [Flight], currentAirport: Airport) {
+        self.departingFlights = departingFlights
+        self.currentAirport = currentAirport
+    }
+}
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -29,9 +57,13 @@ import UIKit
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
+let flight1 = Flight(destination: "Baku", airline: "Silk Way West", status: FlightStatus.scheduled, flightNumber: "7L778", departureTime: nil, terminal: nil)
 
+let flight2 = Flight(destination: "Marana", airline: "Delta Air Line", status: FlightStatus.enRoute, flightNumber: "DL9967", departureTime: Date(), terminal: 4)
 
+let flight3 = Flight(destination: "Delhi", airline: "SA AVIANCA", status: FlightStatus.scheduled, flightNumber: "AV2402", departureTime: Date(), terminal: 4)
 
+var departureBoard = DepartureBoard(departingFlights: [flight1, flight2, flight3], currentAirport: Airport(airport: "JFK"))
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:
@@ -40,8 +72,11 @@ import UIKit
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
-
-
+func printDepartures(departureBoard: DepartureBoard) {
+    for flight in departureBoard.departingFlights {
+        print(flight.status)
+    }
+}
 
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil

@@ -74,8 +74,12 @@ let departingFlights = DepartureBoard(departureFlights: departureFlights)
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
-
-
+func printDepatures(departureBoard: DepartureBoard) {
+    for departingFlights in departureFlights {
+        print("Destination: \(departingFlights.destination) Airline: \(departingFlights.airline) Flight Number: \(departingFlights.flightNumber) Departure Time: \(String(describing: departingFlights.departureTime)) Terminal: \(String(describing: departingFlights.terminal)) Status: \(departingFlights.status.rawValue)")
+    }
+}
+printDepatures(departureBoard: departingFlights)
 
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil

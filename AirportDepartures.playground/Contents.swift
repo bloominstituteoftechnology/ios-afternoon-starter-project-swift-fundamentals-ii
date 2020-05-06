@@ -94,7 +94,6 @@ enum FlightStatus: String {
 }
 printDepartures(departureBoard: flightDeparture)
 
-
 /* func printDepartures() {
     for departures in flightDeparture.departureFlight {
         print(departures)
@@ -102,8 +101,12 @@ printDepartures(departureBoard: flightDeparture)
 }
 printDepartures() */
 
+// c. Make your FlightStatus enum conform to String so you can print the rawValue String values from the enum. See the enum documentation.
+//  let flightStatus1: FlightStatus = .enRoute
+// let flightStatus2: FlightStatus = .canceled
+// let flightStatus3: FlightStatus = .scheduled
 
-
+print(flightStatus1.rawValue, flightStatus2.rawValue, flightStatus3.rawValue )
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function

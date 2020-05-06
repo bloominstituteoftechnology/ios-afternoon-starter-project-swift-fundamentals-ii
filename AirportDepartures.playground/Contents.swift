@@ -25,7 +25,6 @@ enum FLightStatus: String {
 }
 
 struct Airport {
-    let airportName: String = "JFK Airport"
     let departing: Bool
 }
 
@@ -41,11 +40,9 @@ struct Flight {
 
 class DepartureBoard {
     let departureFlights: Flight
-    let currentAirport: Airport
     
-    init(departureFlights: Flight, currentAirport: Airport) {
+    init(departureFlights: Flight) {
         self.departureFlights = departureFlights
-        self.currentAirport = currentAirport
     }
 }
 
@@ -62,6 +59,10 @@ class DepartureBoard {
 let flight1 = Flight(destination: "Baku (GYD)", airline: "Silk Way West", flightNumber: "7L778", departureTime: Date(), terminal: nil, status: .scheduled)
 let flight2 = Flight(destination: "Marana (MZJ)", airline: "Delta Air Lines", flightNumber: "DL9967", departureTime: nil, terminal: "4", status: .canceled)
 let flight3 = Flight(destination: "Delhi (DEL)", airline: "SA AVIANCA", flightNumber: "AV2402", departureTime: Date(), terminal: "8", status: .onTime)
+DepartureBoard(departureFlights: flight1)
+DepartureBoard(departureFlights: flight2)
+DepartureBoard(departureFlights: flight3)
+print(DepartureBoard.self)
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:

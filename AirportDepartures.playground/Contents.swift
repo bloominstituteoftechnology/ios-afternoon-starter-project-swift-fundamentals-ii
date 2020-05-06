@@ -77,7 +77,7 @@ enum FlightStatus: String {
       //var flight3departure = DepartureBoard(name: "Tokyo Airlines", currentAirport: "RDU", departureFlight: [flight3])
       flightDeparture.departureFlight.append(flight3)
       
-    print(flightDeparture.departureFlight)
+    //print(flightDeparture.departureFlight)
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
@@ -87,6 +87,20 @@ enum FlightStatus: String {
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
+ func printDepartures(departureBoard: DepartureBoard) {
+    for departures in departureBoard.departureFlight {
+        print(departures)
+    }
+}
+printDepartures(departureBoard: flightDeparture)
+
+
+/* func printDepartures() {
+    for departures in flightDeparture.departureFlight {
+        print(departures)
+    }
+}
+printDepartures() */
 
 
 

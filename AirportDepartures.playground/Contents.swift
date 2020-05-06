@@ -26,19 +26,29 @@ enum FLightStatus: String {
 
 struct Airport {
     let airportName: String
-    let destination: Bool
+    let departure: Bool
     let arrival: Bool
+    let destination: String
 }
 
 struct Flight {
     let flightNumber: String
     let departureTime: Date?
     let terminal: String?
+    let airline: String
 }
 
 
 class DepartureBoard {
+    let departureFlights: Flight
+    let currentAirport: Airport
+    let flightStatus: FLightStatus
     
+    init(departureFlights: Flight, currentAirport: Airport, flightStatus: FLightStatus) {
+        self.departureFlights = departureFlights
+        self.currentAirport = currentAirport
+        self.flightStatus = flightStatus
+    }
 }
 
 //: ## 2. Create 3 flights and add them to a departure board
@@ -51,8 +61,8 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-
-
+let flight1 = DepartureBoard(departureFlights: Flight(flightNumber: "7l778", departureTime: Date(), terminal: "Waiting to arrive on time", airline: "Silk Way West"), currentAirport: Airport(airportName: "JFK", departure: true, arrival: false, destination: "Baku (GYD)"), flightStatus: FLightStatus.scheduled)
+ 
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`

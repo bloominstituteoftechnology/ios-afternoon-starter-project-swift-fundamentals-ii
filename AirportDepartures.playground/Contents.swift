@@ -39,9 +39,9 @@ struct Flight {
 
 
 class DepartureBoard {
-    let departureFlights: Flight
+    var departureFlights: [Flight]
     
-    init(departureFlights: Flight) {
+    init(departureFlights: [Flight]) {
         self.departureFlights = departureFlights
     }
 }
@@ -59,22 +59,12 @@ class DepartureBoard {
 let flight1 = Flight(destination: "Baku (GYD)", airline: "Silk Way West", flightNumber: "7L778", departureTime: Date(), terminal: nil, status: .scheduled)
 let flight2 = Flight(destination: "Marana (MZJ)", airline: "Delta Air Lines", flightNumber: "DL9967", departureTime: nil, terminal: "4", status: .canceled)
 let flight3 = Flight(destination: "Delhi (DEL)", airline: "SA AVIANCA", flightNumber: "AV2402", departureTime: Date(), terminal: "8", status: .onTime)
-DepartureBoard(departureFlights: flight1)
-DepartureBoard(departureFlights: flight2)
-DepartureBoard(departureFlights: flight3)
-print(DepartureBoard.self)
-//: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
-//: a. Use the function signature: `printDepartures(departureBoard:)`
-//:
-//: b. Use a `for in` loop to iterate over each departure
-//:
-//: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
-//:
-//: d. Print out the current DepartureBoard you created using the function
 
+var departureFlights = [flight1]
+departureFlights.append(contentsOf: [flight2])
+departureFlights.append(contentsOf: [flight3])
 
-
-
+print(departureFlights)
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
 //:

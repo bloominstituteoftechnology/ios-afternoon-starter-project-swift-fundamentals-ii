@@ -60,11 +60,10 @@ let flight1 = Flight(destination: "Baku (GYD)", airline: "Silk Way West", flight
 let flight2 = Flight(destination: "Marana (MZJ)", airline: "Delta Air Lines", flightNumber: "DL9967", departureTime: nil, terminal: "4", status: .canceled)
 let flight3 = Flight(destination: "Delhi (DEL)", airline: "SA AVIANCA", flightNumber: "AV2402", departureTime: Date(), terminal: "8", status: .onTime)
 
-var departureFlights = [flight1]
-departureFlights.append(contentsOf: [flight2])
-departureFlights.append(contentsOf: [flight3])
+var departureFlights = [flight1, flight2, flight3]
 
-print(departureFlights)
+let departingFlights = DepartureBoard(departureFlights: departureFlights)
+
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
 //:

@@ -1,4 +1,4 @@
-# Airport Departures - Swift Fundamentals II Starter Project
+# Airport Departures - Swift Fundamentals II Starter Project 
 
 ![Airport Departures Display](images/matthew-smith-5934-unsplash.jpg)
 

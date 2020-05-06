@@ -23,14 +23,25 @@ enum FlightStatus: String {
     case delayed = "Delayed"
 }
     struct Airport {
-    let destination: String
-    let arrival: String
+        let destination: String
+        let arrival: String
+        let terminal: String?
 }
 
     struct Flight {
-    let airline: String
-    let flight: String
+        let airline: String
+        let flightNumber: String
+        let departure: Date?
+}
 
+class DepartureBoard {
+    let departureFlight: [Flight]
+    let currentAirport: String
+    
+    init(departureFlight: [Flight], currentAirport: String) {
+    self.departureFlight = departureFlight
+    self.currentAirport = currentAirport
+}
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:

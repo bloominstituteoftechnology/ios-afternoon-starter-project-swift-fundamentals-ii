@@ -56,16 +56,29 @@ enum FlightStatus: String {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
+    //Flight 1
     let flight1 = Flight(airline: "American Airlines", flightNumber: "AA388", departure: Date())
-    print(flight1)
     let flightStatus1: FlightStatus = .enRoute
-    print(flightStatus1)
     let flight1Airport = Airport(destination: "LAX", terminal: "4")
-    var flight1departure = DepartureBoard(name: "AA", currentAirport: "RDU", departureFlight: [flight1])
-    flight1departure.departureFlight.append(flight1)
-    print(flight1departure.departureFlight)
+    var flightDeparture = DepartureBoard(name: "AA", currentAirport: "RDU", departureFlight: [flight1])
+    //flight1departure.departureFlight.append(flight1)
 
-    
+    // Flight 2
+    let flight2 = Flight(airline: "Delta Airlines", flightNumber: "D588", departure: nil)
+    let flightStatus2: FlightStatus = .canceled
+   let flight2Airport = Airport(destination: "JFK", terminal: "9")
+   // var flight2departure = DepartureBoard(name: "Delta", currentAirport: "RDU", departureFlight: [flight2])
+   flightDeparture.departureFlight.append(flight2)
+
+    //Flight 3
+        let flight3 = Flight(airline: "Tokyo Airlines", flightNumber: "TA1122", departure: Date())
+    let flightStatus3: FlightStatus = .scheduled
+      let flight3Airport = Airport(destination: "HNL", terminal: nil)
+      //var flight3departure = DepartureBoard(name: "Tokyo Airlines", currentAirport: "RDU", departureFlight: [flight3])
+      flightDeparture.departureFlight.append(flight3)
+      
+    print(flightDeparture.departureFlight)
+
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:

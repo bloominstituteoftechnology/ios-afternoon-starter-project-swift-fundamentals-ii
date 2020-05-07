@@ -82,6 +82,13 @@ struct Flight {
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
 let myDeparture = DepartureBoard(destination: "West Palm Beach", airline: "Turkish Airlines", flights: [], departureTime: "06:00am", terminal: 5, status: .route)
 
+let flight1 = Flight(pilots: 2, attendants: 2, passengers: 200, ticketClass: "Economy")
+let flight2 = Flight(pilots: 2, attendants: 4, passengers: 100, ticketClass: "Business")
+let flight3 = Flight(pilots: 2, attendants: 4, passengers: 20, ticketClass: "First Class")
+
+myDeparture.flights.append(flight1)
+myDeparture.flights.append(flight2)
+myDeparture.flights.append(flight3)
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`

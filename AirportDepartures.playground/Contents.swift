@@ -190,6 +190,19 @@ panAm.alertPassengers()
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
-
-
-
+func calculateAirFare(checkedBags: Double, distance: Double, travelers: Double) -> Double {
+    
+    let totalCheckedBags = checkedBags * 25
+    let distanceTotal = distance * 0.1
+    let ticket = totalCheckedBags + distanceTotal
+    let travelerCharge = travelers * ticket
+    let fullBill = ticket + travelerCharge
+    
+    print(fullBill)
+    
+    return fullBill
+    
+}
+calculateAirFare(checkedBags: 12, distance: 13, travelers: 5.5)
+calculateAirFare(checkedBags: 0, distance: 10_000, travelers: 1)
+calculateAirFare(checkedBags: 45, distance: 32_023, travelers: 90)

@@ -46,6 +46,24 @@ class DepartureBoard {
         self.departingFlights = departingFlights
         self.currentAirport = currentAirport
     }
+    func alertPassengers(departureBoard: DepartureBoard) {
+        for flight in departureBoard.departingFlights {
+            switch flight.status {
+        case .scheduled:
+            if let unwrappeddeparturetime = flight.departureTime, let unwrappedterminal = flight.terminal {
+                print("Your flight to \(flight.destination) is scheduled to depart at \(unwrappeddeparturetime) from terminal: \(unwrappedterminal).")
+            } else {
+                print("TBD.")
+            }
+        case .canceled:
+            print("We're sorry your flight to \(flight.destination) was canceled, here is a $500 voucher.")
+        case .enRoute:
+            print("Your flight to \(flight.destination) is on it's way!")
+        default:
+            print("It doesn't look like you have any flights scheduled.")
+            }
+        }
+    }
 }
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
@@ -64,6 +82,7 @@ let flight2 = Flight(destination: "Marana", airline: "Delta Air Line", status: F
 let flight3 = Flight(destination: "Delhi", airline: "SA AVIANCA", status: FlightStatus.scheduled, flightNumber: "AV2402", departureTime: Date(), terminal: 4)
 
 var flightArray = [Flight]()
+
 flightArray.append(contentsOf: [flight1, flight2, flight3])
 
 var departureBoard = DepartureBoard(departingFlights: flightArray, currentAirport: Airport(airport: "PDX"))
@@ -121,10 +140,7 @@ printDepartures(departureBoard: departureBoard)
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
-
-
-
+departureBoard.alertPassengers(departureBoard: departureBoard)
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`
 //:
@@ -142,6 +158,11 @@ printDepartures(departureBoard: departureBoard)
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+func calculateAirfare(checkedBags: Double, distance: Double, travelers: Double) -> Double {
+    let bagCost = checkedBags * 25
+    let mileageCost = distance * 0.10
+    let totalCost = (bagCost + mileageCost) * travelers
+    return totalCost
+}
 
-
-
+calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)

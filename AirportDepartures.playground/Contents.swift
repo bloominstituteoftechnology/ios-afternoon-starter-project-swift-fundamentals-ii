@@ -99,17 +99,17 @@ myDeparture.flights.append(flight3)
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
-enum OtherFlighStatus: CaseIterable {
+enum FlighStatus2: CaseIterable {
     case EnRoute, Scheduled, Canceled, Delayed, Boarding
 }
 
 
-let numberOfChoices = OtherFlighStatus.allCases.count
+let numberOfChoices = FlighStatus2.allCases.count
 print(numberOfChoices)
 
 
 func printDepartures() {
-    for flights in OtherFlighStatus.allCases {
+    for flights in FlighStatus2.allCases {
         print(flights)
     }
 }

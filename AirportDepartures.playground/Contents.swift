@@ -56,6 +56,20 @@ class DepartureBoard {
         self.flights = []
     }
 }
+
+struct Flight {
+    let pilots: Int
+    let attendants: Int
+    let passengers: Int
+    let ticketClass: String
+
+    init(pilots: Int, attendants: Int, passengers: Int, ticketClass: String) {
+        self.pilots = pilots
+        self.attendants = attendants
+        self.passengers = passengers
+        self.ticketClass = ticketClass
+    }
+}
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:

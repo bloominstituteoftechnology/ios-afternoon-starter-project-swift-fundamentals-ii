@@ -61,11 +61,19 @@ let flight1 = Flight(destination: "Baku (GYD)", airline: "Silk Way West", flight
 let flight2 = Flight(destination: "Marana (MZJ)", airline: "Delta Air Lines", flightNumber: "DL 9967", departureTime: nil, terminal: "4", status: .canceled)
 let flight3 = Flight(destination: "Delhi (DEL)", airline: "SA AVIANCA", flightNumber: "AV 2402", departureTime: Date(), terminal: "8", status: .onTime)
 
-var departureFlights = [flight1]
-departureFlights.append(contentsOf: [flight2])
-departureFlights.append(contentsOf: [flight3])
 
-let departureBoard = DepartureBoard(departureFlights: departureFlights)
+var departureBoard = DepartureBoard(departureFlights: [])
+departureBoard.departureFlights.append(flight1)
+departureBoard.departureFlights.append(flight2)
+departureBoard.departureFlights.append(flight3)
+//: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
+//: a. Use the function signature: `printDepartures(departureBoard:)`
+//:
+//: b. Use a `for in` loop to iterate over each departure
+//:
+//: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
+//:
+//: d. Print out the current DepartureBoard you created using the function
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
@@ -76,7 +84,7 @@ let departureBoard = DepartureBoard(departureFlights: departureFlights)
 //:
 //: d. Print out the current DepartureBoard you created using the function
 func printDepatures(departureBoard: DepartureBoard) {
-    for departingFlights in departureFlights {
+    for departingFlights in departureBoard.departureFlights {
         print("Destination: \(departingFlights.destination) Airline: \(departingFlights.airline) Flight Number: \(departingFlights.flightNumber) Departure Time: \(String(describing: departingFlights.departureTime)) Terminal: \(String(describing: departingFlights.terminal)) Status: \(departingFlights.status.rawValue)")
     }
 }
@@ -98,13 +106,15 @@ func printDepatures(departureBoard: DepartureBoard) {
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
 func printDepartures2(departureBoard: DepartureBoard) {
-    for departingFlights in departureFlights {
+    for departingFlights in departureBoard.departureFlights {
         if let unwrappedTime = departingFlights.departureTime, let unwrappedTerminal = departingFlights.terminal {
-            print("Destination:\(departingFlights.destination) Airline: \(departingFlights.airline) Flight Number: \(departingFlights.flightNumber) Departure Time: \(unwrappedTime) Terminal: \(unwrappedTerminal) Status: \(departingFlights.status.rawValue)")
-            }
+            print("Destination: \(departingFlights.destination) Airline: \(departingFlights.airline) Flight Number: \(departingFlights.flightNumber) Departure Time: \(unwrappedTime) Terminal: \(unwrappedTerminal) Status: \(departingFlights.status.rawValue)")
+        } else {
+            print("Destination: \(departingFlights.destination) Airline: \(departingFlights.airline) Flight Number: \(departingFlights.flightNumber) Departure Time: \(departingFlights.departureTime?.description ?? " ") Terminal: \(departingFlights.terminal ?? "Waiting on Plane to Arrive") Status: \(departingFlights.status.rawValue)")
+                }
         }
-    }
-
+    
+}
 printDepartures2(departureBoard: departureBoard)
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.

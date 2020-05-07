@@ -154,7 +154,7 @@ printDepartures() */
 }
 
 printDepartures2(departureBoard: flightDeparture)
-
+// i got it to unwrap but could not figure out how to insert the unwrapped value into the array
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
@@ -170,7 +170,9 @@ printDepartures2(departureBoard: flightDeparture)
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
+/*I tried to do problem 5 and creating this code messed up my other code that worked.
+I had to go back to github and download my last git pushed document so that I didn't lose my mind and my work :-)
+I think the way I set up my code has made this problem more difficult then it has to be. need help with this problem. Thanks.*/
 
 
 
@@ -191,6 +193,12 @@ printDepartures2(departureBoard: flightDeparture)
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+    func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+        let costBags = Double(checkedBags) * 25.00
+        let costDistance = Double(distance) * 0.10
+        let totalCost = (costBags + costDistance) * Double(travelers)
+        return totalCost
+    }
 
-
+    calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)
 

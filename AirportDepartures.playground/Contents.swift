@@ -196,7 +196,7 @@ func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> String
     let number = NSNumber(value: total)
     let numberFormatter = NumberFormatter()
     numberFormatter.numberStyle = .currency
-    guard let price = (numberFormatter.string(from: number)) else {return "0"}
+    guard let price = (numberFormatter.string(from: number)) else {return "Cannot calculate airfare."}
     
     return price
 }

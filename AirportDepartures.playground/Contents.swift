@@ -27,7 +27,7 @@ enum FlightStatus: String {
 struct AirPort {
     
     var name: String
-
+    
 }
 
 struct Flight {
@@ -69,14 +69,18 @@ let lhr = AirPort(name: "LHR")
 let seatac = AirPort(name: "SEA")
 let bfi = AirPort(name: "BFI")
 let tokyoIntAir = AirPort(name: "JTT")
-let flight1 = Flight(date: Date(), terminal: nil, departureTime: Date(), arrivalTime: Date(), destination: bfi, flightID: 763, flightStatus: FlightStatus.scheduled, startingAirPort: seatac)
+
+let flight1 = Flight(date: Date(), terminal: "A", departureTime: Date(), arrivalTime: Date(), destination: bfi, flightID: 763, flightStatus: FlightStatus.scheduled, startingAirPort: seatac)
+
 let flight2 = Flight(date: Date(), terminal: "B", departureTime: nil, arrivalTime: nil, destination: tokyoIntAir, flightID: 923, flightStatus: FlightStatus.canceled, startingAirPort: seatac)
 
-let flight3 = Flight(date: Date(), terminal: "C", departureTime: Date(), arrivalTime: Date(), destination: lhr, flightID: 13, flightStatus: FlightStatus.enRoute, startingAirPort: seatac)
+let flight3 = Flight(date: Date(), terminal: nil, departureTime: Date(), arrivalTime: Date(), destination: lhr, flightID: 13, flightStatus: FlightStatus.enRoute, startingAirPort: seatac)
+
 var flights: [Flight] = []
 flights.append(flight1)
 flights.append(flight2)
 flights.append(flight3)
+
 let panAm = DepartureBoard(flights: flights, currentAirPort: seatac)
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
@@ -110,10 +114,18 @@ printDepartures()
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
 func printDepartures2() {
     for flight in flights {
+        
         if let unwrappedTerminal =  flight.terminal, let unwrappedDepartureTime = flight.departureTime, let unwrappedArrivalTime = flight.arrivalTime {
             
-            print("Destination:\(flight.destination) AirLine: PanAm Flight: \(flight.flightID) Departure Time: \(unwrappedDepartureTime) Arrival Time: \(unwrappedArrivalTime) Terminal: \(unwrappedTerminal) Status: \(flight.flightStatus)")
+            print("Destination: \(flight.destination) AirLine: PanAm Flight: \(flight.flightID) Departure Time: \(unwrappedDepartureTime) Arrival Time: \(unwrappedArrivalTime) Terminal: \(unwrappedTerminal) Status: \(flight.flightStatus.rawValue)")
             
+        } else if flight.flightStatus == FlightStatus.enRoute, let unwrappedArrivalTime = flight.arrivalTime {
+            
+            print("Destination: \(flight.destination) AirLine: PanAm Flight: \(flight.flightID) Departure Time: Sorry, Your flight has left Arrival Time: \(unwrappedArrivalTime) Terminal: Sorry, Your flight had departed Status: \(flight.flightStatus.rawValue)")
+            
+        } else {
+            
+            print("Destination: \(flight.destination) AirLine: PanAm Flight: \(flight.flightID) Departure Time: Sorry, Your flight ha been canceled. Arrival Time: Sorry, Your flight has been canceled. Terminal: Sorry, Your flight has been canceled Status: \(flight.flightStatus.rawValue)")
         }
     }
 }

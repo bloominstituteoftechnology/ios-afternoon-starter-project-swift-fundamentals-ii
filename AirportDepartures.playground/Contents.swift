@@ -26,20 +26,33 @@ enum FlightStatus: String {
 struct Airport {
     let airportName: String
     let airportCode: String
-    var departingFlights: [Flight]?
+    var departingFlights: [Flight]? = []
+    var arrivingFlights: [Flight]? = []
     
-    init(airportName: String, airportCode: String, departingFlights: [Flight]) {
+    init(airportName: String, airportCode: String, departingFlights: [Flight], arrivingFlights: [Flight]) {
         self.airportName = airportName
         self.airportCode = airportCode
-        self.departingFlights = departingFlights
+    }
+
+// creating list of departing flights
+    func departures() {
+        for flight in flights {
+            if flight.departureAirport == airportCode {
+                departingFlights.append(flight)
+            }
+        }
+    }
+        
+// creating list of arriving flights
+    func arrivals() {
+        for flight in flights {
+            if flight.arrivalAirport == airportCode {
+                departingFlights.append(flight)
+            }
+        }
     }
 }
 
-enum Airports {
-    case stl
-    case lga
-    case ord
-}
 
 struct Flight {
     let flightNumber: Int
@@ -61,13 +74,42 @@ class DepartureBoard {
     init(departingFlights: [Flight], currentAirport: String) {
         self.departingFlights = departingFlights
         self.currentAirport = currentAirport
+        
+        func alertPassengers() {
+            for flight in flights {
+                if let departureTime = flight.departureTime {
+                    switch flight.flightStatus {
+                    case FlightStatus.canceled:
+                        print("Flight \(flight.flightNumber) We're sorry your flight to \(flight.arrivalAirport) was canceled, here is a $500 voucher")
+                    case FlightStatus.delayed:
+                        if flight.departureTerminal == nil {
+                            print("Flight \(flight.flightNumber) Your flight to \(flight.arrivalAirport) is scheduled to depart at \(String(describing: departureTime)) from terminal:  TBD")
+                        } else {
+                            if let terminal = flight.departureTerminal {
+                                print("Flight \(flight.flightNumber) is boarding, please head to terminal:  \(terminal) immediately. The doors are closing soon.")
+                            }
+                        }
+                    case FlightStatus.scheduled:
+                        if flight.departureTerminal == nil {
+                            print("Flight \(flight.flightNumber) Your flight to \(flight.arrivalAirport) is scheduled to depart at \(String(describing: departureTime)) from terminal:  TBD")
+                        } else {
+                            if let terminal = flight.departureTerminal {
+                                print("Flight \(flight.flightNumber) is boarding, please head to terminal:  \(terminal) immediately. The doors are closing soon.")
+                            }
+                        }
+                    default:
+                            print()
+                    }
+                }
+            }
+        }
     }
     
 }
 
-let stlAirport = Airport(airportName: "St. Louis", airportCode: "STL", departingFlights: [])
-let lgaAirport = Airport(airportName: "NY LaGuardia", airportCode: "LGA", departingFlights: [])
-let ordAirport = Airport(airportName: "Chicago - O'Hare", airportCode: "ORD", departingFlights: [])
+let stlAirport = Airport(airportName: "St. Louis", airportCode: "STL", departingFlights: [], arrivingFlights: [])
+let lgaAirport = Airport(airportName: "NY LaGuardia", airportCode: "LGA", departingFlights: [], arrivingFlights: [])
+let ordAirport = Airport(airportName: "Chicago - O'Hare", airportCode: "ORD", departingFlights: [], arrivingFlights: [])
 
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
@@ -161,8 +203,8 @@ printDepartures2(departureBoard: "ORD")
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
-
+let stlDepartureBoard = DepartureBoard(currentAirport: "STL", departingFlights: departures)
+DepartureBoard(alertPassengers())
 
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination

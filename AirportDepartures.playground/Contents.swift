@@ -89,11 +89,12 @@ flightArray.append(flight4)
 //:
 //: d. Print out the current DepartureBoard you created using the function
 func printDepartures(departureBoard: DepartureBoard) {
-    for departure in departureBoard {
+    for departure in departureBoard.flights {
+        print(departure)
         
     }
 }
-
+printDepartures(departureBoard: <#T##DepartureBoard#>)
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function

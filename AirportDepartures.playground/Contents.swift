@@ -59,7 +59,7 @@ class DepartureBoard {
             case .boarding:
                 print("Your flight is boarding, please head to terminal: \(passengers.terminal ?? "TBD") immediately. The doors are closing soon.")
             case .onTime:
-                print("Your flight number \(passengers.flightNumber) with \(passengers.airline) is currently running on schedule and will depart from \(passengers.terminal ?? "TBD")")
+                print("Your flight number \(passengers.flightNumber) with \(passengers.airline) is currently running on schedule and will depart from Terminal \(passengers.terminal ?? "TBD")")
             default:
                 break
             }
@@ -178,10 +178,19 @@ var mile = 0.10
 func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
     let ticketCost = bag * Double(checkedBags) + mile * Double(distance)
     let totalTicketCost = ticketCost * Double(travelers)
-    print("\(ticketCost) Per Person, for a grand total of: \(totalTicketCost)")
+    print("\(checkedBags) bags, \(distance) miles, \(travelers) travelers = \(convertDoubleToCurrency(amount: totalTicketCost))")
 
     return totalTicketCost
 }
 calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)
+calculateAirfare(checkedBags: 4, distance: 6000, travelers: 4)
+calculateAirfare(checkedBags: 10, distance: 17000, travelers: 8)
 
 
+func convertDoubleToCurrency(amount: Double) -> String {
+    let numberFormatter = NumberFormatter()
+    numberFormatter.numberStyle = .currency
+    numberFormatter.locale = Locale.current
+
+    return numberFormatter.string(from: NSNumber(value: amount))!
+}

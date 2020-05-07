@@ -173,5 +173,11 @@ departureBoard.alertPassenger()
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
 
+var bag = 25.00
+var mile = 0.10
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+    print("Checked Bags: \(checkedBags)")
+}
+
 
 

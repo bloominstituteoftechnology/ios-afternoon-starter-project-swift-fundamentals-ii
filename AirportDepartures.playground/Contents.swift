@@ -101,11 +101,13 @@ print(flights)
 func printDepartures(departureBoard: String) {
     for flight in flights {
         let airport = flight.departureAirport
-        if airport == departureBoard {
-            if let unwrappedTerminal = flight.departureTerminal {
-                print("Destination: \(flight.arrivalAirport)  Flight #\(flight.flightNumber)  Time: \(flight.departureTime)  Terminal: \(unwrappedTerminal)  Status: \(flight.flightStatus.rawValue)")
-            } else {
-                print("Destination: \(flight.arrivalAirport)  Flight #\(flight.flightNumber)  Time: \(flight.departureTime)  Terminal: \("TBD")  Status: \(flight.flightStatus.rawValue)")
+        if let time = flight.departureTime {
+            if airport == departureBoard {
+                if let unwrappedTerminal = flight.departureTerminal {
+                    print("Destination: \(flight.arrivalAirport)  Flight #\(flight.flightNumber)  Time: \(String(describing: time))  Terminal: \(unwrappedTerminal)  Status: \(flight.flightStatus.rawValue)")
+                } else {
+                    print("Destination: \(flight.arrivalAirport)  Flight #\(flight.flightNumber)  Time: \(String(describing: time))  Terminal: \("TBD")  Status: \(flight.flightStatus.rawValue)")
+                }
             }
         }
     }
@@ -127,8 +129,23 @@ printDepartures(departureBoard: "STL")
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
+func printDepartures2(departureBoard: String) {
+    for flight in flights {
+        let airport = flight.departureAirport
+        if let time = flight.departureTime {
+            if airport == departureBoard {
+                if let unwrappedTerminal = flight.departureTerminal {
+                    let time = flight.departureTime
+                    print("Destination: \(flight.arrivalAirport)  Flight #\(flight.flightNumber)  Time: \(String(describing: time))  Terminal: \(unwrappedTerminal)  Status: \(flight.flightStatus.rawValue)")
+                } else {
+                    print("Destination: \(flight.arrivalAirport)  Flight #\(flight.flightNumber)  Time: \(String(describing: time))  Terminal: \("TBD")  Status: \(flight.flightStatus.rawValue)")
+                }
+            }
+        }
+    }
+}
 
-
+printDepartures2(departureBoard: "ORD")
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"

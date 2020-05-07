@@ -38,6 +38,24 @@ struct Airport {
         self.carRental = carRental
     }
 }
+
+class DepartureBoard {
+    let destination: String
+    let airline: String
+    let departureTime: String
+    let terminal: Int
+    let status: FlighStatus
+    let flights:  [Flight]
+
+    init(destination: String, airline: String, departureTime: String, terminal: Int, status: FlighStatus) {
+        self.destination = destination
+        self.airline = airline
+        self.departureTime = departureTime
+        self.terminal = terminal
+        self.status =  status
+        self.flights = []
+    }
+}
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:

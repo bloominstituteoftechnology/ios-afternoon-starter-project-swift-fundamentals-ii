@@ -65,17 +65,19 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-let jfk = AirPort(name: "JFK")
-let pdx = AirPort(name: "PDX")
 let lhr = AirPort(name: "LHR")
 let seatac = AirPort(name: "SEA")
 let bfi = AirPort(name: "BFI")
 let tokyoIntAir = AirPort(name: "JTT")
-let flight1 = Flight(date: Date(), terminal: "A", departureTime: Date(), arrivalTime: Date(), destination: jfk, flightID: 763, flightStatus: FlightStatus.scheduled, startingAirPort: tokyoIntAir)
-let flight2 = Flight(date: Date(), terminal: nil, departureTime: nil, arrivalTime: nil, destination: seatac, flightID: 923, flightStatus: FlightStatus.canceled, startingAirPort: lhr)
+let flight1 = Flight(date: Date(), terminal: nil, departureTime: Date(), arrivalTime: Date(), destination: bfi, flightID: 763, flightStatus: FlightStatus.scheduled, startingAirPort: seatac)
+let flight2 = Flight(date: Date(), terminal: "B", departureTime: nil, arrivalTime: nil, destination: tokyoIntAir, flightID: 923, flightStatus: FlightStatus.canceled, startingAirPort: seatac)
 
-let flight3 = Flight(date: Date(), terminal: "C", departureTime: Date(), arrivalTime: Date(), destination: bfi, flightID: 13, flightStatus: FlightStatus.enRoute, startingAirPort: pdx)
-
+let flight3 = Flight(date: Date(), terminal: "C", departureTime: Date(), arrivalTime: Date(), destination: lhr, flightID: 13, flightStatus: FlightStatus.enRoute, startingAirPort: seatac)
+var flights: [Flight] = []
+flights.append(flight1)
+flights.append(flight2)
+flights.append(flight3)
+let panAm = DepartureBoard(flights: flights, currentAirPort: seatac)
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:

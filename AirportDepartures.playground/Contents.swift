@@ -17,13 +17,11 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
-enum FlighStatus: String {
-    case route = "EN Route - On Time"
-    case scheduled  = "Scheduled"
-    case cancelled = "Cancelled"
-    case delayed = "Delayed"
-    case boarding = "Boarding"
+enum FlighStatus: CaseIterable {
+    case EnRoute, Scheduled, Canceled, Delayed, Boarding
 }
+let numberOfChoices = FlighStatus.allCases.count
+print(numberOfChoices)
 
 struct Airport {
     let planes: Int
@@ -80,7 +78,7 @@ struct Flight {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-let myDeparture = DepartureBoard(destination: "West Palm Beach", airline: "Turkish Airlines", flights: [], departureTime: "06:00am", terminal: 5, status: .route)
+let myDeparture = DepartureBoard(destination: "West Palm Beach", airline: "Turkish Airlines", flights: [], departureTime: "06:00am", terminal: 5, status: _ )
 
 let flight1 = Flight(pilots: 2, attendants: 2, passengers: 200, ticketClass: "Economy")
 let flight2 = Flight(pilots: 2, attendants: 4, passengers: 100, ticketClass: "Business")
@@ -99,7 +97,12 @@ myDeparture.flights.append(flight3)
 //:
 //: d. Print out the current DepartureBoard you created using the function
 
-
+func printDepartures() {
+    for flights in FlighStatus.allCases {
+        print(flights)
+    }
+}
+printDepartures()
 
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil

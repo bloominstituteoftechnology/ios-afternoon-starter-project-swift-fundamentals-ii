@@ -33,8 +33,9 @@ struct Flight {
     var airline: String
     var flightNumber: String
     var departureTime: Date?
-    var terminal: String?
+    var terminal: String? = ""
     let status: FLightStatus
+    
 }
 
 
@@ -97,13 +98,13 @@ func printDepatures(departureBoard: DepartureBoard) {
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
 func printDepartures2(departureBoard: DepartureBoard) {
-    for departingFlights in departureBoard.departureFlights {
+    for departingFlights in departureFlights {
         if let unwrappedTime = departingFlights.departureTime, let unwrappedTerminal = departingFlights.terminal {
-            print("Destination: \(departingFlights.destination) Airline: \(departingFlights.airline) Flight Number: \(departingFlights.flightNumber) Departure Time: \(unwrappedTime)) Terminal: \(unwrappedTerminal)) Status: \(departingFlights.status.rawValue)")
+            print("Destination:\(departingFlights.destination) Airline: \(departingFlights.airline) Flight Number: \(departingFlights.flightNumber) Departure Time: \(unwrappedTime) Terminal: \(unwrappedTerminal) Status: \(departingFlights.status.rawValue)")
+            }
         }
     }
-    
-}
+
 printDepartures2(departureBoard: departureBoard)
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.

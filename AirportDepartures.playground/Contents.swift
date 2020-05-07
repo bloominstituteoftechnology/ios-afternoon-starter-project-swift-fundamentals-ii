@@ -16,6 +16,7 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
+
 enum FLightStatus: String {
     case enRoute = "En Route"
     case scheduled = "Scheduled"
@@ -105,12 +106,13 @@ func printDepatures(departureBoard: DepartureBoard) {
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
+
 func printDepartures2(departureBoard: DepartureBoard) {
     for departingFlights in departureBoard.departureFlights {
         if let unwrappedTime = departingFlights.departureTime, let unwrappedTerminal = departingFlights.terminal {
-            print("Destination: \(departingFlights.destination) Airline: \(departingFlights.airline) Flight Number: \(departingFlights.flightNumber) Departure Time: \(unwrappedTime) Terminal: \(unwrappedTerminal) Status: \(departingFlights.status.rawValue)")
+            print("Destination: \(departingFlights.destination), Airline: \(departingFlights.airline), Flight Number: \(departingFlights.flightNumber), Departure Time: \(unwrappedTime), Terminal: \(unwrappedTerminal), Status: \(departingFlights.status.rawValue)")
         } else {
-            print("Destination: \(departingFlights.destination) Airline: \(departingFlights.airline) Flight Number: \(departingFlights.flightNumber) Departure Time: \(departingFlights.departureTime?.description ?? " ") Terminal: \(departingFlights.terminal ?? "Waiting on Plane to Arrive") Status: \(departingFlights.status.rawValue)")
+            print("Destination: \(departingFlights.destination), Airline: \(departingFlights.airline), Flight Number: \(departingFlights.flightNumber), Departure Time: \(departingFlights.departureTime?.description ?? " ") Terminal: \(departingFlights.terminal ?? "Waiting to arrive on time"), Status: \(departingFlights.status.rawValue)")
                 }
         }
     

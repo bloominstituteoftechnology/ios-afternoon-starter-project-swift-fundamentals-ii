@@ -23,6 +23,7 @@ enum FLightStatus: String {
     case delayed = "Delayed"
     case onTime = "On Time"
     case canceled = "Canceled"
+    case boarding = "Boarding"
 }
 
 struct Airport {
@@ -45,6 +46,24 @@ class DepartureBoard {
     
     init(departureFlights: [Flight]) {
         self.departureFlights = departureFlights
+    }
+    
+    
+    func alertPassenger() {
+        for passengers in departureBoard.departureFlights {
+            switch passengers.status {
+            case .canceled:
+                print("We're sorry your flight to \(passengers.destination) was canceled, here is a $500 voucher")
+            case .scheduled:
+                print("Your flight to \(passengers.destination) is scheduled to depart at \(passengers.departureTime?.description ?? "TBD") from terminal: \(String(describing: passengers.terminal ?? "TBD"))")
+            case .boarding:
+                print("Your flight is boarding, please head to terminal: \(passengers.terminal ?? "TBD") immediately. The doors are closing soon.")
+            case .onTime:
+                print("Your flight number \(passengers.flightNumber) with \(passengers.airline) is currently running on schedule and will depart from \(passengers.terminal ?? "TBD")")
+            default:
+                break
+            }
+        }
     }
 }
 
@@ -134,8 +153,7 @@ printDepartures2(departureBoard: departureBoard)
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 
-
-
+departureBoard.alertPassenger()
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`

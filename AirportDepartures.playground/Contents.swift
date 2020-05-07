@@ -27,42 +27,47 @@ struct Airport {
     let airportName: String
     let airportCode: String
     var departingFlights: [Flight]?
-    var arrivingFlights: [Flight]?
     
-    init(airportName: String, airportCode: String, departingFlights: [Flight], arrivingFlights: [Flight]) {
+    init(airportName: String, airportCode: String, departingFlights: [Flight]) {
         self.airportName = airportName
         self.airportCode = airportCode
         self.departingFlights = departingFlights
-        self.arrivingFlights = arrivingFlights
     }
+}
+
+enum Airports {
+    case stl
+    case lga
+    case ord
 }
 
 struct Flight {
     let flightNumber: Int
     var departureTime: Date?
-    let departureAirport: Airport
+    let departureAirport: String
     var departureTerminal: String?
     var arrivalTime: Date?
-    let arrivalAirport: Airport
+    let arrivalAirport: String
     var arrivalTerminal: String?
-    var flightStatus: FlightStatus?
+    var flightStatus: FlightStatus
 }
 
 var flights: [Flight] = []
 
 class DepartureBoard {
-    var flights: [Flight]
-    let currentAirport: Airport
+    var departingFlights: [Flight] = []
+    let currentAirport: String
 
-    init(flights: [Flight], currentAirport: Airport) {
-        self.flights = flights
+    init(departingFlights: [Flight], currentAirport: String) {
+        self.departingFlights = departingFlights
         self.currentAirport = currentAirport
     }
+    
 }
 
-let stlAirport = Airport(airportName: "St. Louis", airportCode: "STL", departingFlights: [], arrivingFlights: [])
-let lgaAirport = Airport(airportName: "NY LaGuardia", airportCode: "LGA", departingFlights: [], arrivingFlights: [])
-let ordAirport = Airport(airportName: "Chicago - O'Hare", airportCode: "ORD", departingFlights: [], arrivingFlights: [])
+let stlAirport = Airport(airportName: "St. Louis", airportCode: "STL", departingFlights: [])
+let lgaAirport = Airport(airportName: "NY LaGuardia", airportCode: "LGA", departingFlights: [])
+let ordAirport = Airport(airportName: "Chicago - O'Hare", airportCode: "ORD", departingFlights: [])
 
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
@@ -74,9 +79,9 @@ let ordAirport = Airport(airportName: "Chicago - O'Hare", airportCode: "ORD", de
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-let flightA = Flight(flightNumber: 123, departureTime: Date(), departureAirport: lgaAirport, departureTerminal: "E", arrivalTime: Date(), arrivalAirport: stlAirport, arrivalTerminal: nil, flightStatus: FlightStatus.enroute)
-let flightB = Flight(flightNumber: 456, departureTime: Date(), departureAirport: ordAirport, departureTerminal: "B", arrivalTime: Date(), arrivalAirport: lgaAirport, arrivalTerminal: "1", flightStatus: FlightStatus.canceled)
-let flightC = Flight(flightNumber: 789, departureTime: Date(), departureAirport: stlAirport, departureTerminal: "B", arrivalTime: Date(), arrivalAirport: ordAirport, arrivalTerminal: "D", flightStatus: FlightStatus.delayed)
+let flightA = Flight(flightNumber: 123, departureTime: Date(), departureAirport: "LGA", departureTerminal: "E", arrivalTime: Date(), arrivalAirport: "STL", arrivalTerminal: nil, flightStatus: FlightStatus.enroute)
+let flightB = Flight(flightNumber: 456, departureTime: Date(), departureAirport: "ORD", departureTerminal: "B", arrivalTime: Date(), arrivalAirport: "LGA", arrivalTerminal: "1", flightStatus: FlightStatus.canceled)
+let flightC = Flight(flightNumber: 789, departureTime: Date(), departureAirport: "STL", departureTerminal: "B", arrivalTime: Date(), arrivalAirport: "ORD", arrivalTerminal: "D", flightStatus: FlightStatus.delayed)
 
 flights.append(flightA)
 flights.append(flightB)
@@ -91,14 +96,22 @@ flights.append(flightC)
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
+print(flights)
+
 func printDepartures(departureBoard: String) {
     for flight in flights {
-        if departureBoard == flights.departureAirport {
-            print("Destination: \(arrivalAirport) Flight #\(flights.flightNumber) | ")
+        let airport = flight.departureAirport
+        if airport == departureBoard {
+            if let unwrappedTerminal = flight.departureTerminal {
+                print("Destination: \(flight.arrivalAirport)  Flight #\(flight.flightNumber)  Time: \(flight.departureTime)  Terminal: \(unwrappedTerminal)  Status: \(flight.flightStatus.rawValue)")
+            } else {
+                print("Destination: \(flight.arrivalAirport)  Flight #\(flight.flightNumber)  Time: \(flight.departureTime)  Terminal: \("TBD")  Status: \(flight.flightStatus.rawValue)")
+            }
         }
     }
 }
 
+printDepartures(departureBoard: "STL")
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function

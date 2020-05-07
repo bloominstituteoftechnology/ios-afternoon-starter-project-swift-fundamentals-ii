@@ -88,17 +88,21 @@ let departureBoard = DepartureBoard(flights: threeNewFlights)
 
 func printDepartures(departureBoard: DepartureBoard) {
     for eachFlight in departureBoard.flights {
-        if let unwrappedDepartureTime = eachFlight.departureTime {
-            print(unwrappedDepartureTime)
-            if let unwrappedTerminal = eachFlight.terminal {
-                print(unwrappedTerminal)
-                print("\(eachFlight.destination)  \(eachFlight.airlineName)  \(eachFlight.flightCode)  \(unwrappedDepartureTime) \(unwrappedTerminal)  \(eachFlight.status.rawValue)")
+        if let unwrappedDepartureTime = eachFlight.departureTime, let unwrappedTerminal = eachFlight.terminal {
+            print("Destination: \(eachFlight.destination) Airline: \(eachFlight.airlineName) Flight Number: \(eachFlight.flightCode) Departure Time: \(unwrappedDepartureTime) Terminal: \(unwrappedTerminal) Status: \(eachFlight.status.rawValue)")
+        } else {
+            if let unwrappedDepartureTime = eachFlight.departureTime {
+                print("Destination: \(eachFlight.destination) Airline: \(eachFlight.airlineName) Flight Number: \(eachFlight.flightCode) Departure Time: \(unwrappedDepartureTime) Terminal: \(eachFlight.terminal ?? "") Status: \(eachFlight.status.rawValue)")
             } else {
-                print("")
+                if let unwrappedTerminal = eachFlight.terminal {
+                    print("Destination: \(eachFlight.destination) Airline: \(eachFlight.airlineName) Flight Number: \(eachFlight.flightCode) Departure Time: \("") \(unwrappedTerminal) Status:  \(eachFlight.status.rawValue)")
+                }
             }
         }
-
-printDepartures(departureBoard: <#T##DepartureBoard#>)
+    }
+}
+    
+printDepartures(departureBoard: departureBoard)
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function

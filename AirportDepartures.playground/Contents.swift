@@ -1,5 +1,3 @@
-import UIKit
-
 
 //: ## 1. Create custom types to represent an Airport Departures display
 //: ![Airport Departures](matthew-smith-5934-unsplash.jpg)
@@ -16,6 +14,46 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
+import Foundation
+
+
+enum FlightStatus: String {
+    case enRoute = "En Route"
+    case scheduled = "Scheduled"
+    case canceled = "Canceled"
+    case delayed = "Delayed"
+    case boarding = "Boarding"
+    
+}
+
+struct Airport {
+    
+    var city: String
+}
+
+
+struct Flight {
+    let departureTime: Date?
+    let terminal: String?
+    let destination: Airport
+    let flightNumber: Int
+    let airline: String
+    let flightstatus: FlightStatus
+    
+}
+
+class DepartureBoard {
+    var airport: Airport
+    var departures: [Flight] = []
+
+    
+    
+    init(city: String) {
+    airport = Airport(city: city)
+    departures = []
+}
+
+}
 
 
 
@@ -96,6 +134,5 @@ import UIKit
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
-
 
 

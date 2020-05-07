@@ -25,7 +25,19 @@ enum FlighStatus: String {
     case boarding = "Boarding"
 }
 
+struct Airport {
+    let planes: Int
+    let hotel: String
+    let transport: String
+    let carRental: String
 
+    init(planes: Int, hotel: String, transport: String, carRental: String) {
+        self.planes = planes
+        self.hotel = hotel
+        self.transport = transport
+        self.carRental = carRental
+    }
+}
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:

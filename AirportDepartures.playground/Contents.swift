@@ -175,22 +175,26 @@ departureBoard.alertPassenger()
 
 var bag = 25.00
 var mile = 0.10
+
 func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
     let ticketCost = bag * Double(checkedBags) + mile * Double(distance)
     let totalTicketCost = ticketCost * Double(travelers)
-    print("\(checkedBags) bags, \(distance) miles, \(travelers) travelers = \(convertDoubleToCurrency(amount: totalTicketCost))")
+    print("\(checkedBags) bag(s), \(distance) miles, \(travelers) travelers = \(convertDoubleToCurrency(amount: totalTicketCost))")
 
     return totalTicketCost
 }
+   
+    func convertDoubleToCurrency(amount: Double) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.locale = Locale.current
+        
+        return numberFormatter.string(from: NSNumber(value: amount))!
+    }
+
 calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)
 calculateAirfare(checkedBags: 4, distance: 6000, travelers: 4)
 calculateAirfare(checkedBags: 10, distance: 17000, travelers: 8)
+calculateAirfare(checkedBags: 1, distance: 300, travelers: 2)
 
 
-func convertDoubleToCurrency(amount: Double) -> String {
-    let numberFormatter = NumberFormatter()
-    numberFormatter.numberStyle = .currency
-    numberFormatter.locale = Locale.current
-
-    return numberFormatter.string(from: NSNumber(value: amount))!
-}

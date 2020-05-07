@@ -176,8 +176,12 @@ departureBoard.alertPassenger()
 var bag = 25.00
 var mile = 0.10
 func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
-    print("Checked Bags: \(checkedBags)")
-}
+    let ticketCost = bag * Double(checkedBags) + mile * Double(distance)
+    let totalTicketCost = ticketCost * Double(travelers)
+    print("\(ticketCost) Per Person, for a grand total of: \(totalTicketCost)")
 
+    return totalTicketCost
+}
+calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)
 
 

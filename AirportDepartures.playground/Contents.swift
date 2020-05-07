@@ -36,7 +36,7 @@ struct Flight {
     let terminal: String?
     let departureTime: Date?
     let arrivalTime: Date?
-    let destination: AirPort
+    let destination: String
     let flightID: Int
     let flightStatus: FlightStatus
     let startingAirPort: AirPort
@@ -67,14 +67,15 @@ class DepartureBoard {
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
 let lhr = AirPort(name: "LHR")
 let seatac = AirPort(name: "SEA")
-let bfi = AirPort(name: "BFI")
+let hiroshimaAirPort = AirPort(name: "JBH")
 let tokyoIntAir = AirPort(name: "JTT")
+let seattleAirPort = AirPort(name: "BFI")
 
-let flight1 = Flight(date: Date(), terminal: "A", departureTime: Date(), arrivalTime: Date(), destination: bfi, flightID: 763, flightStatus: FlightStatus.scheduled, startingAirPort: seatac)
+let flight1 = Flight(date: Date(), terminal: "A", departureTime: Date(), arrivalTime: Date(), destination: "Hirsoshima, Japan", flightID: 763, flightStatus: FlightStatus.scheduled, startingAirPort: lhr)
 
-let flight2 = Flight(date: Date(), terminal: "B", departureTime: nil, arrivalTime: nil, destination: tokyoIntAir, flightID: 923, flightStatus: FlightStatus.canceled, startingAirPort: seatac)
+let flight2 = Flight(date: Date(), terminal: "B", departureTime: nil, arrivalTime: nil, destination: "Tokyo, Japan", flightID: 923, flightStatus: FlightStatus.canceled, startingAirPort: seattleAirPort)
 
-let flight3 = Flight(date: Date(), terminal: nil, departureTime: Date(), arrivalTime: Date(), destination: lhr, flightID: 13, flightStatus: FlightStatus.enRoute, startingAirPort: seatac)
+let flight3 = Flight(date: Date(), terminal: nil, departureTime: Date(), arrivalTime: Date(), destination: "London", flightID: 13, flightStatus: FlightStatus.enRoute, startingAirPort: seatac)
 
 var flights: [Flight] = []
 flights.append(flight1)
@@ -145,8 +146,31 @@ printDepartures2()
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
-
+extension DepartureBoard {
+    func alertPassengers() {
+        
+        for flight in flights {
+            
+            switch flight.flightStatus {
+                
+            case .canceled:
+                print("We are very sorry to inform you that your flight to \(flight.destination) was canceled. Please head to Customer Affairs to pick up a $500 voucher as compensation.")
+                
+            case .enRoute:
+                print("Your flight to \(flight.destination) is  already gone. We are very sorry for any inconvenience this may or may not have caused.")
+                
+            case .scheduled:
+                if let unwrappedDepartureTime = flight.departureTime, let unwrappedTerminal = flight.terminal {
+                print("Your flight to \(flight.destination) is boarding and scheduled to leave at \(unwrappedDepartureTime). Please head to terminal \(unwrappedTerminal) immediately.")
+                }
+                
+            default:
+                print("Developer says hi. Also, something's broken here.")
+            }
+        }
+    }
+}
+panAm.alertPassengers()
 
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination

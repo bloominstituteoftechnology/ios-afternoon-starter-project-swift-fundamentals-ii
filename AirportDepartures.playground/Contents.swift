@@ -16,11 +16,11 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
-enum FlightStatus {
+enum FlightStatus: String {
     
-    case enRoute
-    case scheduled
-    case canceled
+    case enRoute = "En Route"
+    case scheduled = "Scheduled"
+    case canceled = "Canceled"
     
 }
 
@@ -36,8 +36,10 @@ struct Flight {
     let terminal: String?
     let departureTime: Date?
     let arrivalTime: Date?
-    let destination: String
-    let idNumber: String
+    let destination: AirPort
+    let flightID: Int
+    let flightStatus: FlightStatus
+    let startingAirPort: AirPort
     
 }
 
@@ -45,12 +47,11 @@ class DepartureBoard {
     
     var flights: [Flight] = []
     var currentAirPort: AirPort
-    init(flights: [Flight], currentAirPort: AirPort){
+    init(flights: [Flight], currentAirPort: AirPort) {
         
         self.flights = flights
         self.currentAirPort = currentAirPort
     }
-    
 }
 
 
@@ -64,8 +65,16 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
+let jfk = AirPort(name: "JFK")
+let pdx = AirPort(name: "PDX")
+let lhr = AirPort(name: "LHR")
+let seatac = AirPort(name: "SEA")
+let bfi = AirPort(name: "BFI")
+let tokyoIntAir = AirPort(name: "JTT")
+let flight1 = Flight(date: Date(), terminal: "A", departureTime: Date(), arrivalTime: Date(), destination: jfk, flightID: 763, flightStatus: FlightStatus.scheduled, startingAirPort: tokyoIntAir)
+let flight2 = Flight(date: Date(), terminal: nil, departureTime: nil, arrivalTime: nil, destination: seatac, flightID: 923, flightStatus: FlightStatus.canceled, startingAirPort: lhr)
 
-
+let flight3 = Flight(date: Date(), terminal: "C", departureTime: Date(), arrivalTime: Date(), destination: bfi, flightID: 13, flightStatus: FlightStatus.enRoute, startingAirPort: pdx)
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`

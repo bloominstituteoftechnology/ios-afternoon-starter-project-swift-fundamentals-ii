@@ -84,7 +84,7 @@ struct Flight {
 let myDeparture = DepartureBoard(destination: "West Palm Beach", airline: "Turkish Airlines", terminal: 5, status: .route, flights: [] )
 
 var flight1 = Flight(pilots: 2, attendants: 2, passengers: 200, ticketClass: "Economy", departureTime: Date() )
-var flight2 = Flight(pilots: 2, attendants: 4, passengers: 100, ticketClass: "Business", departureTime: Date() )
+var flight2 = Flight(pilots: 2, attendants: 4, passengers: 100, ticketClass: "Business", departureTime: nil )
 var flight3 = Flight(pilots: 2, attendants: 4, passengers: 20, ticketClass: "First Class", departureTime: Date() )
 
 myDeparture.flights.append(flight1)

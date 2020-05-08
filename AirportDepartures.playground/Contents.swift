@@ -57,7 +57,7 @@ class DepartureBoard {
             case .scheduled:
                 print("Your flight to \(passengers.destination) is scheduled to depart at \(time) from terminal: \(String(describing: passengers.terminal ?? "TBD"))")
             case .boarding:
-                print("Your flight is boarding, please head to terminal: \(passengers.terminal ?? "TBD") immediately. The doors are closing soon.")
+                print("Your flight is boarding, please head to Terminal \(passengers.terminal ?? "TBD") immediately. The doors are closing soon.")
             case .onTime:
                 print("Your flight number \(passengers.flightNumber) with \(passengers.airline) is currently running on schedule and will depart from Terminal \(passengers.terminal ?? "TBD")")
             default:
@@ -179,7 +179,7 @@ departureBoard.alertPassenger()
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
 
 var bag = 25.00
-var mile = 0.10
+var mile = 0.1
 
 func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
     let ticketCost = bag * Double(checkedBags) + mile * Double(distance)

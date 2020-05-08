@@ -77,23 +77,23 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-let flight1 = Flight(destination: "Baku (GYD)", airline: "Silk Way West", flightNumber: "7L 778", departureTime: Date(), terminal: nil, status: .scheduled)
+let date: Date? = Date()
+let formatter = DateFormatter()
+formatter.timeStyle = .short
+formatter.dateStyle = .none
+let time = formatter.string(from: date!)
+
+
+let flight1 = Flight(destination: "Baku (GYD)", airline: "Silk Way West", flightNumber: "7L 778", departureTime: date, terminal: nil, status: .scheduled)
 let flight2 = Flight(destination: "Marana (MZJ)", airline: "Delta Air Lines", flightNumber: "DL 9967", departureTime: nil, terminal: "4", status: .canceled)
-let flight3 = Flight(destination: "Delhi (DEL)", airline: "SA AVIANCA", flightNumber: "AV 2402", departureTime: Date(), terminal: "8", status: .onTime)
+let flight3 = Flight(destination: "Delhi (DEL)", airline: "SA AVIANCA", flightNumber: "AV 2402", departureTime: date, terminal: "8", status: .onTime)
 
 
 var departureBoard = DepartureBoard(departureFlights: [])
 departureBoard.departureFlights.append(flight1)
 departureBoard.departureFlights.append(flight2)
 departureBoard.departureFlights.append(flight3)
-//: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
-//: a. Use the function signature: `printDepartures(departureBoard:)`
-//:
-//: b. Use a `for in` loop to iterate over each departure
-//:
-//: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
-//:
-//: d. Print out the current DepartureBoard you created using the function
+
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
@@ -103,12 +103,13 @@ departureBoard.departureFlights.append(flight3)
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
+
 func printDepatures(departureBoard: DepartureBoard) {
     for departingFlights in departureBoard.departureFlights {
-        print("Destination: \(departingFlights.destination) Airline: \(departingFlights.airline) Flight Number: \(departingFlights.flightNumber) Departure Time: \(String(describing: departingFlights.departureTime)) Terminal: \(String(describing: departingFlights.terminal)) Status: \(departingFlights.status.rawValue)")
+        print("Destination: \(departingFlights.destination) Airline: \(departingFlights.airline) Flight Number: \(departingFlights.flightNumber) Departure Time: \(time) Terminal: \(String(describing: departingFlights.terminal)) Status: \(departingFlights.status.rawValue)")
     }
 }
-//printDepatures(departureBoard: departureBoard)
+printDepatures(departureBoard: departureBoard)
 
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
@@ -126,12 +127,14 @@ func printDepatures(departureBoard: DepartureBoard) {
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
 
+
+
 func printDepartures2(departureBoard: DepartureBoard) {
     for departingFlights in departureBoard.departureFlights {
-        if let unwrappedTime = departingFlights.departureTime, let unwrappedTerminal = departingFlights.terminal {
-            print("Destination: \(departingFlights.destination), Airline: \(departingFlights.airline), Flight Number: \(departingFlights.flightNumber), Departure Time: \(unwrappedTime), Terminal: \(unwrappedTerminal), Status: \(departingFlights.status.rawValue)")
+        if let _ = departingFlights.departureTime, let unwrappedTerminal = departingFlights.terminal {
+            print("Destination: \(departingFlights.destination), Airline: \(departingFlights.airline), Flight Number: \(departingFlights.flightNumber), Departure Time: \(time), Terminal: \(unwrappedTerminal), Status: \(departingFlights.status.rawValue)")
         } else {
-            print("Destination: \(departingFlights.destination), Airline: \(departingFlights.airline), Flight Number: \(departingFlights.flightNumber), Departure Time: \(departingFlights.departureTime?.description ?? " ") Terminal: \(departingFlights.terminal ?? "Waiting to arrive on time"), Status: \(departingFlights.status.rawValue)")
+            print("Destination: \(departingFlights.destination), Airline: \(departingFlights.airline), Flight Number: \(departingFlights.flightNumber), Departure Time: \(time.description ) Terminal: \(departingFlights.terminal ?? "Waiting to arrive on time"), Status: \(departingFlights.status.rawValue)")
                 }
         }
     
@@ -196,5 +199,7 @@ calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)
 calculateAirfare(checkedBags: 4, distance: 6000, travelers: 4)
 calculateAirfare(checkedBags: 10, distance: 17000, travelers: 8)
 calculateAirfare(checkedBags: 1, distance: 300, travelers: 2)
+
+
 
 

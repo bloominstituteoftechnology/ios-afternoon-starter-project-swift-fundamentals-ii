@@ -99,23 +99,12 @@ myDeparture.flights.append(flight3)
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
-enum FlighStatus2: CaseIterable {
-    case EnRoute, Scheduled, Canceled, Delayed, Boarding
+
+func printDeparture() {
+    for flights in myDeparture.flights { print(flights) }
 }
 
-
-let numberOfChoices = FlighStatus2.allCases.count
-print(numberOfChoices)
-
-
-func printDepartures() {
-    for flights in FlighStatus2.allCases {
-        print(flights)
-    }
-}
-printDepartures()
-
-
+printDeparture()
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
 //:

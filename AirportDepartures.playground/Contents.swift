@@ -55,7 +55,7 @@ class DepartureBoard {
             case .canceled:
                 print("We're sorry your flight to \(passengers.destination) was canceled, here is a $500 voucher")
             case .scheduled:
-                print("Your flight to \(passengers.destination) is scheduled to depart at \(passengers.departureTime?.description ?? "TBD") from terminal: \(String(describing: passengers.terminal ?? "TBD"))")
+                print("Your flight to \(passengers.destination) is scheduled to depart at \(time) from terminal: \(String(describing: passengers.terminal ?? "TBD"))")
             case .boarding:
                 print("Your flight is boarding, please head to terminal: \(passengers.terminal ?? "TBD") immediately. The doors are closing soon.")
             case .onTime:
@@ -77,11 +77,13 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-let date: Date? = Date()
+let date: Date = Date()
 let formatter = DateFormatter()
 formatter.timeStyle = .short
 formatter.dateStyle = .none
-let time = formatter.string(from: date!)
+let time = formatter.string(from: date)
+    
+
 
 
 let flight1 = Flight(destination: "Baku (GYD)", airline: "Silk Way West", flightNumber: "7L 778", departureTime: date, terminal: nil, status: .scheduled)

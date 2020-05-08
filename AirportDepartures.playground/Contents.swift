@@ -201,7 +201,7 @@ calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)
 calculateAirfare(checkedBags: 4, distance: 6000, travelers: 4)
 calculateAirfare(checkedBags: 10, distance: 17000, travelers: 8)
 calculateAirfare(checkedBags: 1, distance: 300, travelers: 2)
-
+calculateAirfare(checkedBags: 40, distance: 1700, travelers: 16)
 
 
 

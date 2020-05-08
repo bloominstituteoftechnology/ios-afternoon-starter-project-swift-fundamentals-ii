@@ -144,9 +144,25 @@ printDepartures2()
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
+func alertPassengers() {
+    for flights in myDeparture.flights
+}
 
+let flighStatus: FlighStatus = .route
 
+print("What is the status of my flight?")
 
+switch numberOfWheels {
+case FlighStatus.route :
+  print("Your flight to (city) is scheduled to depart at (time) from terminal: (terminal)")
+case FlighStatus.boarding :
+  print("Your flight is boarding, please head to terminal: (terminal) immediately. The doors are closing soon")
+case FlighStatus.canceled :
+  print("We're sorry your flight to (city) was canceled, here is a $500 voucher")
+case FlighStatus.delayed :
+  print("Your flight is curently delayed, we apologize for any inconvenience")
+default:
+  print("There is no scheduled flight") }
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`

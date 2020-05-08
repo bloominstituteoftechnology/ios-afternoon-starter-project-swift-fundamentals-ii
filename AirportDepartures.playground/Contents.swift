@@ -43,15 +43,13 @@ struct Airport {
 class DepartureBoard {
     let destination: String
     let airline: String
-    let departureTime: String
     let terminal: Int
     let status: FlighStatus
     var flights:  [Flight]
 
-    init(destination: String, airline: String, departureTime: String, terminal: Int, status: FlighStatus, flights: [Flight]) {
+    init(destination: String, airline: String, terminal: Int, status: FlighStatus, flights: [Flight]) {
         self.destination = destination
         self.airline = airline
-        self.departureTime = departureTime
         self.terminal = terminal
         self.status =  status
         self.flights = []
@@ -63,12 +61,14 @@ struct Flight {
     let attendants: Int
     let passengers: Int
     let ticketClass: String
+    let departureTime: Date
 
-    init(pilots: Int, attendants: Int, passengers: Int, ticketClass: String) {
+    init(pilots: Int, attendants: Int, passengers: Int, ticketClass: String, departureTime: Date) {
         self.pilots = pilots
         self.attendants = attendants
         self.passengers = passengers
         self.ticketClass = ticketClass
+        self.departureTime = departureTime
     }
 }
 //: ## 2. Create 3 flights and add them to a departure board
@@ -81,15 +81,16 @@ struct Flight {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-let myDeparture = DepartureBoard(destination: "West Palm Beach", airline: "Turkish Airlines", departureTime: "6:00am", terminal: 5, status: .route, flights: [] )
+let myDeparture = DepartureBoard(destination: "West Palm Beach", airline: "Turkish Airlines", terminal: 5, status: .route, flights: [] )
 
-var flight1 = Flight(pilots: 2, attendants: 2, passengers: 200, ticketClass: "Economy")
-var flight2 = Flight(pilots: 2, attendants: 4, passengers: 100, ticketClass: "Business")
-var flight3 = Flight(pilots: 2, attendants: 4, passengers: 20, ticketClass: "First Class")
+var flight1 = Flight(pilots: 2, attendants: 2, passengers: 200, ticketClass: "Economy", departureTime: Date() )
+var flight2 = Flight(pilots: 2, attendants: 4, passengers: 100, ticketClass: "Business", departureTime: Date() )
+var flight3 = Flight(pilots: 2, attendants: 4, passengers: 20, ticketClass: "First Class", departureTime: Date() )
 
 myDeparture.flights.append(flight1)
 myDeparture.flights.append(flight2)
 myDeparture.flights.append(flight3)
+
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
@@ -119,8 +120,6 @@ printDeparture()
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
-
-
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"

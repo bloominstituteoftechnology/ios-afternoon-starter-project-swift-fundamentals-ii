@@ -26,30 +26,10 @@ enum FlightStatus: String {
 struct Airport {
     let airportName: String
     let airportCode: String
-    var departingFlights: [Flight]? = []
-    var arrivingFlights: [Flight]? = []
     
     init(airportName: String, airportCode: String, departingFlights: [Flight], arrivingFlights: [Flight]) {
         self.airportName = airportName
         self.airportCode = airportCode
-    }
-
-// creating list of departing flights
-    func departures() {
-        for flight in flights {
-            if flight.departureAirport == airportCode {
-                departingFlights.append(flight)
-            }
-        }
-    }
-        
-// creating list of arriving flights
-    func arrivals() {
-        for flight in flights {
-            if flight.arrivalAirport == airportCode {
-                departingFlights.append(flight)
-            }
-        }
     }
 }
 
@@ -71,11 +51,11 @@ class DepartureBoard {
     var departingFlights: [Flight] = []
     let currentAirport: String
 
-    init(departingFlights: [Flight], currentAirport: String) {
-        self.departingFlights = departingFlights
+    init(currentAirport: String) {
         self.currentAirport = currentAirport
+    }
         
-        func alertPassengers() {
+    func alertPassengers() {
             for flight in flights {
                 if let departureTime = flight.departureTime {
                     switch flight.flightStatus {
@@ -105,7 +85,6 @@ class DepartureBoard {
         }
     }
     
-}
 
 let stlAirport = Airport(airportName: "St. Louis", airportCode: "STL", departingFlights: [], arrivingFlights: [])
 let lgaAirport = Airport(airportName: "NY LaGuardia", airportCode: "LGA", departingFlights: [], arrivingFlights: [])
@@ -189,23 +168,9 @@ func printDepartures2(departureBoard: String) {
 
 printDepartures2(departureBoard: "ORD")
 
-//: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
-//: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
-//:
-//: b. If the flight is scheduled print out: "Your flight to \(city) is scheduled to depart at \(time) from terminal: \(terminal)"
-//:
-//: c. If their flight is boarding print out: "Your flight is boarding, please head to terminal: \(terminal) immediately. The doors are closing soon."
-//:
-//: d. If the `departureTime` or `terminal` are optional, use "TBD" instead of a blank String
-//:
-//: e. If you have any other cases to handle please print out appropriate messages
-//:
-//: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
-//:
-//: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-let stlDepartureBoard = DepartureBoard(currentAirport: "STL", departingFlights: departures)
-DepartureBoard(alertPassengers())
 
+let stlDepartures = DepartureBoard(currentAirport: "STL")
+print(stlDepartures)
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`
@@ -224,6 +189,13 @@ DepartureBoard(alertPassengers())
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+func calculateAirfare(bags: Int, distance: Int, travelers: Int) -> Double {
+    let bagCost = Double(bags * 25)
+    let ticketCost = Double(distance) * 0.1
+    let passengerCost = Double(ticketCost) * Double(travelers)
+    let totalCost: Double = bagCost + passengerCost
+    return totalCost
+}
 
 
-
+calculateAirfare(bags: 2, distance: 2000, travelers: 3)

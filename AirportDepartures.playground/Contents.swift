@@ -94,7 +94,9 @@ let flight3 = Flight(date: Date(), terminal: "Currently not available", airline:
 //: d. Print out the current DepartureBoard you created using the function
 func printDepatures(departureBoard: DeperatureBoard) {
     for flight in departureBoard.depatureFlight{
-        print("Destination : \(flight.destination): ")
+        if let unWrappedDeparture = Flight.depatureTime{
+        print("Destination : \(flight.destination), Airline: \(Flight.airline) Flight: \(Flight.flightNumber), Departure Time: \(Flight.date), Terminal: \(Flight.terminal), Status: \(Flight.status) ")
+}
 //        Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //        Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //        Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled

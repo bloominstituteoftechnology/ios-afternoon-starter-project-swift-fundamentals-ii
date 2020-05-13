@@ -96,7 +96,7 @@ flightInformation.departureFlights.append(flight3)
 
 func printDepartures(departureBoard: DepartureBoard) {
     for departure in flightInformation.departureFlights {
-        print("\(departure.airline), \(departure.departureTime ?? Date()), \(departure.destination), \(departure.flightNumber), \(departure.status.rawValue), \(departure.terminal ?? "4")")
+        print("Flight: \(departure.flightNumber), Destination: \(departure.destination), Airline: \(departure.airline), Departure Time: \(String(describing: departure.departureTime)), Flight Status: \(departure.status.rawValue), Terminal: \(String(describing: departure.terminal))")
     }
 }
 

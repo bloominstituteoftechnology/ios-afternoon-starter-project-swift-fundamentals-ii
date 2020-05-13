@@ -115,7 +115,6 @@ func printDepartures(departureBoard: DepartureBoard) {
 
 printDepartures(departureBoard: departureBoard)
 
-
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
 //:
@@ -172,7 +171,6 @@ for flight in departureBoard.flights {
     }
 }
 departureBoard.alertPassengers()
-
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`

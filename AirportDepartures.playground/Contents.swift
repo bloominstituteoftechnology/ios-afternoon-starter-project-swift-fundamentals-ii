@@ -130,9 +130,17 @@ printDepartures(departureBoard: departureBoard)
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
+func printDepartures2(departureBoard: DepartureBoard) {
+    for flight in departureBoard.flights {
+        if flight.departTime != nil, flight.terminal != nil {
+            print("Airline: \(flight.airline), Departs: \(String(describing: flight.departTime)), Flight No: \(flight.flightNo), Status: \(flight.flightStatus)")
+        } else {
+            print("Airline \(flight.airline), Departs: \(" "), FlightNO: \(flight.flightNo), Status: \(flight.flightStatus)")
+        }
+    }
+}
 
-
-
+printDepartures2(departureBoard: departureBoard)
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
 //:
@@ -147,8 +155,23 @@ printDepartures(departureBoard: departureBoard)
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
-
+for flight in departureBoard.flights {
+    if flight.terminal == nil {
+        print("Please go to the nearest information desk for flight status.")
+    } else {
+        switch flight.flightStatus {
+        case .canceled:
+            print("We're sorry your flight to \(String(describing: flight.terminal)) was canceled, here is a $500 voucher")
+        case .scheduled:
+            print("Your flight to \(flight.airline) is scheduled to depart at \(String(describing: flight.departTime)) from terminal: \(String(describing: flight.terminal))")
+        case .boarding:
+            print("Your flight is boarding soon, please head to terminal: \(String(describing: flight.terminal)) immediately. The doors are closing soon.")
+        default:
+            print("Please check the departure board for your flight status.")
+        }
+    }
+}
+departureBoard.alertPassengers()
 
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
@@ -168,6 +191,18 @@ printDepartures(departureBoard: departureBoard)
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+var costPerBag = 25.00
+var costPerMile = 0.10
 
+func calcFare(checkedBags: Double, distance: Double, travelers: Int) -> Double {
+    let ticketCost = (checkedBags * costPerBag) + (distance * costPerMile)
+    let totalFare = ticketCost * Double(travelers)
+    return totalFare
+}
 
+let formatter = NumberFormatter()
+formatter.numberStyle = .currency
 
+print(formatter.string(from: NSNumber(value: calcFare(checkedBags: 10, distance: 1000, travelers: 4))) ?? 0)
+print(formatter.string(from: NSNumber(value: calcFare(checkedBags: 5, distance: 2000, travelers: 1))) ?? 0)
+print(formatter.string(from: NSNumber(value: calcFare(checkedBags: 1, distance: 1500, travelers: 1))) ?? 0)

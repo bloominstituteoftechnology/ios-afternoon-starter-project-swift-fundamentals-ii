@@ -50,6 +50,7 @@ class DeperatureBoard{
 }
     func addFlights(_ flights: [Flight]) {
         depatureFlights.append(contentsOf: flights)
+    
     }
 }
 
@@ -71,11 +72,10 @@ let chicago = Airport(city: "Rockford", code: "RFD")
 let losAngeles = Airport(city: "Los Angeles", code: "LAX")
 let reykjavik = Airport(city: "Reykjavik", code: "KEF")
 var cities = [chicago, losAngeles, reykjavik]
-//jfkDepartureBoard.addFlights()
+
 //append
 cities.append(Airport(city: "Louisville" , code: "SDF"))
 
-print(cities)
 
 let flight1 = Flight(date: Date(), terminal: "Number 15", airline: "Rockford", depatureTime: Date(), destination: reykjavik, flightNumber: "5X1125", status: .canceled)
 let flight2 = Flight(date: Date(), terminal: nil, airline: "Los Angeles", depatureTime: Date(), destination: losAngeles, flightNumber: "AA302", status: .inRoute)
@@ -101,13 +101,7 @@ func printDepatures(departureBoard: DeperatureBoard) {
         print("Destination : \(depature.destination), Airline: \(depature.airline) Flight: \(depature.flightNumber), Departure Time: \(depature.date ?? Date()), Terminal: \(depature.terminal ?? ""), Status: \(depature.status) ")
     }
         
-    }
-printDepatures(departureBoard: jfkDepartureBoard)
-//    }
-//        Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
-//        Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
-//        Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
-
+}
 
 
 
@@ -125,12 +119,8 @@ printDepatures(departureBoard: jfkDepartureBoard)
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
-func printDepature2(departureBoard: DeperatureBoard){
-    if let unwrappedDeparture = printDepatures(departureBoard: jfkDepartureBoard){
+printDepatures(departureBoard: jfkDepartureBoard)
         
-    }
-}
-
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.
 //: a. If the flight is canceled print out: "We're sorry your flight to \(city) was canceled, here is a $500 voucher"
@@ -146,7 +136,6 @@ func printDepature2(departureBoard: DeperatureBoard){
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
 
 
 
@@ -167,17 +156,11 @@ func printDepature2(departureBoard: DeperatureBoard){
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
-//func totalAirFare(checkedBags: Double, distance: Double, travelers: Double, ticketCost: Double) -> (Double,NumberFormatter) {
-//           let checkedBags = 25
-//            let distance = 0.10
-//            ticketCost * travelers
-//}
-//let chicagoAirFare = totalAirFare(checkedBags: 2 , distance: 2000, travelers: 4, ticketCost: 1000)
-//
-//print(chicagoAirFare)
-//
-//
-//class currency : NumberFormatter {
-//   override var usesSignificantDigits: true
-//    override var currencySymbol: Double
-//}
+func totalAirFare(checkedBags: Double, distance: Double, travelers: Double) -> Double{
+    let bagCost = 25 * checkedBags
+    let distance = distance * 0.10
+    let costOfTicket = (bagCost + distance * travelers)
+    return costOfTicket
+}
+
+print(totalAirFare(checkedBags: 2, distance: 2000, travelers: 3))

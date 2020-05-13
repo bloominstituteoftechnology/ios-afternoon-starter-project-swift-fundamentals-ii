@@ -101,7 +101,7 @@ let board = DepartureBoard(currentFlights: [], currentAirport: "JFK Airport")
 
 let spainFlight = Flight(destination: AirportDestination(location: "Port of Spain"), departureTime: Date(), flightNumber: "BW551", terminal: "4", airline: "Carribean Airlines", status: "Scheduled")
 
-let tokyoFlight = Flight(destination: AirportDestination(location: "Tokyo, Japan"), departureTime: Date(), flightNumber: "JL3", terminal: "1", airline: "JAL", status: "Canceled")
+let tokyoFlight = Flight(destination: AirportDestination(location: "Tokyo, Japan"), departureTime: nil, flightNumber: "JL3", terminal: "1", airline: "JAL", status: "Canceled")
 
 let koreaFlight = Flight(destination: AirportDestination(location: "Seoul, Korea"), departureTime: Date(), flightNumber: "KE250", terminal: nil, airline: "Korean Air", status: "En Route")
 
@@ -118,8 +118,10 @@ board.addFlights()
 //:
 //: d. Print out the current DepartureBoard you created using the function
 func printDepartures(departureBoard: DepartureBoard) {
-for flight in flights {
-    print(flight)
+    for flight in departureBoard.currentFlights {
+        if let unwrappedDeparture = flight.departureTime, let unwrappedTerminal = flight.terminal {
+    print("Destination: \(flight.destination.location), Airline: \(flight.airline), Flight: \(flight.flightNumber), Departure Time: \(unwrappedDeparture), Terminal: \(unwrappedTerminal), Status: \(flight.status)")
+    }
 }
 }
 
@@ -140,28 +142,17 @@ printDepartures(departureBoard: board)
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
-//func statusAlert(departureBoard: DepartureBoard) {
-//    for flight in flights {
-//        switch flight.status {
-//        case "Canceled":
-//            print("We're sorry your flight to (city) was canceled, here is a $500 voucher")
-//        case "Scheduled":
-//            print("Your flight to (city) is scheduled to depart at (time) from terminal: (terminal)")
-//        case "Boarding":
-//            print("Your flight is boarding, please head to terminal: (terminal) immediately. The doors are closing soon.")
-//        case "En Route":
-//            print("Your flight is currently En Route.")
-//        case "Delayed":
-//            print("Your flight has been delayed.")
-//        case "Landed":
-//            print("Your flight has landed.")
-//        default:
-//            break
-//        }
-//    }
-//}
+func printDepartures2(departureBoard: DepartureBoard) {
+    for flight in departureBoard.currentFlights {
+//        let emptyString: String = ""
+        if let unwrappedDeparture = flight.departureTime {
+            print("\(unwrappedDeparture)")
+        }
+}
+}
 
-board.statusAlert()
+    printDepartures2(departureBoard: board)
+    board.statusAlert()
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`

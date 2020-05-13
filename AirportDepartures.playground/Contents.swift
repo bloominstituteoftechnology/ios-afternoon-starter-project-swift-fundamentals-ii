@@ -27,15 +27,11 @@ let flightDelayed = flightStatus.delayed
 let flightRoute = flightStatus.inRoute
 let departing = flightStatus.departingSoon
 
-print("LA")
-
 struct Airport {
     let city: String
     let code: String
     
 }
-
-
 struct Flight {
     let date: Date?
     let terminal: String?
@@ -44,9 +40,6 @@ struct Flight {
     let destination: Airport
     let flightNumber: String
     let status: flightStatus
-
-    
-    
 }
 
 class DeperatureBoard{
@@ -54,9 +47,7 @@ class DeperatureBoard{
     let currentAirPort: Airport
     init(city: String, code: String) {
         currentAirPort = Airport(city: city, code: code )
-    
-
-    }
+}
     func addFlights(_ flights: [Flight]) {
         depatureFlights.append(contentsOf: flights)
     }
@@ -134,7 +125,11 @@ printDepatures(departureBoard: jfkDepartureBoard)
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
-
+func printDepature2(departureBoard: DeperatureBoard){
+    if let unwrappedDeparture = printDepatures(departureBoard: jfkDepartureBoard){
+        
+    }
+}
 
 
 //: ## 5. Add an instance method to your `DepatureBoard` class (above) that can send an alert message to all passengers about their upcoming flight. Loop through the flights and use a `switch` on the flight status variable.

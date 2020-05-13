@@ -16,18 +16,18 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
-enum flightStatus {
-    case canceled
-    case delayed
-    case inRoute
-    case departingSoon
+enum flightStatus : String {
+    case canceled = "canceled"
+    case delayed = "delayed"
+    case inRoute = "in route"
+    case departingSoon = "departing soon"
 }
 let flightCanceled = flightStatus.canceled
 let flightDelayed = flightStatus.delayed
 let flightRoute = flightStatus.inRoute
 let departing = flightStatus.departingSoon
 
-
+print("LA")
 
 struct Airport {
     let city: String
@@ -41,7 +41,7 @@ struct Flight {
     let terminal: String?
     let airline: String
     let depatureTime: Date?
-    let destination: String
+    let destination: Airport
     let flightNumber: String
     let status: flightStatus
 
@@ -50,13 +50,21 @@ struct Flight {
 }
 
 class DeperatureBoard{
-    let depatureFlight: [Flight]
+    var depatureFlights: [Flight] = []
     let currentAirPort: Airport
     init(city: String, code: String) {
         currentAirPort = Airport(city: city, code: code )
-        depatureFlight = []
+    
+
+    }
+    func addFlights(_ flights: [Flight]) {
+        depatureFlights.append(contentsOf: flights)
     }
 }
+
+let jfkDepartureBoard = DeperatureBoard(city: "New York" , code: "JFK")
+let laxDepartureBoard = DeperatureBoard(city: "LA", code: "LAX")
+
 
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
@@ -72,18 +80,22 @@ let chicago = Airport(city: "Rockford", code: "RFD")
 let losAngeles = Airport(city: "Los Angeles", code: "LAX")
 let reykjavik = Airport(city: "Reykjavik", code: "KEF")
 var cities = [chicago, losAngeles, reykjavik]
-
+//jfkDepartureBoard.addFlights()
 //append
 cities.append(Airport(city: "Louisville" , code: "SDF"))
 
 print(cities)
 
-let flight1 = Flight(date: Date(), terminal: "Number 15", airline: "Rockford", depatureTime: Date(), destination: "Salt Lake City", flightNumber: "5X1125", status: .canceled)
-let flight2 = Flight(date: Date(), terminal: nil, airline: "Los Angeles", depatureTime: Date(), destination: "New York", flightNumber: "AA302", status: .inRoute)
-let flight3 = Flight(date: Date(), terminal: "Currently not available", airline: "Louisville", depatureTime: Date(), destination: "Seattle", flightNumber: "SDF", status: .delayed)
+let flight1 = Flight(date: Date(), terminal: "Number 15", airline: "Rockford", depatureTime: Date(), destination: reykjavik, flightNumber: "5X1125", status: .canceled)
+let flight2 = Flight(date: Date(), terminal: nil, airline: "Los Angeles", depatureTime: Date(), destination: losAngeles, flightNumber: "AA302", status: .inRoute)
+let flight3 = Flight(date: Date(), terminal: "Currently not available", airline: "Louisville", depatureTime: Date(), destination: chicago, flightNumber: "SDF", status: .delayed)
 
-
-
+var flights : [Flight] = [flight1, flight2, flight3]
+jfkDepartureBoard.addFlights(flights)
+let departures = jfkDepartureBoard.depatureFlights
+for flight in departures {
+    print(flight.destination.city, flight.destination.code, flight.airline)
+}
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:
@@ -93,10 +105,14 @@ let flight3 = Flight(date: Date(), terminal: "Currently not available", airline:
 //:
 //: d. Print out the current DepartureBoard you created using the function
 func printDepatures(departureBoard: DeperatureBoard) {
-    for flight in departureBoard.depatureFlight{
-        if let unWrappedDeparture = Flight.depatureTime{
-        print("Destination : \(flight.destination), Airline: \(Flight.airline) Flight: \(Flight.flightNumber), Departure Time: \(Flight.date), Terminal: \(Flight.terminal), Status: \(Flight.status) ")
-}
+    let departures = jfkDepartureBoard.depatureFlights
+    for depature in departures {
+        print("Destination : \(depature.destination), Airline: \(depature.airline) Flight: \(depature.flightNumber), Departure Time: \(depature.date ?? Date()), Terminal: \(depature.terminal ?? ""), Status: \(depature.status) ")
+    }
+        
+    }
+printDepatures(departureBoard: jfkDepartureBoard)
+//    }
 //        Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //        Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //        Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
@@ -156,6 +172,17 @@ func printDepatures(departureBoard: DeperatureBoard) {
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
-
-
-
+//func totalAirFare(checkedBags: Double, distance: Double, travelers: Double, ticketCost: Double) -> (Double,NumberFormatter) {
+//           let checkedBags = 25
+//            let distance = 0.10
+//            ticketCost * travelers
+//}
+//let chicagoAirFare = totalAirFare(checkedBags: 2 , distance: 2000, travelers: 4, ticketCost: 1000)
+//
+//print(chicagoAirFare)
+//
+//
+//class currency : NumberFormatter {
+//   override var usesSignificantDigits: true
+//    override var currencySymbol: Double
+//}

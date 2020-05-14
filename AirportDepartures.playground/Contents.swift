@@ -21,11 +21,13 @@ enum flightStatus : String {
     case delayed = "delayed"
     case inRoute = "in route"
     case departingSoon = "departing soon"
+    case boarding = "boarding"
 }
 let flightCanceled = flightStatus.canceled
 let flightDelayed = flightStatus.delayed
 let flightRoute = flightStatus.inRoute
 let departing = flightStatus.departingSoon
+let boarding = flightStatus.boarding
 
 struct Airport {
     let city: String
@@ -40,6 +42,7 @@ struct Flight {
     let destination: Airport
     let flightNumber: String
     let status: flightStatus
+
 }
 
 class DeperatureBoard{
@@ -52,7 +55,21 @@ class DeperatureBoard{
         depatureFlights.append(contentsOf: flights)
     
     }
+    func alertPassenger() {
+        for passenger in depatureFlights {
+            if passenger.status == .boarding {
+                print("Your flight is boarding, please head to terminal")
+            }
+            else if passenger.status == .departingSoon {
+                print("Your flight to \(passenger.destination) is scheduled to depart at \(Date()) from terminal: \(passenger.terminal ?? "")")
+        }
+            else if passenger.status == .canceled {
+                print("We are sorry your flight to \(passenger.destination) was canceled, here is a 500 vouher")
+            }
 }
+}
+}
+
 
 let jfkDepartureBoard = DeperatureBoard(city: "New York" , code: "JFK")
 let laxDepartureBoard = DeperatureBoard(city: "LA", code: "LAX")
@@ -78,8 +95,8 @@ cities.append(Airport(city: "Louisville" , code: "SDF"))
 
 
 let flight1 = Flight(date: Date(), terminal: "Number 15", airline: "Rockford", depatureTime: Date(), destination: reykjavik, flightNumber: "5X1125", status: .canceled)
-let flight2 = Flight(date: Date(), terminal: nil, airline: "Los Angeles", depatureTime: Date(), destination: losAngeles, flightNumber: "AA302", status: .inRoute)
-let flight3 = Flight(date: Date(), terminal: "Currently not available", airline: "Louisville", depatureTime: Date(), destination: chicago, flightNumber: "SDF", status: .delayed)
+let flight2 = Flight(date: Date(), terminal: nil, airline: "Los Angeles", depatureTime: Date(), destination: losAngeles, flightNumber: "AA302", status: .boarding)
+let flight3 = Flight(date: Date(), terminal: "Currently not available", airline: "Louisville", depatureTime: Date(), destination: chicago, flightNumber: "SDF", status: .departingSoon)
 
 var flights : [Flight] = [flight1, flight2, flight3]
 jfkDepartureBoard.addFlights(flights)
@@ -137,7 +154,7 @@ printDepatures(departureBoard: jfkDepartureBoard)
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 
-
+jfkDepartureBoard.alertPassenger()
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`

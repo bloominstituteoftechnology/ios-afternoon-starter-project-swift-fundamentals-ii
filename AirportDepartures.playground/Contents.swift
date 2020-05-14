@@ -80,6 +80,16 @@ let JFKDepartureBoard = DepartureBoard(eFlight: [flight1, flight2, flight3], eAi
 
 //Use the Array append() method to add Flight's
 
+func printDepartures(departureBoard: DepartureBoard) {
+    let departures = JFKDepartureBoard.flights
+    
+    for departure in departures {
+        print("Destination:\(departure.destination), Airline:\(departure.airline), Flight:\(departure.flightNumber), Departure Time:\(departure.departureTime ?? Date()), Terminal:\(departure.terminal ?? ""), Status:\(departure.status) ")
+       
+    }
+}
+
+
 
 
 
@@ -106,14 +116,7 @@ let JFKDepartureBoard = DepartureBoard(eFlight: [flight1, flight2, flight3], eAi
 //:
 //: d. Print out the current DepartureBoard you created using the function
 
-func printDepartures(departureBoard: DepartureBoard) {
-    let departures = JFKDepartureBoard.flights
-    
-    for departure in departures {
-        print("Destination:\(departure.destination), Airline:\(departure.airline), Flight:\(departure.flightNumber), Departure Time:\(departure.departureTime ?? Date()), Terminal:\(departure.terminal ?? ""), Status:\(departure.status) ")
-       
-    }
-}
+
 
 
 
@@ -157,6 +160,13 @@ printDepartures(departureBoard: JFKDepartureBoard)
 
 
 
+
+
+
+
+
+
+
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination
 //: Use the method signature, and return the airfare as a `Double`
 //:
@@ -174,13 +184,25 @@ printDepartures(departureBoard: JFKDepartureBoard)
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
-func totalAirFare(checkedBags: Double, distance: Double, travelers: Double) -> Double{
-  let bagCost = 25 * checkedBags
-    let distance = distance * 0.10
-  let costOfTicket = (bagCost + distance * travelers)
-  return costOfTicket
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+  var totalTicketPrice = 0.00
+  totalTicketPrice += Double(checkedBags) * 25.00
+  totalTicketPrice += Double(distance) * 0.10
+  return totalTicketPrice * Double(travelers)
 }
-print(totalAirFare(checkedBags: 2, distance: 2000, travelers: 3))
+print(calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3))
+//print(calculateAirfare(checkedBags: 3, distance: 3000, travelers: 4))
+//print(calculateAirfare(checkedBags: 4, distance: 4000, travelers: 10))
+
+
+
+//func totalAirFare(checkedBags: Double, distance: Double, travelers: Double) -> Double{
+//  let bagCost = 25 * checkedBags
+//    let distance = distance * 0.10
+//  let costOfTicket = (bagCost + distance * travelers)
+//  return costOfTicket
+//}
+//print(totalAirFare(checkedBags: 2, distance: 2000, travelers: 3))
 
 
 

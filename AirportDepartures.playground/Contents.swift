@@ -156,21 +156,15 @@ print("")
 func printDepartures2(departureBoard: DepartureBoard) {
     print("Departures for \(jfkDepartures.airport.abbreviation) - \(jfkDepartures.airport.name) in \(jfkDepartures.airport.location)")
     for flight in jfkDepartures.departures {
-        if flight.departureTime == nil && flight.terminal == nil {
-            print("Destination: \(flight.destination.name) - \(flight.destination.abbreviation)  Airline: \(flight.airline)  Flight #: \(flight.number)  Departure Time:  Terminal:  Status: \(flight.status.0.rawValue)\(flight.status.1?.rawValue ?? "")")
-        } else if flight.departureTime != nil && flight.terminal == nil {
-            if let time = flight.departureTime {
-                print("Destination: \(flight.destination.name) - \(flight.destination.abbreviation)  Airline: \(flight.airline)  Flight #: \(flight.number)  Departure Time: \(time)  Terminal:  Status: \(flight.status.0.rawValue)\(flight.status.1?.rawValue ?? "")")
-            }
-        } else if flight.departureTime == nil && flight.terminal != nil {
-            if let terminal = flight.terminal {
-                print("Destination: \(flight.destination.name) - \(flight.destination.abbreviation)  Airline: \(flight.airline)  Flight #: \(flight.number)  Departure Time:  Terminal: \(terminal)  Status: \(flight.status.0.rawValue)\(flight.status.1?.rawValue ?? "")")
-            }
-        } else if let time = flight.departureTime {
-            if let terminal = flight.terminal {
-                print("Destination: \(flight.destination.name) - \(flight.destination.abbreviation)  Airline: \(flight.airline)  Flight #: \(flight.number)  Departure Time: \(time)  Terminal: \(terminal)  Status: \(flight.status.0.rawValue)\(flight.status.1?.rawValue ?? "")")
+        var time = ""
+        var terminal = ""
+        if let flightTime = flight.departureTime {
+            time = flightTime
+            if let flightTerminal = flight.terminal {
+                terminal = flightTerminal
             }
         }
+    print("Destination: \(flight.destination.name) - \(flight.destination.abbreviation)  Airline: \(flight.airline)  Flight #: \(flight.number)  Departure Time: \(time)  Terminal: \(terminal)  Status: \(flight.status.0.rawValue)\(flight.status.1?.rawValue ?? "")")
     }
 }
 

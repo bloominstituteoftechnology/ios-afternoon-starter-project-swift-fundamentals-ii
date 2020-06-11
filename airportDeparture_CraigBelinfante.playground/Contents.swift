@@ -16,7 +16,7 @@ struct Airport {
 }
 
 struct Flight {
-    let destination: String
+    let destination: Airport
     var departure: Date?
     var flightNumber: String
     let airline: String
@@ -122,5 +122,4 @@ return totalTicketCost
 calculateAirfare(checkedBags: 4, distance: 3500, travelers: 1)
 calculateAirfare(checkedBags: 1, distance: 517.22, travelers: 1)
 calculateAirfare(checkedBags: 12, distance: 7822.83, travelers: 8)
-
 

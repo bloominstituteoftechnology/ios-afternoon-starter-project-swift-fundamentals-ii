@@ -25,7 +25,7 @@ enum FlightStatus: String {
 
 struct Airport {
     var destination: String
-    var gate: String?
+    var terminal: String?
     var arrivalTime: Date
 }
 
@@ -33,7 +33,10 @@ struct Flight {
     var flightNumber: String?
     var departingAirport: Airport
     var arrivingAiroport: Airport
+    var departureTime: Date?
 }
+
+
 
 
 //: ## 2. Create 3 flights and add them to a departure board

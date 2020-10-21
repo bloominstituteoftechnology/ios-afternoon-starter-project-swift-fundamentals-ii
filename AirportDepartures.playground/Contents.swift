@@ -23,6 +23,12 @@ enum FlightStatus: String {
     case delayed = "Delayed"
 }
 
+struct Airport {
+    var destination: String
+    var gate: String?
+    var arrivalTime: Date
+}
+
 
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time

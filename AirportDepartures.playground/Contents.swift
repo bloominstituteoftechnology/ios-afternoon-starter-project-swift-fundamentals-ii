@@ -29,6 +29,12 @@ struct Airport {
     var arrivalTime: Date
 }
 
+struct Flight {
+    var flightNumber: String?
+    var departingAirport: Airport
+    var arrivingAiroport: Airport
+}
+
 
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time

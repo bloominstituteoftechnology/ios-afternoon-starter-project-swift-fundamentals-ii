@@ -36,6 +36,16 @@ struct Flight {
     var departureTime: Date?
 }
 
+class DepartureBoard {
+    var flights: [Flight]
+    var airports: [Airport]
+    
+    init(flights: [Flight] = [], airports: [Airport] = []) {
+        self.flights = flights
+        self.airports = airports
+    }
+}
+
 
 
 

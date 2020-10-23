@@ -23,16 +23,18 @@ enum FlightStatus: String {
     case delayed = "Delayed"
 }
 
+let date = Date()
+
 struct Airport {
+    var departingAirport: String
     var destination: String
     var terminal: String?
-    var arrivalTime: Date
+    var arrivalTime: Date?
 }
 
 struct Flight {
     var flightNumber: String?
-    var departingAirport: Airport
-    var arrivingAiroport: Airport
+    var airports: Airport
     var departureTime: Date?
 }
 
@@ -46,9 +48,6 @@ class DepartureBoard {
     }
 }
 
-
-
-
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -59,6 +58,8 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
+let flight1 = Flight(flightNumber: "U123", airports: Airport(departingAirport: "CHI", destination: "MIA", terminal: "AA123", arrivalTime: date), departureTime: date)
+
 
 
 

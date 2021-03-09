@@ -58,6 +58,27 @@ class DepartureBoard {
         self.currentAirport = currentAirport
         self.flightStatus = flightStatus
     }
+    
+    func passengerAlert() {
+        for departureFlight in departureFlights {
+            if (departureFlight.terminal != nil),
+               departureFlight.departure == nil {
+                print("TBD")
+            } else {
+                
+                switch departureFlight.flightStatus {
+                case .canceled:
+                    print("We're sorry your flight to \(departureFlight.airport) was canceled, here is a $500 voucher")
+                case .scheduled:
+                    print("Your flight to \(departureFlight.airport) is scheduled to depart at (time) from terminal: \(String(describing: departureFlight.terminal))")
+                case .boarding:
+                    print("Your flight is boarding, please head to terminal: \(String(describing: departureFlight.terminal)) immediately. The doors are closing soon.")
+                default:
+                    print("if you still need help finding your flight status please contact customer support")
+                }
+            }
+        }
+    }
 }
 
 //: ## 2. Create 3 flights and add them to a departure board
@@ -128,7 +149,7 @@ func printDepartures2(departureBoard: DepartureBoard) {
             
             departure2 = dateForatter.string(from: unwrapDeparture)
             
-            print("Current Departures, Departure: \(String(describing: departure2)), Flight: \(String(describing: departureFlight.flight)), Airline: \(departureFlight.airline.rawValue), Terminal: \(String(describing: departureFlight.terminal)),  Flight Status: \(departureFlight.flightStatus.rawValue)")
+            print("Current Unwrapped Departures, Departure: \(String(describing: departure2)), Flight: \(String(describing: departureFlight.flight)), Airline: \(departureFlight.airline.rawValue), Terminal: \(String(describing: departureFlight.terminal)),  Flight Status: \(departureFlight.flightStatus.rawValue)")
         }
     }
 }
@@ -148,7 +169,7 @@ printDepartures2(departureBoard: myFlight)
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
-
+myFlight.passengerAlert()
 
 
 
@@ -169,6 +190,15 @@ printDepartures2(departureBoard: myFlight)
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+    let bag = (25 * checkedBags)
+    let mileCosts = 0.10 * Double(distance)
+    let ticketCost = 300 * travelers
+    let totalCost = Double(bag) + Double(mileCosts) + Double(ticketCost)
+    
+    print("\(checkedBags) bags, \(distance) miles, travlers = \(travelers)")
+    return(totalCost)
+}
 
-
+calculateAirfare(checkedBags: 4, distance: 50000, travelers: 3)
 

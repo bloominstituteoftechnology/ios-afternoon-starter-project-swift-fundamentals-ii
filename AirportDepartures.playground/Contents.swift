@@ -53,8 +53,14 @@ class DepatureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
+let flight1 = Flight(status: .scheduled, departureTime: Date(), destination: "Chicago", flightNumber: "1", airline: "United", terminal: "1")
+let flight2 = Flight(status: .canceled, departureTime: nil, destination: "Dulles", flightNumber: "2", airline: "Delta", terminal: "2")
+let flight3 = Flight(status: .enRoute, departureTime: Date(), destination: "Austin", flightNumber: "3", airline: "Turkish Airlines", terminal: nil)
 
-
+let depBoard = DepatureBoard(flights: [], "Waseem Airport")
+depBoard.flights.append(flight1)
+depBoard.flights.append(flight2)
+depBoard.flights.append(flight3)
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`

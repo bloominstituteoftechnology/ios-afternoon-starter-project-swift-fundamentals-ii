@@ -53,14 +53,21 @@ class DepatureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-let flight1 = Flight(status: .scheduled, departureTime: Date(), destination: "Chicago", flightNumber: "1", airline: "United", terminal: "1")
-let flight2 = Flight(status: .canceled, departureTime: nil, destination: "Dulles", flightNumber: "2", airline: "Delta", terminal: "2")
-let flight3 = Flight(status: .enRoute, departureTime: Date(), destination: "Austin", flightNumber: "3", airline: "Turkish Airlines", terminal: nil)
+var specificTime = DateComponents(calendar: Calendar.current, year: 2020, month: 6, day: 18, hour: 7, minute: 0, second: 0, nanosecond: 0)
+
+var flight1 = Flight(status: .scheduled, departureTime: specificTime.date, destination: "Chicago", flightNumber: "1", airline: "United", terminal: "1")
+var flight2 = Flight(status: .canceled, departureTime: nil, destination: "Dulles", flightNumber: "2", airline: "Delta", terminal: "2")
+var flight3 = Flight(status: .enRoute, departureTime: Date(), destination: "Austin", flightNumber: "3", airline: "Turkish Airlines", terminal: nil)
 
 let depBoard = DepatureBoard(flights: [], "Waseem Airport")
 depBoard.flights.append(flight1)
 depBoard.flights.append(flight2)
 depBoard.flights.append(flight3)
+
+if let departureTime = flight1.departureTime {
+    print(departureTime)
+}
+
 
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
@@ -70,7 +77,6 @@ depBoard.flights.append(flight3)
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
-
 
 
 

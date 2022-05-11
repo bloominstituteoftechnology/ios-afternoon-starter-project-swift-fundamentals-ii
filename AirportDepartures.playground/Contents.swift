@@ -22,6 +22,7 @@ enum FlightStatus: String {
     case scheduled = "Scheduled"
     case canceled  = "Canceled"
     case delayed   = "Delayed"
+    case boarding  = "Boarding"
 }
 
 struct Flight {
@@ -134,7 +135,35 @@ printDepartures2(departureBoard: depBoard)
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
 
-
+extension DepatureBoard {
+    func alertPassengers() {
+        
+        for flight in flights {
+            switch flight.status {
+                
+            case .enRoute:
+                print("Your flight is on the way, please remain in your seats and ensure you have your seat belt fastened")
+                
+            case .scheduled:
+                var dateString = ""
+                if let unwrappedDepTime = flight.departureTime {
+                    dateString = dateFormatter.string(from: unwrappedDepTime)
+                } else {
+                    dateString = "TBD"
+                }
+                print("Your flight to \(flight.destination) is scheduled to depart at \(dateString) from terminal: \(flight.terminal ?? "(Please see the nearest information desk for more details about your terminal)")")
+                
+            case .canceled:
+                print("We're sorry your flight to \(flight.destination) was canceled, here is a $500 voucher")
+            case .delayed:
+                print("We're sorry to inform you that flight \(flight.flightNumber) has been delayed, we apolagize for any inconvenience this may have caused and thank you for your patience and understanding.")
+            case .boarding:
+                print("Your flight is boarding, please head to terminal: \(flight.terminal ?? "(Please see the nearest information desk for more details about your terminal)") immediately. The doors are closing soon.")
+            }
+        }
+        
+    }
+}
 
 
 //: ## 6. Create a free-standing function to calculate your total airfair for checked bags and destination

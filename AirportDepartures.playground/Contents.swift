@@ -43,6 +43,13 @@ class DepatureBoard {
     }
 }
 
+var dateFormatter: DateFormatter {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .medium
+    dateFormatter.doesRelativeDateFormatting = true
+    return dateFormatter
+}
+
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -64,11 +71,6 @@ depBoard.flights.append(flight1)
 depBoard.flights.append(flight2)
 depBoard.flights.append(flight3)
 
-if let departureTime = flight1.departureTime {
-    print(departureTime)
-}
-
-
 //: ## 3. Create a free-standing function that can print the flight information from the `DepartureBoard`
 //: a. Use the function signature: `printDepartures(departureBoard:)`
 //:
@@ -78,8 +80,19 @@ if let departureTime = flight1.departureTime {
 //:
 //: d. Print out the current DepartureBoard you created using the function
 
+func printDepartures(departureBoard: DepatureBoard) {
+    for flight in departureBoard.flights {
+        var dateString = ""
+        if let unwrappedDepTime = flight.departureTime {
+            dateString = dateFormatter.string(from: unwrappedDepTime)
+        } else {
+            dateString = "TBD"
+        }
+        print("Status: \(flight.status.rawValue)  -  Departure Date: \(dateString)  -  Destination: \(flight.destination)  -  Flight Number: \(flight.flightNumber)  -  Airline: \(flight.airline)  -  Terminal: \(flight.terminal ?? "TBD")")
+    }
+}
 
-
+printDepartures(departureBoard: depBoard)
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
 //: a. Createa new `printDepartures2(departureBoard:)` or modify the previous function
 //:

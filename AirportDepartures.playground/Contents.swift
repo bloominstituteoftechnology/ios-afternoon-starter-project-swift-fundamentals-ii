@@ -1,5 +1,5 @@
 import UIKit
-
+import Foundation
 
 //: ## 1. Create custom types to represent an Airport Departures display
 //: ![Airport Departures](matthew-smith-5934-unsplash.jpg)
@@ -183,6 +183,13 @@ extension DepatureBoard {
 //: e. Make sure to cast the numbers to the appropriate types so you calculate the correct airfare
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
+var numberFormatter: NumberFormatter {
+    let numberFormatter = NumberFormatter()
+    numberFormatter.locale = Locale.current
+    numberFormatter.usesGroupingSeparator = true
+    numberFormatter.numberStyle = .currency
+    return numberFormatter
+}
 
 func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
     var grandTotal = 0.0
@@ -191,7 +198,7 @@ func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double
     let milesCost = 0.10 * Double(distance)
     let ticketCost = bagsCost + milesCost
     grandTotal = ticketCost * Double(travelers)
-    print(grandTotal)
+    print(numberFormatter.string(from: grandTotal as NSNumber)!)
     return grandTotal
 }
 

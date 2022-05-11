@@ -184,5 +184,15 @@ extension DepatureBoard {
 //:
 //: f. Stretch: Use a [`NumberFormatter`](https://developer.apple.com/documentation/foundation/numberformatter) with the `currencyStyle` to format the amount in US dollars.
 
+func calculateAirfare(checkedBags: Int, distance: Int, travelers: Int) -> Double {
+    var grandTotal = 0.0
+    
+    let bagsCost = Double(25 * checkedBags)
+    let milesCost = 0.10 * Double(distance)
+    let ticketCost = bagsCost + milesCost
+    grandTotal = ticketCost * Double(travelers)
+    print(grandTotal)
+    return grandTotal
+}
 
-
+calculateAirfare(checkedBags: 2, distance: 2000, travelers: 3)
